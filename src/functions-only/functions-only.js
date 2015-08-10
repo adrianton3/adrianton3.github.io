@@ -60,12 +60,27 @@
 	}
 
 	// This function exists only for debugging purposes.
-	// It doesn't adhere to our rules since it uses `+` and `1`
+	// It doesn't adhere to our rules since it uses `+` and `1`.
 	function length(pair) {
 		if (pair === NIL) { return 0; }
 
 		return 1 + length(pair(second));
 	}
+
+	// short demo
+	// ----------
+
+	(function () {
+		var list = makePair(123, makePair(456, makePair(789, NIL)));
+
+		console.log('first', list(first)); // 123
+		console.log('second first', list(second)(first)); // 456
+
+		var finder = function (data) { return data === 456; };
+
+		console.log('find 456', find(list, finder)(first)); // 456
+		console.log('length', length(list)); // 2
+	})();
 
 
 	// numbers
@@ -93,45 +108,37 @@
 	// It exists mainly for convenience and is just a more compact
 	// way of writing `succ(succ(succ(ZERO)))`
 	function encodeNumber(n) {
-		if (n === 0) {
-			return ZERO;
-		} else {
-			return succ(encodeNumber(n - 1));
-		}
+		if (n === 0) { return ZERO; }
+
+		return succ(encodeNumber(n - 1));
 	}
 
 	// Another function added solely to help debugging.
 	function decodeNumber(n) {
-		if (n === ZERO) {
-			return 0;
-		} else {
-			return 1 + decodeNumber(n(next));
-		}
+		if (n === ZERO) { return 0; }
+
+		return 1 + decodeNumber(n(next));
 	}
 
 	// What would we do without some basic operations?
 	function add(m, n) {
-		if (m === ZERO) {
-			return n;
-		} else {
-			return succ(add(m(next), n));
-		}
+		if (m === ZERO) { return n; }
+
+		return succ(add(m(next), n));
 	}
 
 	// We haven't defined negative numbers;
-	// this function has undefined behavior if *m* is greater than *n*
+	// this function has undefined behavior if *m* is greater than *n*.
 	function sub(m, n) {
-		if (n === ZERO) {
-			return m;
-		} else {
-			return sub(m(next), n(next));
-		}
+		if (n === ZERO) { return m; }
+
+		return sub(m(next), n(next));
 	}
 
 	function mul(m, n) {
-		if (m === ZERO) {
-			return ZERO;
-		} else if (m(next) === ZERO) {
+		if (m === ZERO) { return ZERO; }
+
+		if (m(next) === ZERO) {
 			return n;
 		} else {
 			return add(mul(m(next), n), n);
@@ -139,11 +146,13 @@
 	}
 
 
-	console.log(decodeNumber(succ(succ(succ(ZERO)))));
+	// another short demo
+	// ------------------
 
-	console.log(decodeNumber(encodeNumber(5)));
-
-	console.log(decodeNumber(add(encodeNumber(4), encodeNumber(8))));
-
-	console.log(decodeNumber(mul(encodeNumber(4), encodeNumber(9))));
+	(function () {
+		console.log('decodeNumber succ succ succ', decodeNumber(succ(succ(succ(ZERO))))); // 3
+		console.log('decodeNumber encodeNumber', decodeNumber(encodeNumber(5))); // 5
+		console.log('add 4 8', decodeNumber(add(encodeNumber(4), encodeNumber(8)))); // 14
+		console.log('mul 4 9', decodeNumber(mul(encodeNumber(4), encodeNumber(9)))); // 36
+	})();
 })();
