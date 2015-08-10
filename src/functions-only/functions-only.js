@@ -79,7 +79,7 @@
 		var finder = function (data) { return data === 456; };
 
 		console.log('find 456', find(list, finder)(first)); // 456
-		console.log('length', length(list)); // 2
+		console.log('length', length(list)); // 3
 	})();
 
 
