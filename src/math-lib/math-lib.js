@@ -22,7 +22,7 @@ var demo = function (implementation) {
 	// which is the most natural way of expressing this in a language without operator overloading
 
 	var doubleSum = sum(scale(2));
-	// Again, in coffeescript this looks way better `doubleSum = sum scale 2`<br>
+	// Again, in coffeescript this looks way better `doubleSum = sum scale 2`
 	// or, in expanded form `doubleSum = (v1 add v2) scale 2`
 
 	// So far so good, but how do we get the data back from the vector now?
@@ -30,8 +30,8 @@ var demo = function (implementation) {
 };
 
 
-// Let's have a look at the implementation now.
-// --------------------------------------------
+// The implementation
+// ------------------
 var implementation = (function () {
 	'use strict';
 
@@ -44,8 +44,9 @@ var implementation = (function () {
 		}
 	}
 
-	// Accessors are probably the simplest function
-	// that can be applied on a vector
+	// Accessors are probably the simplest function that can be applied on a vector.
+	// Notice how the vector's components are passed as arguments to the accessors.
+	// The functions fed to a vector have no way of mutating the vector's contents.
 	function getX(x, y, z) {
 		return x;
 	}
@@ -93,4 +94,6 @@ var implementation = (function () {
 	return { make, getX, getY, getZ, add, scale, length };
 })();
 
+// It's possible to generalize the above scheme for vec2, vec4 and matrices.
+// For now let's feed the demo with our current implementation.
 demo(implementation);
