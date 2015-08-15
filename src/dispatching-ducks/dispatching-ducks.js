@@ -6,11 +6,23 @@
 var demo = function () {
 	'use strict';
 
-	console.log(({ x: 3, y: 4 }).length()); // 5
+	// Let's define some data, like points for instance;
+	// We'll call the 2-dimensional point `vec2` and the 3-dimensional one `vec3`.
+	// Remember they're just data - they hold no type/prototype/constructor information.
+	var vec2 = { x: 3, y: 4 };
+	var vec3 = { x: 2, y: 3, z: 6 };
 
-	console.log(({ x: 2, y: 3, z: 6 }).length()); // 7
+	// It's unfortunate that we can't invoke operations on these pieces of data.
+	// Duck typing is based on the "*if it quacks, walks and flies like a duck it must be a duck*".
+	// Notice that all the traits used to discern if it's a "duck" are actions (methods) - there are no
+	// mentions of beaks, legs or wings.
+	// Our plain pieces of data have no addition, scale or norm methods associated with them and yet,
+	// that's what we'd expect to do with something that has an `x` and a `y`.
+	console.log(vec2.add(vec3)); // { x: 5, y: 7 }
+	console.log(vec2.scale(2)); // { x: 6, y: 8 }
+	console.log(vec2.norm()); // 5
 
-	console.log('asd'.length); // 3, untouched
+	console.log(vec3.norm()); // 7
 };
 
 
@@ -19,13 +31,43 @@ var demo = function () {
 var setup = function () {
 	'use strict';
 
-	register('length', ['x', 'y'], function () {
-		return Math.sqrt(this.x * this.x + this.y * this.y);
+	// You'd expect that anything with a beak should be able to quack - and so
+	// we define that everything with an `x` and a `y` should have an `add`,
+	// `scale` and `norm` methods associated.
+	register('add', ['x', 'y'], function (that) {
+		return {
+			x: this.x + that.x,
+			y: this.y + that.y
+		};
 	});
 
-	register('length', ['x', 'y', 'z'], function () {
-		return Math.sqrt(this.x * this.x + this.y * this.y + this.z * this.z);
+	register('scale', ['x', 'y'], function (scale) {
+		return {
+			x: this.x * scale,
+			y: this.y * scale
+		};
 	});
+
+	register('norm', ['x', 'y'], function () {
+		return Math.sqrt(
+			this.x * this.x +
+			this.y * this.y
+		);
+	});
+
+	// It's totally OK to have multiple methods sharing the same name
+	// as long as they're targeting data with different members.
+	// The previous norm method
+	register('norm', ['x', 'y', 'z'], function () {
+		return Math.sqrt(
+			this.x * this.x +
+			this.y * this.y +
+			this.z * this.z
+		);
+	});
+
+	// Note that `add` and `scale` were not defined for { x, y, z } objects;
+	// instead the `add` and `scale` methods defined for { x, y } objects will be invoked.
 };
 
 
@@ -85,6 +127,10 @@ var duck = function (window) {
 				var found = findFirst(entries, function (entry) {
 					return isSubset(entry.members, members);
 				});
+
+				if (!found) {
+					throw new Error('undefined is not a function'); // the classic
+				}
 
 				// Forward the call to our method.
 				return found.method.apply(this, arguments);
