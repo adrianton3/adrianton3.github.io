@@ -32,7 +32,7 @@ var demo = function (implementation) {
 
 // The implementation
 // ------------------
-var implementation = (function () {
+window.Vec3Closure = (function () {
 	'use strict';
 
 	// The "constructor" doesn't make use of any objects,
@@ -96,4 +96,4 @@ var implementation = (function () {
 
 // It's possible to generalize the above scheme for vec2, vec4 and matrices.
 // For now let's feed the demo with our current implementation.
-demo(implementation);
+demo(window.Vec3Closure);
