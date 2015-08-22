@@ -14,6 +14,37 @@
   <div id="container">
     <div id="background"></div>
     
+      <ul id="jump_to">
+        <li>
+          <a class="large" href="javascript:void(0);">Jump To &hellip;</a>
+          <a class="small" href="javascript:void(0);">+</a>
+          <div id="jump_wrapper">
+          <div id="jump_page">
+            
+              
+              <a class="source" href="benchmark.html">
+                benchmark.js
+              </a>
+            
+              
+              <a class="source" href="math-lib-array.html">
+                math-lib-array.js
+              </a>
+            
+              
+              <a class="source" href="math-lib-object.html">
+                math-lib-object.js
+              </a>
+            
+              
+              <a class="source" href="math-lib.html">
+                math-lib.js
+              </a>
+            
+          </div>
+        </li>
+      </ul>
+    
     <ul class="sections">
         
         
@@ -131,7 +162,7 @@ which is the most natural way of expressing this in a language without operator 
               <div class="pilwrap ">
                 <a class="pilcrow" href="#section-8">&#182;</a>
               </div>
-              <p>Again, in coffeescript this looks way better <code>doubleSum = sum scale 2</code><br>
+              <p>Again, in coffeescript this looks way better <code>doubleSum = sum scale 2</code>
 or, in expanded form <code>doubleSum = (v1 add v2) scale 2</code></p>
 
             </div>
@@ -161,7 +192,7 @@ or, in expanded form <code>doubleSum = (v1 add v2) scale 2</code></p>
               <div class="pilwrap ">
                 <a class="pilcrow" href="#section-10">&#182;</a>
               </div>
-              <h2 id="let-s-have-a-look-at-the-implementation-now-">Let’s have a look at the implementation now.</h2>
+              <h2 id="the-implementation">The implementation</h2>
 
             </div>
             
@@ -177,7 +208,7 @@ or, in expanded form <code>doubleSum = (v1 add v2) scale 2</code></p>
               
             </div>
             
-            <div class="content"><div class='highlight'><pre><span class="hljs-keyword">var</span> implementation = (<span class="hljs-function"><span class="hljs-keyword">function</span> (<span class="hljs-params"></span>) </span>{
+            <div class="content"><div class='highlight'><pre><span class="hljs-built_in">window</span>.Vec3Closure = (<span class="hljs-function"><span class="hljs-keyword">function</span> (<span class="hljs-params"></span>) </span>{
 <span class="hljs-pi">	'use strict'</span>;</pre></div></div>
             
         </li>
@@ -210,8 +241,9 @@ Everything is bound to a value and cannot be altered.</p>
               <div class="pilwrap ">
                 <a class="pilcrow" href="#section-13">&#182;</a>
               </div>
-              <p>Accessors are probably the simplest function
-that can be applied on a vector</p>
+              <p>Accessors are probably the simplest function that can be applied on a vector.
+Notice how the vector’s components are passed as arguments to the accessors.
+The functions fed to a vector have no way of mutating the vector’s contents.</p>
 
             </div>
             
@@ -309,9 +341,23 @@ that can be applied on a vector</p>
             </div>
             
             <div class="content"><div class='highlight'><pre>	<span class="hljs-keyword">return</span> { make, getX, getY, getZ, add, scale, length };
-})();
+})();</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-18">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-18">&#182;</a>
+              </div>
+              <p>It’s possible to generalize the above scheme for vec2, vec4 and matrices.
+For now let’s feed the demo with our current implementation.</p>
 
-demo(implementation);</pre></div></div>
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>demo(<span class="hljs-built_in">window</span>.Vec3Closure);</pre></div></div>
             
         </li>
         

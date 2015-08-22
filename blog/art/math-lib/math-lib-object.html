@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+
+<html>
+<head>
+  <title>math-lib-math-lib-object</title>
+  <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+  <meta name="viewport" content="width=device-width, target-densitydpi=160dpi, initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
+  <link href='http://fonts.googleapis.com/css?family=Source+Sans+Pro' rel='stylesheet' type='text/css'>
+  <link href='http://fonts.googleapis.com/css?family=Inconsolata:400,700' rel='stylesheet' type='text/css'>
+  <link rel="stylesheet" media="all" href="../../static/docco-small-tab.css">
+  <link rel="stylesheet" media="all" href="../../static/highlight.css">
+</head>
+<body>
+  <div id="container">
+    <div id="background"></div>
+    
+      <ul id="jump_to">
+        <li>
+          <a class="large" href="javascript:void(0);">Jump To &hellip;</a>
+          <a class="small" href="javascript:void(0);">+</a>
+          <div id="jump_wrapper">
+          <div id="jump_page">
+            
+              
+              <a class="source" href="benchmark.html">
+                benchmark.js
+              </a>
+            
+              
+              <a class="source" href="math-lib-array.html">
+                math-lib-array.js
+              </a>
+            
+              
+              <a class="source" href="math-lib-object.html">
+                math-lib-object.js
+              </a>
+            
+              
+              <a class="source" href="math-lib.html">
+                math-lib.js
+              </a>
+            
+          </div>
+        </li>
+      </ul>
+    
+    <ul class="sections">
+        
+          <li id="title">
+              <div class="annotation">
+                  <h1>math-lib-object.js</h1>
+              </div>
+          </li>
+        
+        
+        
+        <li id="section-1">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-1">&#182;</a>
+              </div>
+              
+            </div>
+            
+            <div class="content"><div class='highlight'><pre><span class="hljs-built_in">window</span>.Vec3Object = (<span class="hljs-function"><span class="hljs-keyword">function</span> (<span class="hljs-params"></span>) </span>{
+<span class="hljs-pi">	'use strict'</span>;
+
+	<span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">Vec3</span>(<span class="hljs-params">x, y, z</span>) </span>{
+		<span class="hljs-keyword">this</span>.x = x;
+		<span class="hljs-keyword">this</span>.y = y;
+		<span class="hljs-keyword">this</span>.z = z;
+	}
+
+	Vec3.prototype.add = <span class="hljs-function"><span class="hljs-keyword">function</span> (<span class="hljs-params">that</span>) </span>{
+		<span class="hljs-keyword">return</span> <span class="hljs-keyword">new</span> Vec3(
+			<span class="hljs-keyword">this</span>.x + that.x,
+			<span class="hljs-keyword">this</span>.y + that.y,
+			<span class="hljs-keyword">this</span>.z + that.z
+		);
+	};
+
+	Vec3.prototype.addBang = <span class="hljs-function"><span class="hljs-keyword">function</span> (<span class="hljs-params">that</span>) </span>{
+		<span class="hljs-keyword">this</span>.x += that.x;
+		<span class="hljs-keyword">this</span>.y += that.y;
+		<span class="hljs-keyword">this</span>.z += that.z;
+
+		<span class="hljs-keyword">return</span> <span class="hljs-keyword">this</span>;
+	};
+
+	Vec3.prototype.scale = <span class="hljs-function"><span class="hljs-keyword">function</span> (<span class="hljs-params">factor</span>) </span>{
+		<span class="hljs-keyword">return</span> <span class="hljs-keyword">new</span> Vec3(
+			<span class="hljs-keyword">this</span>.x * factor,
+			<span class="hljs-keyword">this</span>.y * factor,
+			<span class="hljs-keyword">this</span>.z * factor
+		);
+	};
+
+	Vec3.prototype.scaleBang = <span class="hljs-function"><span class="hljs-keyword">function</span> (<span class="hljs-params">factor</span>) </span>{
+		<span class="hljs-keyword">this</span>.x *= factor;
+		<span class="hljs-keyword">this</span>.y *= factor;
+		<span class="hljs-keyword">this</span>.z *= factor;
+
+		<span class="hljs-keyword">return</span> <span class="hljs-keyword">this</span>;
+	};
+
+	Vec3.prototype.length = <span class="hljs-function"><span class="hljs-keyword">function</span> (<span class="hljs-params"></span>) </span>{
+		<span class="hljs-keyword">return</span> <span class="hljs-built_in">Math</span>.sqrt(
+			<span class="hljs-keyword">this</span>.x * <span class="hljs-keyword">this</span>.x +
+			<span class="hljs-keyword">this</span>.y * <span class="hljs-keyword">this</span>.y +
+			<span class="hljs-keyword">this</span>.z * <span class="hljs-keyword">this</span>.z
+		);
+	};
+
+	Vec3.prototype.clone = <span class="hljs-function"><span class="hljs-keyword">function</span> (<span class="hljs-params"></span>) </span>{
+		<span class="hljs-keyword">return</span> <span class="hljs-keyword">new</span> Vec3(
+			<span class="hljs-keyword">this</span>.x,
+			<span class="hljs-keyword">this</span>.y,
+			<span class="hljs-keyword">this</span>.z
+		);
+	};
+
+	<span class="hljs-keyword">return</span> Vec3;
+})();</pre></div></div>
+            
+        </li>
+        
+    </ul>
+  </div>
+</body>
+</html>

@@ -1,0 +1,368 @@
+<!DOCTYPE html>
+
+<html>
+<head>
+  <title>dispatching-ducks-dispatching-ducks</title>
+  <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+  <meta name="viewport" content="width=device-width, target-densitydpi=160dpi, initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
+  <link href='http://fonts.googleapis.com/css?family=Source+Sans+Pro' rel='stylesheet' type='text/css'>
+  <link href='http://fonts.googleapis.com/css?family=Inconsolata:400,700' rel='stylesheet' type='text/css'>
+  <link rel="stylesheet" media="all" href="../../static/docco-small-tab.css">
+  <link rel="stylesheet" media="all" href="../../static/highlight.css">
+</head>
+<body>
+  <div id="container">
+    <div id="background"></div>
+    
+    <ul class="sections">
+        
+        
+        
+        <li id="section-1">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-1">&#182;</a>
+              </div>
+              <h1 id="dispatching-ducks">dispatching ducks</h1>
+
+            </div>
+            
+        </li>
+        
+        
+        <li id="section-2">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-2">&#182;</a>
+              </div>
+              
+            </div>
+            
+        </li>
+        
+        
+        <li id="section-3">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-3">&#182;</a>
+              </div>
+              <h2 id="demo">demo</h2>
+
+            </div>
+            
+        </li>
+        
+        
+        <li id="section-4">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-4">&#182;</a>
+              </div>
+              
+            </div>
+            
+            <div class="content"><div class='highlight'><pre><span class="hljs-keyword">var</span> demo = <span class="hljs-function"><span class="hljs-keyword">function</span> (<span class="hljs-params"></span>) </span>{
+<span class="hljs-pi">	'use strict'</span>;</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-5">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-5">&#182;</a>
+              </div>
+              <p>Let’s define some data, like points for instance;
+We’ll call the 2-dimensional point <code>vec2</code> and the 3-dimensional one <code>vec3</code>.
+Remember they’re just data - they hold no type/prototype/constructor information.</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>	<span class="hljs-keyword">var</span> vec2 = { x: <span class="hljs-number">3</span>, y: <span class="hljs-number">4</span> };
+	<span class="hljs-keyword">var</span> vec3 = { x: <span class="hljs-number">2</span>, y: <span class="hljs-number">3</span>, z: <span class="hljs-number">6</span> };</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-6">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-6">&#182;</a>
+              </div>
+              <p>It’s unfortunate that we can’t invoke operations on these pieces of data.
+Duck typing is based on the “<em>if it quacks, walks and flies like a duck it must be a duck</em>“.
+Notice that all the traits used to discern if it’s a “duck” are actions (methods) - there are no
+mentions of beaks, legs or wings.
+Our plain pieces of data have no addition, scale or norm methods associated with them and yet,
+that’s what we’d expect to do with something that has an <code>x</code> and a <code>y</code>.</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>	<span class="hljs-built_in">console</span>.log(vec2.add(vec3)); <span class="hljs-comment">// { x: 5, y: 7 }</span>
+	<span class="hljs-built_in">console</span>.log(vec2.scale(<span class="hljs-number">2</span>)); <span class="hljs-comment">// { x: 6, y: 8 }</span>
+	<span class="hljs-built_in">console</span>.log(vec2.norm()); <span class="hljs-comment">// 5</span>
+
+	<span class="hljs-built_in">console</span>.log(vec3.norm()); <span class="hljs-comment">// 7</span>
+};</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-7">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-7">&#182;</a>
+              </div>
+              <h2 id="types-methods-setup">types &amp; methods setup</h2>
+
+            </div>
+            
+        </li>
+        
+        
+        <li id="section-8">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-8">&#182;</a>
+              </div>
+              
+            </div>
+            
+            <div class="content"><div class='highlight'><pre><span class="hljs-keyword">var</span> setup = <span class="hljs-function"><span class="hljs-keyword">function</span> (<span class="hljs-params"></span>) </span>{
+<span class="hljs-pi">	'use strict'</span>;</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-9">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-9">&#182;</a>
+              </div>
+              <p>You’d expect that anything with a beak should be able to quack - and so
+we define that everything with an <code>x</code> and a <code>y</code> should have an <code>add</code>,
+<code>scale</code> and <code>norm</code> methods associated.</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>	register(<span class="hljs-string">'add'</span>, [<span class="hljs-string">'x'</span>, <span class="hljs-string">'y'</span>], <span class="hljs-function"><span class="hljs-keyword">function</span> (<span class="hljs-params">that</span>) </span>{
+		<span class="hljs-keyword">return</span> {
+			x: <span class="hljs-keyword">this</span>.x + that.x,
+			y: <span class="hljs-keyword">this</span>.y + that.y
+		};
+	});
+
+	register(<span class="hljs-string">'scale'</span>, [<span class="hljs-string">'x'</span>, <span class="hljs-string">'y'</span>], <span class="hljs-function"><span class="hljs-keyword">function</span> (<span class="hljs-params">scale</span>) </span>{
+		<span class="hljs-keyword">return</span> {
+			x: <span class="hljs-keyword">this</span>.x * scale,
+			y: <span class="hljs-keyword">this</span>.y * scale
+		};
+	});
+
+	register(<span class="hljs-string">'norm'</span>, [<span class="hljs-string">'x'</span>, <span class="hljs-string">'y'</span>], <span class="hljs-function"><span class="hljs-keyword">function</span> (<span class="hljs-params"></span>) </span>{
+		<span class="hljs-keyword">return</span> <span class="hljs-built_in">Math</span>.sqrt(
+			<span class="hljs-keyword">this</span>.x * <span class="hljs-keyword">this</span>.x +
+			<span class="hljs-keyword">this</span>.y * <span class="hljs-keyword">this</span>.y
+		);
+	});</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-10">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-10">&#182;</a>
+              </div>
+              <p>It’s totally OK to have multiple methods sharing the same name
+as long as they’re targeting data with different members.
+The previous norm method</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>	register(<span class="hljs-string">'norm'</span>, [<span class="hljs-string">'x'</span>, <span class="hljs-string">'y'</span>, <span class="hljs-string">'z'</span>], <span class="hljs-function"><span class="hljs-keyword">function</span> (<span class="hljs-params"></span>) </span>{
+		<span class="hljs-keyword">return</span> <span class="hljs-built_in">Math</span>.sqrt(
+			<span class="hljs-keyword">this</span>.x * <span class="hljs-keyword">this</span>.x +
+			<span class="hljs-keyword">this</span>.y * <span class="hljs-keyword">this</span>.y +
+			<span class="hljs-keyword">this</span>.z * <span class="hljs-keyword">this</span>.z
+		);
+	});</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-11">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-11">&#182;</a>
+              </div>
+              <p>Note that <code>add</code> and <code>scale</code> were not defined for { x, y, z } objects;
+instead the <code>add</code> and <code>scale</code> methods defined for { x, y } objects will be invoked.</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>};</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-12">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-12">&#182;</a>
+              </div>
+              <h2 id="dispatching-library">dispatching library</h2>
+
+            </div>
+            
+        </li>
+        
+        
+        <li id="section-13">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-13">&#182;</a>
+              </div>
+              
+            </div>
+            
+            <div class="content"><div class='highlight'><pre><span class="hljs-keyword">var</span> duck = <span class="hljs-function"><span class="hljs-keyword">function</span> (<span class="hljs-params">window</span>) </span>{
+<span class="hljs-pi">	'use strict'</span>;</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-14">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-14">&#182;</a>
+              </div>
+              <p>Mapping from method names (strings) to a list of methods,
+each with its own member requirements.</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>	<span class="hljs-keyword">var</span> mapping = <span class="hljs-keyword">new</span> <span class="hljs-built_in">Map</span>();
+
+
+	<span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">isSubset</span>(<span class="hljs-params">subset, set</span>) </span>{
+		<span class="hljs-keyword">for</span> (<span class="hljs-keyword">var</span> element <span class="hljs-keyword">of</span> subset) {
+			<span class="hljs-keyword">if</span> (!set.has(element)) {
+				<span class="hljs-keyword">return</span> <span class="hljs-literal">false</span>;
+			}
+		}
+		<span class="hljs-keyword">return</span> <span class="hljs-literal">true</span>;
+	}
+
+
+	<span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">findFirst</span>(<span class="hljs-params">collection, predicate</span>) </span>{
+		<span class="hljs-keyword">for</span> (<span class="hljs-keyword">var</span> element <span class="hljs-keyword">of</span> collection) {
+			<span class="hljs-keyword">if</span> (predicate(element)) {
+				<span class="hljs-keyword">return</span> element;
+			}
+		}
+		<span class="hljs-keyword">return</span> <span class="hljs-literal">null</span>;
+	}
+
+
+	<span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">register</span>(<span class="hljs-params">name, members, method</span>) </span>{
+		<span class="hljs-keyword">var</span> entry = {
+			members: members,
+			method: method
+		};
+
+		<span class="hljs-keyword">if</span> (mapping.has(name)) {
+			<span class="hljs-keyword">var</span> entries = mapping.get(name);
+			entries.push(entry);</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-15">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-15">&#182;</a>
+              </div>
+              <p>We’d like this to be sorted by the number of fields,
+otherwise methods that require less members get priority.
+There are plenty of better ways to keep this sorted.</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>			entries.sort(<span class="hljs-function"><span class="hljs-keyword">function</span> (<span class="hljs-params">a, b</span>) </span>{
+				<span class="hljs-keyword">return</span> b.members.length - a.members.length;
+			});
+		} <span class="hljs-keyword">else</span> {
+			<span class="hljs-keyword">var</span> entries = [entry];
+			mapping.set(name, entries);
+
+			<span class="hljs-built_in">Object</span>.prototype[name] = <span class="hljs-function"><span class="hljs-keyword">function</span> (<span class="hljs-params"></span>) </span>{
+				<span class="hljs-keyword">var</span> members = <span class="hljs-keyword">new</span> <span class="hljs-built_in">Set</span>(<span class="hljs-built_in">Object</span>.keys(<span class="hljs-keyword">this</span>));
+
+				<span class="hljs-keyword">var</span> found = findFirst(entries, <span class="hljs-function"><span class="hljs-keyword">function</span> (<span class="hljs-params">entry</span>) </span>{
+					<span class="hljs-keyword">return</span> isSubset(entry.members, members);
+				});
+
+				<span class="hljs-keyword">if</span> (!found) {
+					<span class="hljs-keyword">throw</span> <span class="hljs-keyword">new</span> <span class="hljs-built_in">Error</span>(<span class="hljs-string">'undefined is not a function'</span>); <span class="hljs-comment">// the classic</span>
+				}</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-16">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-16">&#182;</a>
+              </div>
+              <p>Forward the call to our method.</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>				<span class="hljs-keyword">return</span> found.method.apply(<span class="hljs-keyword">this</span>, <span class="hljs-built_in">arguments</span>);
+			};
+		}
+	}
+
+	<span class="hljs-built_in">window</span>.register = register;
+};</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-17">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-17">&#182;</a>
+              </div>
+              <p>Tie everything together.</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>duck(<span class="hljs-built_in">window</span>);
+setup();
+demo();</pre></div></div>
+            
+        </li>
+        
+    </ul>
+  </div>
+</body>
+</html>
