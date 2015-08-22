@@ -145,6 +145,11 @@
 		}
 	}
 
+	// An alternative representation of numbers is as lists of
+	// `ONE`s and `ZERO`s - that would have drastically reduced the space
+	// required to store numbers and the time required to perform operations with them.
+	// The current representation was chosen purely out of simplicity.
+
 
 	// another short demo
 	// ------------------
