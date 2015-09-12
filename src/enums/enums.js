@@ -11,9 +11,9 @@
 	(function enumExample1() {
 		// Candidate function number one: notice the type in *yellow*.
 		// This function will never return true and we won't figure that out until the
-		// code is tested thoroughly (for each and every state a banana can be).
-		// While stumbling upon code like this one might wonder what other states a banana
-		// can be in. This is very hard to dig up out unless it is documented somewhere.
+		// code is tested thoroughly (for each and every state a banana can be in).
+		// While stumbling upon code like this, one might wonder what other states a banana
+		// can be in. This is very hard to dig up unless it is documented somewhere.
 		function justRight(bananaState) {
 			return bananaState === 'yeallow';
 		}
@@ -51,9 +51,9 @@
 		var BANANA_STATE_SPOTTY = 'spotty';
 		var BANANA_STATE_BROWN = 'brown';
 
-		// If banana states instead are declared as individual variables then an error
+		// If banana states are instead declared as individual variables then an error
 		// will be signaled as soon as the code is executed. What's not so attractive
-		// now is that all banana states have to be all declared at the same level and
+		// now is that all banana states have to be declared at the same level and
 		// not packed nicely in their own *namespace*. Importing and exporting them to
 		// other modules is going to be a pain as well.
 		function justRight(bananaState) {
@@ -73,7 +73,7 @@
 		var BANANA_STATE = createEnum(['green', 'yellow', 'spotty', 'brown']);
 
 		// If `BANANA_STATE` is a function that verifies that *yeallow* is valid or not
-		// then the bug is revealed as soon as the function executes. The syntax however
+		// then the bug is revealed as soon as the function executes. The syntax, however,
 		// is alien for just using an enum.
 		function justRight(bananaState) {
 			return bananaState === BANANA_STATE('yeallow');
@@ -108,7 +108,7 @@
 	(function enumExample5() {
 		var BANANA_STATE = createEnum(['GREEN', 'YELLOW', 'SPOTTY', 'BROWN']);
 
-		// This looks exactly like `enumExample2` however BANANA_STATE is not a simple
+		// This looks exactly like `enumExample2`; however, BANANA_STATE is not a simple
 		// object anymore. It's a proxy with a defined `get` handle. The handle itself
 		// is a function and it can do the same check as the in the case of `enumExample4`.
 		function justRight(bananaState) {
