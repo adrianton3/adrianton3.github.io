@@ -96,7 +96,7 @@
 			});
 
 			return function (key) {
-				if (map[key]) {
+				if (!map[key]) {
 					throw new Error(key + ' not a valid enum value');
 				}
 
@@ -133,7 +133,7 @@
 
 			return new Proxy(map, {
 				get: function (target, property) {
-					if (map[property]) {
+					if (!map[property]) {
 						throw new Error(property + ' not a valid enum value');
 					}
 
