@@ -263,7 +263,7 @@ is alien for just using an enum.</p>
 			});
 
 			<span class="hljs-keyword">return</span> <span class="hljs-function"><span class="hljs-keyword">function</span> (<span class="hljs-params">key</span>) </span>{
-				<span class="hljs-keyword">if</span> (map[key]) {
+				<span class="hljs-keyword">if</span> (!map[key]) {
 					<span class="hljs-keyword">throw</span> <span class="hljs-keyword">new</span> <span class="hljs-built_in">Error</span>(key + <span class="hljs-string">' not a valid enum value'</span>);
 				}
 
@@ -336,7 +336,7 @@ is a function and it can do the same check as the in the case of <code>enumExamp
 
 			<span class="hljs-keyword">return</span> <span class="hljs-keyword">new</span> <span class="hljs-built_in">Proxy</span>(map, {
 				get: <span class="hljs-function"><span class="hljs-keyword">function</span> (<span class="hljs-params">target, property</span>) </span>{
-					<span class="hljs-keyword">if</span> (map[property]) {
+					<span class="hljs-keyword">if</span> (!map[property]) {
 						<span class="hljs-keyword">throw</span> <span class="hljs-keyword">new</span> <span class="hljs-built_in">Error</span>(property + <span class="hljs-string">' not a valid enum value'</span>);
 					}
 
