@@ -1,5 +1,19 @@
 'use strict'
 
+# Domain specific languages are neat and nice; they don't look very much like
+# general purpose programming languages and that's ok because they're specifically
+# tailored to a domain which probably doesn't require much expressive power
+# (in the general purpose sense).
+
+# Writing a parser is tedious and takes time but some languages make it
+# easy to define to integrate DSL code into normal code: Lisps via macros,
+# Scala and Haskell via their terse syntax and even C/C++ by abusing the preprocessor.
+# This experiment is about trying to write a simple DSL in CoffeeScript - code that
+# looks as non-CoffeeScript-y as much as possible in CoffeeScript.
+
+# Take for example the following code. It looks like 2 plain sentences but it's
+# valid CoffeeScript; and it executes - every "command" is gathered into an array
+# which can then be pushed somewhere else for execution.
 demo = ->
 	the quick brown fox jumps over the lazy dog
 	the lazy dog jumps over the brown fox
@@ -7,37 +21,45 @@ demo = ->
 
 setup = ->
 	defineTerms(
+		# Valid terms have to be enumerated
 		['the', 'quick', 'brown', 'fox', 'jumps', 'over', 'lazy', 'dog']
-		(calls) ->
-			calls.forEach (call) ->
-				console.log call.join ' '
+
+		# What to do with the "sentences";
+		# in this case they are logged to the console
+		(lines) ->
+			lines.forEach (line) ->
+				console.log line.join ' '
 	)
 
 
 implementation = ->
 	window.defineTerms = (terms, done) ->
-		calls = []
+		lines = []
 		timeoutId = null
 		lastTerm = null
 
 		execute = ->
-			calls[calls.length - 1].unshift lastTerm
-			done calls
+			lines[lines.length - 1].unshift lastTerm
+			done lines
 			return
 
 		terms.forEach (term) ->
 			termFunction = (argument) ->
-				# the first call schedules the execution
+				# The first call schedules the execution.
+				# It would be impossible to figure out when the execution finished
+				# without a special *start* term. Prepending phrases with *start*
+				# would look artificial so instead we'll let the whole thing execute,
+				# gather all terms and schedule an execution later.
 				timeoutId ?= setTimeout execute, 4
 
-				# used to detect if a new phrase starts
+				# Used to detect when a new phrase starts.
 				if argument.last != false
 					if lastTerm?
-						calls[calls.length - 1].unshift lastTerm
-					calls.push []
+						lines[lines.length - 1].unshift lastTerm
+					lines.push []
 
 				lastTerm = term
-				calls[calls.length - 1].unshift argument.term
+				lines[lines.length - 1].unshift argument.term
 
 				term: term
 				last: false
@@ -49,6 +71,7 @@ implementation = ->
 		return
 
 
+# Tie everything up together
 implementation()
 setup()
 demo()
