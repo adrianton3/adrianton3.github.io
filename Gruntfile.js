@@ -22,7 +22,7 @@ module.exports = function (grunt) {
 
 		dirs.forEach(function (dir) {
 			config[dir] = {
-				src: ['src/' + dir + '/*.js'],
+				src: ['src/' + dir + '/*.js', 'src/' + dir + '/*.coffee'],
 				options: {
 					output: OUT_DIR + '/art/' + dir,
 					template: TEMPLATE_DIR + '/docco.jst'
