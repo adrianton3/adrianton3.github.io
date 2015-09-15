@@ -5,15 +5,16 @@
 # tailored to a domain which probably doesn't require much expressive power
 # (in the general purpose sense).
 
-# Writing a parser is tedious and takes time but some languages make it
-# easy to define to integrate DSL code into normal code: Lisps via macros,
+# Writing a parser is tedious and takes time, but some languages make it
+# easy to integrate DSL code into normal code: Lisps via macros,
 # Scala and Haskell via their terse syntax and even C/C++ by abusing the preprocessor.
-# This experiment is about trying to write a simple DSL in CoffeeScript - code that
-# looks as non-CoffeeScript-y as much as possible in CoffeeScript.
+# This experiment is about trying to write a simple DSL in CoffeeScript - CoffeeScript code
+# that looks as non-CoffeeScript-y as possible.
 
-# Take for example the following code. It looks like 2 plain sentences but it's
+# Take for example the following snippet of code. It looks like 2 plain sentences but it's
 # valid CoffeeScript; and it executes - every "command" is gathered into an array
-# which can then be pushed somewhere else for execution.
+# which can then be pushed somewhere else for execution. In absence of a better example
+# the standard phrase below is used.
 demo = ->
 	the quick brown fox jumps over the lazy dog
 	the lazy dog jumps over the brown fox
