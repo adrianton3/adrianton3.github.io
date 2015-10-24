@@ -1,0 +1,104 @@
+[{
+  "section": "Projects",
+  "entries": [{
+    "name": "JavaScript interpreter",
+    "url": "https://github.com/adrianton3/jinter",
+    "start": "2015",
+    "end": "current",
+    "status": "active"
+  }, {
+    "name": "Befunge-93 just-in-time compiler",
+    "url": "https://github.com/adrianton3/befunjit",
+    "start": "2014",
+    "end": "current",
+    "status": "active"
+  }, {
+    "name": "ClojureScript string/numbers puzzle game",
+    "url": "https://github.com/adrianton3/staplo",
+    "start": "2015",
+    "end": "current",
+    "status": "active"
+  }, {
+    "name": "Chip8 emulator and assembler",
+    "url": "https://github.com/adrianton3/chip8",
+    "start": "2015",
+    "end": "current",
+    "status": "active"
+  }, {
+    "name": "Lazily-evaluated Lisp-like language interpreter and transpiler with first-class continuations",
+    "url": "https://github.com/adrianton3/mupl-c",
+    "start": "2014",
+    "end": "current",
+    "status": "active"
+  }, {
+    "name": "Particle Swarm Optimization library with lots of examples",
+    "url": "https://github.com/adrianton3/pso.js",
+    "start": "2013",
+    "end": "current",
+    "status": "active"
+  }, {
+    "name": "JavaScript source code analyzer for side effects",
+    "url": "https://github.com/adrianton3/purehint",
+    "start": "2014",
+    "end": "2015",
+    "status": "paused"
+  }, {
+    "name": "PuzzleScript like engine",
+    "url": "https://github.com/adrianton3/furnace-engine",
+    "start": "2013",
+    "end": "2015",
+    "status": "paused"
+  }, {
+    "name": "S-expression parser and macro processor",
+    "url": "https://github.com/adrianton3/espace.js",
+    "start": "2014",
+    "end": "2015",
+    "status": "paused"
+  }, {
+    "name": "JavaScript obfuscator",
+    "url": "https://github.com/adrianton3/jsroller",
+    "start": "2014",
+    "status": "paused"
+  }, {
+    "name": "Lisp-like language interpreter and transpiler with optional typing",
+    "url": "https://github.com/adrianton3/muplex",
+    "start": "2013",
+    "status": "probably-abandoned"
+  }, {
+    "name": "Lindenmayer systems",
+    "url": "https://github.com/adrianton3/lindenmayer-power",
+    "start": "2013",
+    "status": "probably-abandoned"
+  }, {
+    "name": "Compiler-compiler for LL(k) languages",
+    "url": "https://github.com/adrianton3/melc",
+    "start": "2013",
+    "status": "probably-abandoned"
+  }, {
+    "name": "Small OpenCL demos/experiments",
+    "url": "https://github.com/adrianton3/oclex",
+    "start": "2012",
+    "status": "probably-abandoned"
+  }, {
+    "name": "Global optimization framework",
+    "url": "https://github.com/adrianton3/gloptat",
+    "start": "2012",
+    "end": "2013",
+    "status": "probably-abandoned"
+  }]
+}, {
+  "section": "Misc",
+  "entries": [{
+    "name": "JavaScript experiments",
+    "url": "http://adrianton3.github.io/blog",
+    "start": "2015",
+    "end": "current",
+    "status": "active"
+  }, {
+    "name": "Old blog full of experiments/games/ludum dare submissions",
+    "url": "http://madflame991.blogspot.com",
+    "start": "2008",
+    "end": "2013",
+    "status": "probably-abandoned"
+  }]
+}]

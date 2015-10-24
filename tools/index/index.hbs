@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+	<meta charset="UTF-8">
+	<link href='http://fonts.googleapis.com/css?family=Source+Sans+Pro' rel='stylesheet' type='text/css'>
+	<link rel="stylesheet" type="text/css" href="style.css">
+	<title>Adrian Toncean (adrianton3)</title>
+</head>
+<body>
+	{{#each .}}
+	<section>
+		<h4>{{section}}</h4>
+		<ul>
+			{{#each entries}}
+			<li>
+				<a href="{{url}}" class="description">{{name}}</a>
+				<span class="status {{status}}">{{start}}{{#if end}}-{{end}}{{/if}}</span>
+			</li>
+			{{/each}}
+		</ul>
+	</section>
+	{{/each}}
+</body>
+</html>

@@ -7,6 +7,7 @@
     "grunt-docco": "^0.4.0",
     "grunt-eslint": "^17.0.0",
     "grunt-wrap": "^0.3.0",
+    "handlebars": "^4.0.3",
     "underscore": "^1.8.3"
   }
 }
