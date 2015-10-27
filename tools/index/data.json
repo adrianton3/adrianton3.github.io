@@ -19,23 +19,22 @@
     "end": "current",
     "status": "active"
   }, {
-    "name": "Chip8 emulator and assembler",
-    "url": "https://github.com/adrianton3/chip8",
-    "start": "2015",
-    "end": "current",
-    "status": "active"
-  }, {
-    "name": "Lazily-evaluated Lisp-like language interpreter and transpiler with first-class continuations",
-    "url": "https://github.com/adrianton3/mupl-c",
-    "start": "2014",
-    "end": "current",
-    "status": "active"
-  }, {
     "name": "Particle Swarm Optimization library with lots of examples",
     "url": "https://github.com/adrianton3/pso.js",
     "start": "2013",
     "end": "current",
     "status": "active"
+  }, {
+    "name": "Chip8 emulator and assembler",
+    "url": "https://github.com/adrianton3/chip8",
+    "start": "2015",
+    "status": "paused"
+  }, {
+    "name": "Lazily-evaluated Lisp-like language interpreter and transpiler with first-class continuations",
+    "url": "https://github.com/adrianton3/mupl-c",
+    "start": "2014",
+    "end": "2015",
+    "status": "paused"
   }, {
     "name": "JavaScript source code analyzer for side effects",
     "url": "https://github.com/adrianton3/purehint",
