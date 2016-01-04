@@ -72,12 +72,18 @@ module.exports = function (grunt) {
 				configFile: '.eslintrc'
 			},
 			target: ['Gruntfile.js', 'src/**/*.js', 'test/spec/**/*.js']
+		},
+		shell: {
+			index: {
+				command: 'node tools/index/generate.js'
+			}
 		}
 	});
 
 	grunt.loadNpmTasks('grunt-docco');
 	grunt.loadNpmTasks('grunt-eslint');
 	grunt.loadNpmTasks('grunt-wrap');
+	grunt.loadNpmTasks('grunt-shell');
 
 	grunt.registerTask('default', ['docco', 'wrap']);
 };
