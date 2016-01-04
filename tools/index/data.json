@@ -7,23 +7,22 @@
     "end": "current",
     "status": "active"
   }, {
-    "name": "Befunge-93 just-in-time compiler",
-    "url": "https://github.com/adrianton3/befunjit",
-    "start": "2014",
-    "end": "current",
-    "status": "active"
-  }, {
     "name": "ClojureScript string/numbers puzzle game",
     "url": "https://github.com/adrianton3/staplo",
     "start": "2015",
-    "end": "current",
-    "status": "active"
+    "status": "paused"
+  }, {
+    "name": "Befunge-93 just-in-time compiler",
+    "url": "https://github.com/adrianton3/befunjit",
+    "start": "2014",
+    "end": "2015",
+    "status": "paused"
   }, {
     "name": "Particle Swarm Optimization library with lots of examples",
     "url": "https://github.com/adrianton3/pso.js",
     "start": "2013",
-    "end": "current",
-    "status": "active"
+    "end": "2015",
+    "status": "paused"
   }, {
     "name": "Chip8 emulator and assembler",
     "url": "https://github.com/adrianton3/chip8",
