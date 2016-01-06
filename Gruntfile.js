@@ -77,6 +77,18 @@ module.exports = function (grunt) {
 			index: {
 				command: 'node tools/index/generate.js'
 			}
+		},
+		markdown: {
+			options: {
+				template: 'tools/template/markdown.html',
+				contextBinder: true
+			},
+			all: {
+				files: [{
+					src: 'src/jinter/jinter.md',
+					dest: 'blog/art/jinter/jinter.html'
+				}]
+			}
 		}
 	});
 
@@ -84,6 +96,7 @@ module.exports = function (grunt) {
 	grunt.loadNpmTasks('grunt-eslint');
 	grunt.loadNpmTasks('grunt-wrap');
 	grunt.loadNpmTasks('grunt-shell');
+	grunt.loadNpmTasks('grunt-markdown');
 
 	grunt.registerTask('default', ['docco', 'wrap']);
 };

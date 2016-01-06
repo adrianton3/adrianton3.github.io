@@ -1,0 +1,14 @@
+code {
+    color: #3d3d2a;
+    font-weight: 700;
+}
+
+.art-container {
+    background-color: #ffffff;
+    max-width: 600px;
+    min-width: 400px;
+    margin: auto;
+    border-right: 1px solid #e5e5ee;
+    border-left: 1px solid #e5e5ee;
+    padding: 32px;
+}

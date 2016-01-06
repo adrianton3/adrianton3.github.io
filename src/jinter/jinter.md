@@ -1,3 +1,5 @@
+<!-- @@@title:Writing a JavaScript interpreter@@@ -->
+
 # Writing a JavaScript interpreter
 
 I've recently implemented a JS interpreter in CoffeeScript and I figured that might be something interesting to share.
