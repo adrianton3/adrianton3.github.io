@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+
+<html>
+<head>
+	<title>Writing a JavaScript interpreter</title>
+	<meta http-equiv="content-type" content="text/html; charset=UTF-8">
+	<meta name="viewport" content="width=device-width, target-densitydpi=160dpi, initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
+	<link href='http://fonts.googleapis.com/css?family=Source+Sans+Pro' rel='stylesheet' type='text/css'>
+	<link href='http://fonts.googleapis.com/css?family=Inconsolata:400,700' rel='stylesheet' type='text/css'>
+	<link rel="stylesheet" media="all" href="../../static/docco-small-tab.css">
+	<link rel="stylesheet" media="all" href="../../static/highlight.css">
+	<link rel="stylesheet" media="all" href="../../static/markdown.css">
+</head>
+<body>
+	<div class="art-container">
+		<!-- @@@title:Writing a JavaScript interpreter@@@ -->
+<h1 id="writing-a-javascript-interpreter">Writing a JavaScript interpreter</h1>
+<p>I&#39;ve recently implemented a JS interpreter in CoffeeScript and I figured that might be something interesting to share.</p>
+<h2 id="motivation">Motivation</h2>
+<p>We already have more than enough JS engines; of course, I have no plans on rolling my own - I&#39;ve
+undergone this purely for educational reasons.</p>
+<p>If your purpose is to build something in JS then you rarely go exploring into the depths and quirks
+of the language. You follow the best practices and stick to the safe way of doing things.
+You&#39;d have to make a deliberate effort to write things in a totally unconventional/non-canon way.
+After spending some time reading the official language specification I&#39;d say I only saw about 10% of
+the language&#39;s semantics being used in the wild. Your efforts might not be met with enthusiasm
+by your colleagues. Imagine defending your use of <code>with</code> for educational purposes.</p>
+<p>Another reason would be that I want to stop writing JS altogether and transition to something better (ClojureScript).
+I thought this would be my last effort into learning something about JS. MDN is a very rich resource of JS
+but it&#39;s incomplete. I thought that by reading the spec and following it to implement an interpreter I can
+finally say &quot;yes, I know JS, the good parts and the weird ones&quot;.</p>
+<p>A third reason is that I&#39;ve fiddled before with toy lisp interpreters and transpilers
+(<a href="https://github.com/adrianton3/mupl-c">mupl-c</a>, <a href="https://github.com/adrianton3/muplex">muplex</a>)
+and have been writing interpreters in general for a long time
+(<a href="https://web.archive.org/web/20070322220942/http://www.donebyme.go.ro/sources/coin10.pas.html">COIN v2</a>).
+These are neat but they&#39;re not &quot;real&quot; languages used by people (heck, I don&#39;t even use them) - JS is.</p>
+<h2 id="scope">Scope</h2>
+<p>First and foremost the evaluator should be metacircular. That&#39;s something most &quot;serious&quot; compilers/interpreters out there do.</p>
+<p>But this shouldn&#39;t be the only goal as I could deliberately write the interpreter using a very small subset of the language.
+The evaluator should implement core language features: a couple of operators, functions (and closures),
+dynamic dispatching, the prototype chain and a minimal amount of built-ins - I will probably need arrays and a few of
+their methods.</p>
+<p>I have avoided some constructs on purpose, like <code>for ... in</code>, <code>eval</code>, <code>Function.prototype.toString</code>, exceptions,
+boxed primitives, <code>break</code>, <code>switch</code> or labels. I also did not add support for strict AND non strict mode.
+Non-strict mode still exists for backwards compatibility reasons most probably.</p>
+<p>Implementing a regular expression engine is out of the question too. This would be just as big if not bigger
+than the whole JS interpreter. It&#39;s certainly an interesting project, but perhaps for another day.</p>
+<p>I tried not adding more built-ins than were needed. I&#39;m sure implementing the methods of <code>Math</code> from scratch is a wonderful
+challenge but it would be greatly outside the scope of this little project.</p>
+<h2 id="decisions-decisions">Decisions, decisions</h2>
+<p>Because the evaluator has to be able to evaluate itself and because I don&#39;t plan on implementing a ton of language
+features I did not have any &quot;nice&quot; way of managing the modules of the application.
+RequireJS and the likes are not good candidates since they tend to call methods on the DOM.</p>
+<p>Unfortunately, fancy transpilers are out of the question because these tend to output fairly unorthodox code.
+The code output by ClojureScript tends to be huge and its startup time when running directly in the browser is noticeably slow.</p>
+<p>I don&#39;t want to write it in vanilla ES5 because it&#39;s a pain. CoffeeScript however fits in the sweet spot.
+It&#39;s nice enough to program in and it doesn&#39;t generate too wild code. The only language feature I had to implement
+because of CoffeeScript alone is <code>==</code> and <code>!=</code> as it&#39;s used by the <code>?</code> operator.</p>
+<p>Since I don&#39;t plan to add support for regular expressions that means that the parser used for the language
+(esprima) cannot be evaluated. This means that the input to jinter running in jinter will have to be an AST,
+as a nested object/array structure, and not a string.</p>
+<h2 id="surpises">Surpises</h2>
+<p>While implementing the semantics of a language you get to find out some things that happen in the background.
+For the programmer, as a user of a language, calling a function is just a plain pair of parentheses <code>()</code> but
+in the background it looks more like launching a rocket:</p>
+<ul>
+<li>create a new scope</li>
+<li>if the function was invoked as a method, bind <code>this</code> to whatever invoked it</li>
+<li>if the function has a name then add it to the new scope</li>
+<li>bind <code>name</code> to the function&#39;s name</li>
+<li>bind <code>arguments</code> to an array-like object holding all arguments</li>
+<li>create entries in the scope for all local function declarations</li>
+<li>create entries in the scope for all vars in this scope and bind them to <code>undefined</code></li>
+<li>finally execute the function&#39;s body</li>
+</ul>
+<p>...and I&#39;m sure I missed some fine details from the spec.</p>
+<p>Unfortunately, the standard does not mention why some decisions were taken.
+Some apparently inconsistent or wacky features of JS were probably motivated by some very good reasons.
+Take for example <code>Array.prototype.toString</code> which is using the <code>join</code> method on the array in question.</p>
+<h2 id="testing">Testing</h2>
+<p>This is one of those fortunate cases where you can test your implementation against an already existing
+and heavily battle-tested implementation. I&#39;m talking about <code>eval</code> of course. I&#39;ve made the list of unit tests
+viewable in a <a href="http://adrianton3.github.io/jinter/demo/src/demo.html">pretty format</a>. They&#39;re small snippets of
+JS code meant to test if specific aspects of the language work correctly.</p>
+<p>Some of these tests are however less than ideal - take, for example, the test that verifies if assignment works:</p>
+<p><code>var a = 123; a</code></p>
+<p>Jinter returns <code>123</code> and so does the browser&#39;s <code>eval</code>, but what makes this test &quot;bad&quot; is that it depends on working
+<code>var</code> statements and variable lookups. If either of these break then this test fails as well.
+I don&#39;t know how you can properly test some features that usually come in pairs like
+getters/setters, the prototype chain without assignments, member lookup without object expressions or member set and more.</p>
+<p>This snippet-testing served its purpose perfectly in the beginning but at some point you need to bring in bigger tools.
+On your own you can only think of so many snippets and after a point these &quot;microprograms&quot; get tedious to write and
+that&#39;s why you turn to automatic testing.</p>
+<h3 id="fuzz-testing">Fuzz testing</h3>
+<p>The first fuzzer I implemented was very simple - it would generate expressions using only primitives and a few
+arithmetic operators, but, as simple as it was, it found a bug immediately.
+Jinter would crash if you wanted to add, subtract or multiply booleans.
+This is the sort of thing you never test as a human - it&#39;s part of the 90% of the language that we ignore daily.
+It doesn&#39;t add much value if I fix the bug - I didn&#39;t want to multiply booleans anyway! But, if I want to develop
+and use the fuzzer any further, then this bug needs to be fixed. It would be harder to make a smart fuzzer
+that doesn&#39;t multiply booleans than to just fix the bug in the interpreter.</p>
+<p>The second bug unearthed by the fuzzer was reported for an expression of the following form <code>[1, null, 2] + &#39;&#39;</code>.
+Can you guess what this evaluates to? If so, hats off to you. It turns out that <code>null</code> or <code>undefined</code> become
+the empty string when stringified by <code>Array.prototype.toString</code> and implicitly <code>Array.prototype.join</code>.
+This is something unexpected as <code>null</code> and <code>undefined</code> become <code>&quot;null&quot;</code> and <code>&quot;undefined&quot;</code> when they are
+stringified by the <code>String</code> function.
+The specification mentions this, but it sadly does not mention the reason why this behaviour came to be.</p>
+<h2 id="in-the-near-future">In the near future</h2>
+<p>Jinter is &quot;done&quot; for now as it passes all tests, all tests while being run by itself and anything that
+the fuzzer throws at it. Any future additions/modifications done to it need to preserve this. The most likely feature
+to be added now is the ability to call methods on primitives.</p>
+<p>Better/more code documentation is something any complete project should have, and I&#39;ll get around to that at some point.</p>
+
+	</div>
+</body>
+</html>
