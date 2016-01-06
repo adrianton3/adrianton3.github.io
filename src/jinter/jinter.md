@@ -49,6 +49,24 @@ I tried not adding more built-ins than were needed. I'm sure implementing the me
 challenge but it would be greatly outside the scope of this little project.
 
 
+## Decisions, decisions
+
+Because the evaluator has to be able to evaluate itself and because I don't plan on implementing a ton of language
+features I did not have any "nice" way of managing the modules of the application.
+RequireJS and the likes are not good candidates since they tend to call methods on the DOM.
+
+Unfortunately, fancy transpilers are out of the question because these tend to output fairly unorthodox code.
+The code output by ClojureScript tends to be huge and its startup time when running directly in the browser is noticeably slow.
+
+I don't want to write it in vanilla ES5 because it's a pain. CoffeeScript however fits in the sweet spot.
+It's nice enough to program in and it doesn't generate too wild code. The only language feature I had to implement
+because of CoffeeScript alone is `==` and `!=` as it's used by the `?` operator.
+
+Since I don't plan to add support for regular expressions that means that the parser used for the language
+(esprima) cannot be evaluated. This means that the input to jinter running in jinter will have to be an AST,
+as a nested object/array structure, and not a string.
+
+
 ## Surpises
 
 While implementing the semantics of a language you get to find out some things that happen in the background.
@@ -69,24 +87,6 @@ in the background it looks more like launching a rocket:
 Unfortunately, the standard does not mention why some decisions were taken.
 Some apparently inconsistent or wacky features of JS were probably motivated by some very good reasons.
 Take for example `Array.prototype.toString` which is using the `join` method on the array in question.
-
-
-## Decisions, decisions
-
-Because the evaluator has to be able to evaluate itself and because I don't plan on implementing a ton of language
-features I did not have any "nice" way of managing the modules of the application.
-RequireJS and the likes are not good candidates since they tend to call methods on the DOM.
-
-Unfortunately, fancy transpilers are out of the question because these tend to output fairly unorthodox code.
-The code output by ClojureScript tends to be huge and its startup time when running directly in the browser is noticeably slow.
-
-I don't want to write it in vanilla ES5 because it's a pain. CoffeeScript however fits in the sweet spot.
-It's nice enough to program in and it doesn't generate too wild code. The only language feature I had to implement
-because of CoffeeScript alone is `==` and `!=` as it's used by the `?` operator.
-
-Since I don't plan to add support for regular expressions that means that the parser used for the language
-(esprima) cannot be evaluated. This means that the input to jinter running in jinter will have to be an AST,
-as a nested object/array structure, and not a string.
 
 
 ## Testing
