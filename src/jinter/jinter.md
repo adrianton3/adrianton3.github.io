@@ -1,9 +1,9 @@
-#Writing a JavaScript interpreter
+# Writing a JavaScript interpreter
 
 I've recently implemented a JS interpreter in CoffeeScript and I figured that might be something interesting to share.
 
 
-##Motivation
+## Motivation
 
 We already have more than enough JS engines; of course, I have no plans on rolling my own - I've
 undergone this purely for educational reasons.
@@ -27,7 +27,7 @@ and have been writing interpreters in general for a long time
 These are neat but they're not "real" languages used by people (heck, I don't even use them) - JS is.
 
 
-##Scope
+## Scope
 
 First and foremost the evaluator should be metacircular. That's something most "serious" compilers/interpreters out there do.
 
@@ -47,7 +47,7 @@ I tried not adding more built-ins than were needed. I'm sure implementing the me
 challenge but it would be greatly outside the scope of this little project.
 
 
-##Surpises
+## Surpises
 
 While implementing the semantics of a language you get to find out some things that happen in the background.
 For the programmer, as a user of a language, calling a function is just a plain pair of parentheses `()` but
@@ -69,7 +69,7 @@ Some apparently inconsistent or wacky features of JS were probably motivated by 
 Take for example `Array.prototype.toString` which is using the `join` method on the array in question.
 
 
-##Decisions, decisions
+## Decisions, decisions
 
 Because the evaluator has to be able to evaluate itself and because I don't plan on implementing a ton of language
 features I did not have any "nice" way of managing the modules of the application.
@@ -87,7 +87,7 @@ Since I don't plan to add support for regular expressions that means that the pa
 as a nested object/array structure, and not a string.
 
 
-##Testing
+## Testing
 
 This is one of those fortunate cases where you can test your implementation against an already existing
 and heavily battle-tested implementation. I'm talking about `eval` of course. I've made the list of unit tests
@@ -108,7 +108,7 @@ On your own you can only think of so many snippets and after a point these "micr
 that's why you turn to automatic testing.
 
 
-###Fuzz testing
+### Fuzz testing
 
 The first fuzzer I implemented was very simple - it would generate expressions using only primitives and a few
 arithmetic operators, but, as simple as it was, it found a bug immediately.
@@ -126,7 +126,7 @@ stringified by the `String` function.
 The specification mentions this, but it sadly does not mention the reason why this behaviour came to be.
 
 
-##In the near future
+## In the near future
 
 Jinter is "done" for now as it passes all tests, all tests while being run by itself and anything that
 the fuzzer throws at it. Any future additions/modifications done to it need to preserve this. The most likely feature
