@@ -15,8 +15,22 @@ module.exports = function (grunt) {
 		});
 	}
 
+	function isDir(basePath, extension) {
+		return function (dir) {
+			var lastPart = dir.match(/[-\w]+$/)[0];
+			var mainFile = basePath + '/' + dir + '/' + lastPart + extension;
+
+			try {
+				fs.accessSync(mainFile, fs.F_OK);
+				return true;
+			} catch (e) {
+				return false;
+			}
+		}
+	}
+
 	function generateDoccoConfig() {
-		var dirs = getDirs('src');
+		var dirs = getDirs('src').filter(isDir('src', '.js'));
 
 		var config = {};
 
@@ -76,6 +90,9 @@ module.exports = function (grunt) {
 		shell: {
 			index: {
 				command: 'node tools/index/generate.js'
+			},
+			clean: {
+				command: 'rm -rf ' + OUT_DIR + '/art'
 			}
 		},
 		markdown: {
@@ -98,5 +115,5 @@ module.exports = function (grunt) {
 	grunt.loadNpmTasks('grunt-shell');
 	grunt.loadNpmTasks('grunt-markdown');
 
-	grunt.registerTask('default', ['docco', 'wrap']);
+	grunt.registerTask('default', ['shell:clean', 'docco', 'wrap', 'markdown']);
 };
