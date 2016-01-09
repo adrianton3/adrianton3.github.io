@@ -49,6 +49,17 @@ module.exports = function (grunt) {
 		return config;
 	}
 
+	function generateMarkdownConfig() {
+		var dirs = getDirs('src').filter(isDir('src', '.md'));
+
+		return dirs.map(function (dir) {
+			return {
+				src: 'src/' + dir + '/' + dir + '.md',
+				dest: 'blog/art/' + dir + '/' + dir + '.html'
+			};
+		});
+	}
+
 	function readFile(path) {
 		return fs.readFileSync(path, 'utf8');
 	}
@@ -100,10 +111,7 @@ module.exports = function (grunt) {
 				contextBinder: true
 			},
 			all: {
-				files: [{
-					src: 'src/jinter/jinter.md',
-					dest: 'blog/art/jinter/jinter.html'
-				}]
+				files: generateMarkdownConfig()
 			}
 		},
 		'handlebars': {
