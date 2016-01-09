@@ -5,6 +5,8 @@ module.exports = function (grunt) {
 
 	var _ = require('underscore');
 
+	require('./tools/grunt-tasks/handlebars')(grunt);
+
 	var OUT_DIR = 'blog';
 	var TEMPLATE_DIR = 'tools/template';
 
@@ -88,9 +90,6 @@ module.exports = function (grunt) {
 			target: ['Gruntfile.js', 'src/**/*.js', 'test/spec/**/*.js']
 		},
 		shell: {
-			index: {
-				command: 'node tools/index/generate.js'
-			},
 			clean: {
 				command: 'rm -rf ' + OUT_DIR + '/art'
 			}
@@ -106,6 +105,13 @@ module.exports = function (grunt) {
 					dest: 'blog/art/jinter/jinter.html'
 				}]
 			}
+		},
+		'handlebars': {
+			index: {
+				templatePath: 'tools/index/index.hbs',
+				dataPath: 'tools/index/data.json',
+				outPath: './index.html'
+			}
 		}
 	});
 
@@ -115,5 +121,11 @@ module.exports = function (grunt) {
 	grunt.loadNpmTasks('grunt-shell');
 	grunt.loadNpmTasks('grunt-markdown');
 
-	grunt.registerTask('default', ['shell:clean', 'docco', 'wrap', 'markdown']);
+	grunt.registerTask('default', [
+		'shell:clean',
+		'docco',
+		'wrap',
+		'markdown',
+		'handlebars'
+	]);
 };
