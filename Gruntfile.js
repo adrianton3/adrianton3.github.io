@@ -41,7 +41,7 @@ module.exports = function (grunt) {
 				src: ['src/' + dir + '/*.js', 'src/' + dir + '/*.coffee'],
 				options: {
 					output: OUT_DIR + '/art/' + dir,
-					template: TEMPLATE_DIR + '/docco.jst'
+					template: TEMPLATE_DIR + '/docco/docco.html'
 				}
 			};
 		});
@@ -64,8 +64,8 @@ module.exports = function (grunt) {
 		return fs.readFileSync(path, 'utf8');
 	}
 
-	var headerTemplate = _.template(readFile(TEMPLATE_DIR + '/header.jst'));
-	var footerTemplate = _.template(readFile(TEMPLATE_DIR + '/footer.jst'));
+	var headerTemplate = _.template(readFile(TEMPLATE_DIR + '/docco/header.html'));
+	var footerTemplate = _.template(readFile(TEMPLATE_DIR + '/docco/footer.html'));
 
 	function getHeader(path) {
 		var match = path.match(/([-\w]+)\/([-\w]+)\.html$/);
