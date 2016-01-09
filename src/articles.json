@@ -1,0 +1,19 @@
+[{
+  "name": "jinter",
+  "description": "Writing a JavaScript interpreter"
+}, {
+  "name": "dsl-1",
+  "description": "Domain Specific Languages in CoffeeScript"
+}, {
+  "name": "enums",
+  "description": "Better enums"
+}, {
+  "name": "dispatching-ducks",
+  "description": "Dispatching ducks"
+}, {
+  "name": "functions-only",
+  "description": "You only need functions"
+}, {
+  "name": "math-lib",
+  "description": "Functional math library"
+}]

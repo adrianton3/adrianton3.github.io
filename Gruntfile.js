@@ -107,10 +107,15 @@ module.exports = function (grunt) {
 			}
 		},
 		'handlebars': {
-			index: {
-				templatePath: 'tools/index/index.hbs',
-				dataPath: 'tools/index/data.json',
+			projects: {
+				templatePath: 'tools/template/projects.hbs',
+				dataPath: 'src/projects.json',
 				outPath: './index.html'
+			},
+			articles: {
+				templatePath: 'tools/template/articles.hbs',
+				dataPath: 'src/articles.json',
+				outPath: 'blog/index.html'
 			}
 		}
 	});
