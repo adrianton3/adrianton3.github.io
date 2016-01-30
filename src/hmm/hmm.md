@@ -5,7 +5,7 @@
 
 ## A wandering robot
 
-A robot with broken gps module has gone rogue and is wandering aimlessly.
+A robot with broken GPS module has gone rogue and is wandering aimlessly.
 
 Every time-unit the robot makes a move: it can stay where it is, or visit any of the 4 adjacent cells.
 These actions have an equal probability of happening.
@@ -136,12 +136,16 @@ some probability of being the actual location of the robot.
 </table>
 
 Some cells have a lower chance of being reached than others. The probability that the robot will move twice in
-the same direction is of 0.04 (0.2^2).
+the same direction is of 0.04 (0.2<sup>2</sup>).
 
 What about the starting position? There are 5 possible ways to get to the starting cell after 2 steps:
 by standing still for 2 turns or going back and forth in any of the 4 directions. Each of these moves has a 0.04
-chance of happening (0.2^2). The accumulated probability that the robot is in the starting position after 2 turns
-is five times this, thus adding up to 0.2.
+(0.2<sup>2</sup>) chance of happening. The accumulated probability that the robot is in the starting position
+after 2 turns is five times this, thus adding up to 0.2.
+
+Another way to think about this is by imagining that every time-unit each cell deals itself and its neighbours
+an equal share of its current value. This operation cannot be done in place - a new "heatmap" has to be built
+from the old one.
 
 Let's get a bigger map and see how the robot fares after more time-units.
 
@@ -172,7 +176,7 @@ reaching it becomes.
 
 Turns out some of the robot's sensors get back online. The sensors are not very accurate - they approximate the
 distance to the nearest obstacle in the 4 cardinal directions (north, west, south and east). All the information
-the sensors are giving away each time unit is 4 integral numbers.
+the sensors are giving away each time-unit is 4 integral numbers.
 We know that the sensors' error margin is of 2 units. Sensor errors are uniformly distributed between 0 and 2.
 
 Since we know the map and the obstacles on it we can figure out all locations that match the sensor readings.
@@ -200,3 +204,12 @@ The demo below combines the sensory information with the history information (li
 As we can see, by combining the information the number of locations that the robot can be at is greatly
 reduced thus allowing us to pinpoint the robot's location more accurately.
 
+This is the gist of hidden markov models. The cells in this example comprise the set of possible states.
+The actual state that the model is in is unavailable due to the broken GPS - hence the name "hidden".
+The moving behaviour is generally modelled by a transition matrix. The matrix is constructed after
+the layout of the map. The implementation for these examples does not use a transition matrix per se
+because in our case this would be mostly filled with zeros. The sensor readings in our examples are
+generally referred to as event observations.
+
+For a more formal description of HMMs and other examples check out the
+[Wikipedia page](https://en.wikipedia.org/wiki/Hidden_Markov_model).
