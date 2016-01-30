@@ -3,8 +3,6 @@
 
 # Visualization of Hidden Markov Models
 
-
-
 ## A wandering robot
 
 A robot with broken gps module has gone rogue and is wandering aimlessly.
@@ -20,35 +18,35 @@ while the probability that the robot is located in the other cells is 0.
 	<tr>
 		<td class="cell"></td>
 		<td class="cell"></td>
-		<td class="cell" style="background-color: rgb(204, 230, 255);">0.04</td>
 		<td class="cell"></td>
 		<td class="cell"></td>
-	</tr>
-	<tr>
-		<td class="cell"></td>
-		<td class="cell" style="background-color: rgb(153, 204, 255);">0.08</td>
-		<td class="cell" style="background-color: rgb(153, 204, 255);">0.08</td>
-		<td class="cell" style="background-color: rgb(153, 204, 255);">0.08</td>
-		<td class="cell"></td>
-	</tr>
-	<tr>
-		<td class="cell" style="background-color: rgb(204, 230, 255);">0.04</td>
-		<td class="cell" style="background-color: rgb(153, 204, 255);">0.08</td>
-		<td class="cell" style="background-color: rgb(0, 127, 255);">0.2</td>
-		<td class="cell" style="background-color: rgb(153, 204, 255);">0.08</td>
-		<td class="cell" style="background-color: rgb(204, 230, 255);">0.04</td>
-	</tr>
-	<tr>
-		<td class="cell" ></td>
-		<td class="cell" style="background-color: rgb(153, 204, 255);">0.08</td>
-		<td class="cell" style="background-color: rgb(153, 204, 255);">0.08</td>
-		<td class="cell" style="background-color: rgb(153, 204, 255);">0.08</td>
 		<td class="cell"></td>
 	</tr>
 	<tr>
 		<td class="cell"></td>
 		<td class="cell"></td>
-		<td class="cell" style="background-color: rgb(204, 230, 255);">0.04</td>
+		<td class="cell"></td>
+		<td class="cell"></td>
+		<td class="cell"></td>
+	</tr>
+	<tr>
+		<td class="cell"></td>
+		<td class="cell"></td>
+		<td class="cell" style="background-color: rgb(0, 127, 255);">1.0</td>
+		<td class="cell"></td>
+		<td class="cell"></td>
+	</tr>
+	<tr>
+		<td class="cell"></td>
+		<td class="cell"></td>
+		<td class="cell"></td>
+		<td class="cell"></td>
+		<td class="cell"></td>
+	</tr>
+	<tr>
+		<td class="cell"></td>
+		<td class="cell"></td>
+		<td class="cell"></td>
 		<td class="cell"></td>
 		<td class="cell"></td>
 	</tr>
@@ -103,45 +101,45 @@ some probability of being the actual location of the robot.
 	<tr>
 		<td class="cell"></td>
 		<td class="cell"></td>
-		<td class="cell"></td>
-		<td class="cell"></td>
-		<td class="cell"></td>
-	</tr>
-	<tr>
-		<td class="cell"></td>
-		<td class="cell"></td>
-		<td class="cell"></td>
+		<td class="cell" style="background-color: rgb(204, 230, 255);">0.04</td>
 		<td class="cell"></td>
 		<td class="cell"></td>
 	</tr>
 	<tr>
 		<td class="cell"></td>
+		<td class="cell" style="background-color: rgb(153, 204, 255);">0.08</td>
+		<td class="cell" style="background-color: rgb(153, 204, 255);">0.08</td>
+		<td class="cell" style="background-color: rgb(153, 204, 255);">0.08</td>
 		<td class="cell"></td>
-		<td class="cell" style="background-color: rgb(0, 127, 255);">1.0</td>
-		<td class="cell"></td>
+	</tr>
+	<tr>
+		<td class="cell" style="background-color: rgb(204, 230, 255);">0.04</td>
+		<td class="cell" style="background-color: rgb(153, 204, 255);">0.08</td>
+		<td class="cell" style="background-color: rgb(0, 127, 255);">0.2</td>
+		<td class="cell" style="background-color: rgb(153, 204, 255);">0.08</td>
+		<td class="cell" style="background-color: rgb(204, 230, 255);">0.04</td>
+	</tr>
+	<tr>
+		<td class="cell" ></td>
+		<td class="cell" style="background-color: rgb(153, 204, 255);">0.08</td>
+		<td class="cell" style="background-color: rgb(153, 204, 255);">0.08</td>
+		<td class="cell" style="background-color: rgb(153, 204, 255);">0.08</td>
 		<td class="cell"></td>
 	</tr>
 	<tr>
 		<td class="cell"></td>
 		<td class="cell"></td>
-		<td class="cell"></td>
-		<td class="cell"></td>
-		<td class="cell"></td>
-	</tr>
-	<tr>
-		<td class="cell"></td>
-		<td class="cell"></td>
-		<td class="cell"></td>
+		<td class="cell" style="background-color: rgb(204, 230, 255);">0.04</td>
 		<td class="cell"></td>
 		<td class="cell"></td>
 	</tr>
 </table>
 
 Some cells have a lower chance of being reached than others. The probability that the robot will move twice in
-the same direction is of 0.04 (0.2^2) and thus it's highly unlikely that....
+the same direction is of 0.04 (0.2^2).
 
 What about the starting position? There are 5 possible ways to get to the starting cell after 2 steps:
-by standing still for 2 turns or going back and forth in any of the 4 directions. Each of these moves have a 0.04
+by standing still for 2 turns or going back and forth in any of the 4 directions. Each of these moves has a 0.04
 chance of happening (0.2^2). The accumulated probability that the robot is in the starting position after 2 turns
 is five times this, thus adding up to 0.2.
 
@@ -191,8 +189,14 @@ positions appear identical from the sensors' perspective.
 
 ## Combining all sources of information
 
+The demo below combines the sensory information with the history information (like in the first example).
+
 <div id="container-4">
 	<button id="button-4">Run</button>
 </div>
 
 <script src="../../static/hmm/hmm.js"></script>
+
+As we can see, by combining the information the number of locations that the robot can be at is greatly
+reduced thus allowing us to pinpoint the robot's location more accurately.
+

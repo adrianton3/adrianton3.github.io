@@ -1,9 +1,11 @@
 table {
     border-collapse: collapse;
+    margin-bottom: 12px;
 }
 
 .center {
-    margin: auto;
+    margin-left: auto;
+    margin-right: auto;
 }
 
 td {
@@ -16,4 +18,9 @@ td {
 
 td[wall=true] {
     background-color: #444;
+}
+
+button {
+    width: 64px;
+    margin-bottom: 12px;
 }
