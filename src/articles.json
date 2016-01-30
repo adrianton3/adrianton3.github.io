@@ -1,4 +1,7 @@
 [{
+  "name": "hmm",
+  "description": "Visualization of Hidden Markov Models"
+}, {
   "name": "jinter",
   "description": "Writing a JavaScript interpreter"
 }, {
