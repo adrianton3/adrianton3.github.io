@@ -40,6 +40,9 @@
      {:line 6 :column 13}
      {:line 7 :column 12}]))
 
+(def steps-delay 1000)
+(def steps-number 30)
+
 (defn setup-alg [container button size start-type step]
   (let [coords-start (make-coords
                        size
@@ -53,15 +56,15 @@
         graph (get-graph size cells robot/directions)
         distance-profiles (robot/get-distance-profiles size cells (rest robot/directions))]
     (display/set-walls! display standard-cells)
-    (display/append-child! container display)
+    (display/insert-before! container display button)
     #(do
        (display/reset-cell-content! display)
        (run-async
-        1000
+         steps-delay
         (fn [{:keys [coords data]}] (step display cells graph distance-profiles coords data))
         (fn [] (display/set-attr! button "running" "false"))
         {:coords coords-start :data data-start}
-        30))))
+         steps-number))))
 
 (defn setup-ui [container-id button-id start-type fun-step]
   (let [container (display/get-element-by-id container-id)

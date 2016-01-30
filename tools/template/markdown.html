@@ -10,6 +10,9 @@
 	<link rel="stylesheet" media="all" href="../../static/docco-small-tab.css">
 	<link rel="stylesheet" media="all" href="../../static/highlight.css">
 	<link rel="stylesheet" media="all" href="../../static/markdown.css">
+	<% if (typeof extraCss !== 'undefined') { %>
+	<link rel="stylesheet" media="all" href="<%= extraCss %>">
+	<% } %>
 </head>
 <body>
 	<div class="art-container">

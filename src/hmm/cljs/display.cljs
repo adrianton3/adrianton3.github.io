@@ -35,14 +35,15 @@
   (let [flip (fn [] (this-as my-this (flip-cell! my-this)))
         element (create-element "td")]
     (set-attr! element "id" (str "cell-" line-index "-" column-index))
-    (set-attr! element "index" (str "cell-" line-index "-" column-index))
     (set-attr! element "wall" "false")
     (.add (.-classList element) "cell")
-    ;(.addEventListener element "click" flip)
     element))
 
 (defn append-child! [element child]
   (.appendChild element child))
+
+(defn insert-before! [element child reference]
+  (.insertBefore element child reference))
 
 (defn make-line [size line-index]
   (let [tds (map

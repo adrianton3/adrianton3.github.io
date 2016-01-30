@@ -1,0 +1,19 @@
+table {
+    border-collapse: collapse;
+}
+
+.center {
+    margin: auto;
+}
+
+td {
+    width: 32px;
+    height: 32px;
+    border: 1px solid #333;
+    text-align: center;
+    vertical-align: middle;
+}
+
+td[wall=true] {
+    background-color: #444;
+}
