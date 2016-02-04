@@ -78,7 +78,7 @@ We’d like to write a function that tells if a banana is just right (yellow).</
             </div>
             
             <div class="content"><div class='highlight'><pre>
-	(<span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">enumExample1</span>(<span class="hljs-params"></span>) </span>{</pre></div></div>
+	(<span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">enumExample1</span>(<span class="hljs-params"></span>) </span>{ <span class="hljs-comment">// ---------------------------------------------</span></pre></div></div>
             
         </li>
         
@@ -122,7 +122,7 @@ can be in. This is very hard to dig up unless it is documented somewhere.</p>
 		<span class="hljs-built_in">console</span>.log(justRight(<span class="hljs-string">'yellow'</span>)); <span class="hljs-comment">// false</span>
 	})();
 
-	(<span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">enumExample2</span>(<span class="hljs-params"></span>) </span>{
+	(<span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">enumExample2</span>(<span class="hljs-params"></span>) </span>{ <span class="hljs-comment">// ---------------------------------------------</span>
 		<span class="hljs-keyword">var</span> BANANA_STATE = {
 			GREEN: <span class="hljs-string">'green'</span>,
 			YELLOW: <span class="hljs-string">'yellow'</span>,
@@ -172,7 +172,7 @@ inspect <code>BANANA_STATE</code> while debugging to see all possible values.</p
 		<span class="hljs-built_in">console</span>.log(justRight(BANANA_STATE.YELLOW)); <span class="hljs-comment">// false</span>
 	})();
 
-	(<span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">enumExample3</span>(<span class="hljs-params"></span>) </span>{
+	(<span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">enumExample3</span>(<span class="hljs-params"></span>) </span>{ <span class="hljs-comment">// ---------------------------------------------</span>
 		<span class="hljs-keyword">var</span> BANANA_STATE_GREEN = <span class="hljs-string">'green'</span>;
 		<span class="hljs-keyword">var</span> BANANA_STATE_YELLOW = <span class="hljs-string">'yellow'</span>;
 		<span class="hljs-keyword">var</span> BANANA_STATE_SPOTTY = <span class="hljs-string">'spotty'</span>;
@@ -224,7 +224,7 @@ other modules is going to be a pain as well.</p>
 		}
 	})();
 
-	(<span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">enumExample4</span>(<span class="hljs-params"></span>) </span>{
+	(<span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">enumExample4</span>(<span class="hljs-params"></span>) </span>{ <span class="hljs-comment">// ---------------------------------------------</span>
 		<span class="hljs-keyword">var</span> BANANA_STATE = createEnum([<span class="hljs-string">'green'</span>, <span class="hljs-string">'yellow'</span>, <span class="hljs-string">'spotty'</span>, <span class="hljs-string">'brown'</span>]);</pre></div></div>
             
         </li>
@@ -302,7 +302,7 @@ is alien for just using an enum.</p>
 		}
 	})();
 
-	(<span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">enumExample5</span>(<span class="hljs-params"></span>) </span>{
+	(<span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">enumExample5</span>(<span class="hljs-params"></span>) </span>{ <span class="hljs-comment">// ---------------------------------------------</span>
 		<span class="hljs-keyword">var</span> BANANA_STATE = createEnum([<span class="hljs-string">'GREEN'</span>, <span class="hljs-string">'YELLOW'</span>, <span class="hljs-string">'SPOTTY'</span>, <span class="hljs-string">'BROWN'</span>]);</pre></div></div>
             
         </li>
