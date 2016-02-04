@@ -1,3 +1,6 @@
+# dsl in coffeescript
+# ===================
+
 'use strict'
 
 # Domain specific languages are neat and nice; they don't look very much like

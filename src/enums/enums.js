@@ -1,3 +1,6 @@
+// better js enums
+// ===============
+
 (function () {
 	'use strict';
 
