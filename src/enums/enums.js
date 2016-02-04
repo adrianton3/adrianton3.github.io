@@ -11,7 +11,7 @@
 	// Bananas can be in one of four states: green, yellow, spotty or brown.
 	// We'd like to write a function that tells if a banana is just right (yellow).
 
-	(function enumExample1() {
+	(function enumExample1() { // ---------------------------------------------
 		// Candidate function number one: notice the type in *yellow*.
 		// This function will never return true and we won't figure that out until the
 		// code is tested thoroughly (for each and every state a banana can be in).
@@ -26,7 +26,7 @@
 		console.log(justRight('yellow')); // false
 	})();
 
-	(function enumExample2() {
+	(function enumExample2() { // ---------------------------------------------
 		var BANANA_STATE = {
 			GREEN: 'green',
 			YELLOW: 'yellow',
@@ -48,7 +48,7 @@
 		console.log(justRight(BANANA_STATE.YELLOW)); // false
 	})();
 
-	(function enumExample3() {
+	(function enumExample3() { // ---------------------------------------------
 		var BANANA_STATE_GREEN = 'green';
 		var BANANA_STATE_YELLOW = 'yellow';
 		var BANANA_STATE_SPOTTY = 'spotty';
@@ -72,7 +72,7 @@
 		}
 	})();
 
-	(function enumExample4() {
+	(function enumExample4() { // ---------------------------------------------
 		var BANANA_STATE = createEnum(['green', 'yellow', 'spotty', 'brown']);
 
 		// If `BANANA_STATE` is a function that verifies that *yeallow* is valid or not
@@ -108,7 +108,7 @@
 		}
 	})();
 
-	(function enumExample5() {
+	(function enumExample5() { // ---------------------------------------------
 		var BANANA_STATE = createEnum(['GREEN', 'YELLOW', 'SPOTTY', 'BROWN']);
 
 		// This looks exactly like `enumExample2`; however, BANANA_STATE is not a simple
