@@ -2,13 +2,13 @@
 
 <html>
 <head>
-  <title>enums-enums</title>
-  <meta http-equiv="content-type" content="text/html; charset=UTF-8">
-  <meta name="viewport" content="width=device-width, target-densitydpi=160dpi, initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
-  <link href='http://fonts.googleapis.com/css?family=Source+Sans+Pro' rel='stylesheet' type='text/css'>
-  <link href='http://fonts.googleapis.com/css?family=Inconsolata:400,700' rel='stylesheet' type='text/css'>
-  <link rel="stylesheet" media="all" href="../../static/docco-small-tab.css">
-  <link rel="stylesheet" media="all" href="../../static/highlight.css">
+	<title>enums-enums</title>
+	<meta http-equiv="content-type" content="text/html; charset=UTF-8">
+	<meta name="viewport" content="width=device-width, target-densitydpi=160dpi, initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
+	<link href='http://fonts.googleapis.com/css?family=Source+Sans+Pro' rel='stylesheet' type='text/css'>
+	<link href='http://fonts.googleapis.com/css?family=Inconsolata:400,700' rel='stylesheet' type='text/css'>
+	<link rel="stylesheet" media="all" href="../../static/docco-small-tab.css">
+	<link rel="stylesheet" media="all" href="../../static/highlight.css">
 </head>
 <body>
   <div id="container">
@@ -16,36 +16,46 @@
     
     <ul class="sections">
         
-          <li id="title">
-              <div class="annotation">
-                  <h1>enums.js</h1>
-              </div>
-          </li>
-        
-        
         
         <li id="section-1">
             <div class="annotation">
-              
-              <div class="pilwrap ">
-                <a class="pilcrow" href="#section-1">&#182;</a>
-              </div>
-              
+				
+					<a href="../../index.html">Back to index</a>
+				
+				<h1 id="better-js-enums">better js enums</h1>
+
             </div>
-            
-            <div class="content"><div class='highlight'><pre>(<span class="hljs-function"><span class="hljs-keyword">function</span> (<span class="hljs-params"></span>) </span>{
-<span class="hljs-pi">	'use strict'</span>;</pre></div></div>
             
         </li>
         
         
         <li id="section-2">
             <div class="annotation">
-              
-              <div class="pilwrap ">
-                <a class="pilcrow" href="#section-2">&#182;</a>
-              </div>
-              <p>JavaScript does not have support for enums and most projects that rely on them
+				
+					
+					<div class="pilwrap ">
+						<a class="pilcrow" href="#section-2">&#182;</a>
+					</div>
+				
+				
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>
+(<span class="hljs-function"><span class="hljs-keyword">function</span> (<span class="hljs-params"></span>) </span>{
+<span class="hljs-pi">	'use strict'</span>;</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-3">
+            <div class="annotation">
+				
+					
+					<div class="pilwrap ">
+						<a class="pilcrow" href="#section-3">&#182;</a>
+					</div>
+				
+				<p>JavaScript does not have support for enums and most projects that rely on them
 have ad-hoc implementations. Most simple implementations are vulnerable to bugs
 caused by simple typos; take the following example:</p>
 
@@ -54,13 +64,15 @@ caused by simple typos; take the following example:</p>
         </li>
         
         
-        <li id="section-3">
+        <li id="section-4">
             <div class="annotation">
-              
-              <div class="pilwrap ">
-                <a class="pilcrow" href="#section-3">&#182;</a>
-              </div>
-              <p>Bananas can be in one of four states: green, yellow, spotty or brown.
+				
+					
+					<div class="pilwrap ">
+						<a class="pilcrow" href="#section-4">&#182;</a>
+					</div>
+				
+				<p>Bananas can be in one of four states: green, yellow, spotty or brown.
 We’d like to write a function that tells if a banana is just right (yellow).</p>
 
             </div>
@@ -71,13 +83,15 @@ We’d like to write a function that tells if a banana is just right (yellow).</
         </li>
         
         
-        <li id="section-4">
+        <li id="section-5">
             <div class="annotation">
-              
-              <div class="pilwrap ">
-                <a class="pilcrow" href="#section-4">&#182;</a>
-              </div>
-              <p>Candidate function number one: notice the type in <em>yellow</em>.
+				
+					
+					<div class="pilwrap ">
+						<a class="pilcrow" href="#section-5">&#182;</a>
+					</div>
+				
+				<p>Candidate function number one: notice the type in <em>yellow</em>.
 This function will never return true and we won’t figure that out until the
 code is tested thoroughly (for each and every state a banana can be in).
 While stumbling upon code like this, one might wonder what other states a banana
@@ -92,13 +106,15 @@ can be in. This is very hard to dig up unless it is documented somewhere.</p>
         </li>
         
         
-        <li id="section-5">
+        <li id="section-6">
             <div class="annotation">
-              
-              <div class="pilwrap ">
-                <a class="pilcrow" href="#section-5">&#182;</a>
-              </div>
-              <h3 id="use">use</h3>
+				
+					
+					<div class="pilwrap ">
+						<a class="pilcrow" href="#section-6">&#182;</a>
+					</div>
+				
+				<h3 id="use">use</h3>
 
             </div>
             
@@ -117,13 +133,15 @@ can be in. This is very hard to dig up unless it is documented somewhere.</p>
         </li>
         
         
-        <li id="section-6">
+        <li id="section-7">
             <div class="annotation">
-              
-              <div class="pilwrap ">
-                <a class="pilcrow" href="#section-6">&#182;</a>
-              </div>
-              <p>Can we do better? How about putting all valid values in an enum-like object?
+				
+					
+					<div class="pilwrap ">
+						<a class="pilcrow" href="#section-7">&#182;</a>
+					</div>
+				
+				<p>Can we do better? How about putting all valid values in an enum-like object?
 Since <em>YEALLOW</em> is mistyped again it evaluates to <code>undefined</code> so the function
 returns false no matter what the input is. The syntax is acceptable - it’s
 not as terse as in the previous example but simple enough and one can
@@ -138,13 +156,15 @@ inspect <code>BANANA_STATE</code> while debugging to see all possible values.</p
         </li>
         
         
-        <li id="section-7">
+        <li id="section-8">
             <div class="annotation">
-              
-              <div class="pilwrap ">
-                <a class="pilcrow" href="#section-7">&#182;</a>
-              </div>
-              <h3 id="use">use</h3>
+				
+					
+					<div class="pilwrap ">
+						<a class="pilcrow" href="#section-8">&#182;</a>
+					</div>
+				
+				<h3 id="use">use</h3>
 
             </div>
             
@@ -161,13 +181,15 @@ inspect <code>BANANA_STATE</code> while debugging to see all possible values.</p
         </li>
         
         
-        <li id="section-8">
+        <li id="section-9">
             <div class="annotation">
-              
-              <div class="pilwrap ">
-                <a class="pilcrow" href="#section-8">&#182;</a>
-              </div>
-              <p>If banana states are instead declared as individual variables then an error
+				
+					
+					<div class="pilwrap ">
+						<a class="pilcrow" href="#section-9">&#182;</a>
+					</div>
+				
+				<p>If banana states are instead declared as individual variables then an error
 will be signaled as soon as the code is executed. What’s not so attractive
 now is that all banana states have to be declared at the same level and
 not packed nicely in their own <em>namespace</em>. Importing and exporting them to
@@ -182,13 +204,15 @@ other modules is going to be a pain as well.</p>
         </li>
         
         
-        <li id="section-9">
+        <li id="section-10">
             <div class="annotation">
-              
-              <div class="pilwrap ">
-                <a class="pilcrow" href="#section-9">&#182;</a>
-              </div>
-              <h3 id="use">use</h3>
+				
+					
+					<div class="pilwrap ">
+						<a class="pilcrow" href="#section-10">&#182;</a>
+					</div>
+				
+				<h3 id="use">use</h3>
 
             </div>
             
@@ -206,13 +230,15 @@ other modules is going to be a pain as well.</p>
         </li>
         
         
-        <li id="section-10">
+        <li id="section-11">
             <div class="annotation">
-              
-              <div class="pilwrap ">
-                <a class="pilcrow" href="#section-10">&#182;</a>
-              </div>
-              <p>If <code>BANANA_STATE</code> is a function that verifies that <em>yeallow</em> is valid or not
+				
+					
+					<div class="pilwrap ">
+						<a class="pilcrow" href="#section-11">&#182;</a>
+					</div>
+				
+				<p>If <code>BANANA_STATE</code> is a function that verifies that <em>yeallow</em> is valid or not
 then the bug is revealed as soon as the function executes. The syntax, however,
 is alien for just using an enum.</p>
 
@@ -225,13 +251,15 @@ is alien for just using an enum.</p>
         </li>
         
         
-        <li id="section-11">
+        <li id="section-12">
             <div class="annotation">
-              
-              <div class="pilwrap ">
-                <a class="pilcrow" href="#section-11">&#182;</a>
-              </div>
-              <h3 id="use">use</h3>
+				
+					
+					<div class="pilwrap ">
+						<a class="pilcrow" href="#section-12">&#182;</a>
+					</div>
+				
+				<h3 id="use">use</h3>
 
             </div>
             
@@ -245,13 +273,15 @@ is alien for just using an enum.</p>
         </li>
         
         
-        <li id="section-12">
+        <li id="section-13">
             <div class="annotation">
-              
-              <div class="pilwrap ">
-                <a class="pilcrow" href="#section-12">&#182;</a>
-              </div>
-              <h3 id="implementation">implementation</h3>
+				
+					
+					<div class="pilwrap ">
+						<a class="pilcrow" href="#section-13">&#182;</a>
+					</div>
+				
+				<h3 id="implementation">implementation</h3>
 
             </div>
             
@@ -278,13 +308,15 @@ is alien for just using an enum.</p>
         </li>
         
         
-        <li id="section-13">
+        <li id="section-14">
             <div class="annotation">
-              
-              <div class="pilwrap ">
-                <a class="pilcrow" href="#section-13">&#182;</a>
-              </div>
-              <p>This looks exactly like <code>enumExample2</code>; however, BANANA_STATE is not a simple
+				
+					
+					<div class="pilwrap ">
+						<a class="pilcrow" href="#section-14">&#182;</a>
+					</div>
+				
+				<p>This looks exactly like <code>enumExample2</code>; however, BANANA_STATE is not a simple
 object anymore. It’s a proxy with a defined <code>get</code> handle. The handle itself
 is a function and it can do the same check as the in the case of <code>enumExample4</code>.</p>
 
@@ -297,13 +329,15 @@ is a function and it can do the same check as the in the case of <code>enumExamp
         </li>
         
         
-        <li id="section-14">
+        <li id="section-15">
             <div class="annotation">
-              
-              <div class="pilwrap ">
-                <a class="pilcrow" href="#section-14">&#182;</a>
-              </div>
-              <h3 id="use">use</h3>
+				
+					
+					<div class="pilwrap ">
+						<a class="pilcrow" href="#section-15">&#182;</a>
+					</div>
+				
+				<h3 id="use">use</h3>
 
             </div>
             
@@ -317,13 +351,15 @@ is a function and it can do the same check as the in the case of <code>enumExamp
         </li>
         
         
-        <li id="section-15">
+        <li id="section-16">
             <div class="annotation">
-              
-              <div class="pilwrap ">
-                <a class="pilcrow" href="#section-15">&#182;</a>
-              </div>
-              <h3 id="implementation">implementation</h3>
+				
+					
+					<div class="pilwrap ">
+						<a class="pilcrow" href="#section-16">&#182;</a>
+					</div>
+				
+				<h3 id="implementation">implementation</h3>
 
             </div>
             
