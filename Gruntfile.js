@@ -17,36 +17,42 @@ module.exports = function (grunt) {
 		});
 	}
 
+	function fileExists(path) {
+		try {
+			fs.accessSync(path, fs.F_OK);
+			return true;
+		} catch (e) {
+			return false;
+		}
+	}
+
 	function isDir(basePath, extension) {
 		return function (dir) {
 			var lastPart = dir.match(/[-\w]+$/)[0];
 			var mainFile = basePath + '/' + dir + '/' + lastPart + extension;
 
-			try {
-				fs.accessSync(mainFile, fs.F_OK);
-				return true;
-			} catch (e) {
-				return false;
-			}
+			return fileExists(mainFile);
 		}
 	}
 
 	function generateDoccoConfig() {
-		var dirs = getDirs('src').filter(isDir('src', '.js'));
+		var allDirs = getDirs('src');
+		var jsDirs = allDirs.filter(isDir('src', '.js'));
+		var csDirs = new Set(allDirs.filter(isDir('src', '.coffee')));
 
-		var config = {};
+		return jsDirs.reduce(function (config, dir) {
+			var extension = csDirs.has(dir) ? 'coffee' : 'js';
 
-		dirs.forEach(function (dir) {
 			config[dir] = {
-				src: ['src/' + dir + '/*.js', 'src/' + dir + '/*.coffee'],
+				src: ['src/' + dir + '/*.' + extension],
 				options: {
 					output: OUT_DIR + '/art/' + dir,
 					template: TEMPLATE_DIR + '/docco/docco.html'
 				}
 			};
-		});
 
-		return config;
+			return config;
+		}, {});
 	}
 
 	function generateMarkdownConfig() {
