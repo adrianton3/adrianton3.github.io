@@ -73,12 +73,21 @@ module.exports = function (grunt) {
 	var headerTemplate = _.template(readFile(TEMPLATE_DIR + '/docco/header.html'));
 	var footerTemplate = _.template(readFile(TEMPLATE_DIR + '/docco/footer.html'));
 
+	function getTitle(string) {
+		// scraping my own html; there has to be a better way of integrating docco
+		var match = string.match(/<h1\s.+?>([^<]+)/);
+
+		return match && match[1];
+	}
+
 	function getHeader(path) {
+		var fileContentTitle = getTitle(readFile(path));
+
 		var match = path.match(/([-\w]+)\/([-\w]+)\.html$/);
-		var title = match[1] + '-' + match[2];
+		var fileNameTitle = match[1] + '-' + match[2];
 
 		return headerTemplate({
-			title: title,
+			title: fileContentTitle || fileNameTitle,
 			css: '../../static/docco-small-tab.css'
 		});
 	}
