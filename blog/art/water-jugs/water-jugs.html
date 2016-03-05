@@ -2,7 +2,7 @@
 
 <html>
 <head>
-	<title>Water jugs problem solver</title>
+	<title>Water jug puzzle solver</title>
 	<meta http-equiv="content-type" content="text/html; charset=UTF-8">
 	<meta name="viewport" content="width=device-width, target-densitydpi=160dpi, initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
 	<link href='http://fonts.googleapis.com/css?family=Source+Sans+Pro' rel='stylesheet' type='text/css'>
@@ -10,18 +10,25 @@
 	<link rel="stylesheet" media="all" href="../../static/docco-small-tab.css">
 	<link rel="stylesheet" media="all" href="../../static/highlight.css">
 	<link rel="stylesheet" media="all" href="../../static/markdown.css">
-
+	
 	<link rel="stylesheet" media="all" href="../../static/water-jugs/style.css">
-
+	
 </head>
 <body>
 	<div class="art-container">
 		<div><a href="../../index.html">Back to index</a></div>
-		<!-- @@@title:Water jugs problem solver@@@ -->
+		<!-- @@@title:Water jug puzzle solver@@@ -->
 <!-- @@@extraCss:../../static/water-jugs/style.css@@@ -->
-<h1 id="water-jugs-problem-solver">Water jugs problem solver</h1>
+<h1 id="water-jug-puzzle-solver">Water jug puzzle solver</h1>
+<p>Variations on the classic <a href="https://en.wikipedia.org/wiki/Liquid_water_pouring_puzzles">water jug puzzle</a> 
+are often used in tech interviews. They&#39;re not easy to solve mentally, since you need to 
+keep track of several jugs at the same time, but given pen and paper they don&#39;t pose much of a challenge. 
+Here is a solver for this type of puzzle, to help you visualize the process. It finds all the states 
+in which the jugs can be in a breadth first manner.</p>
+<p>This project is written in ClojureScript and <a href="http://reagent-project.github.io">reagent</a>. 
+Compared with JS + react, ClojureScript + reagent is very terse - the whole project has only 129 lines of code. </p>
 <p><div id="app"></div></p>
-		<script src="../../static/water-jugs/water.js" defer type="text/javascript"></script>
+<script src="../../static/water-jugs/water.js" defer></script>
 	</div>
 
 	<script>
