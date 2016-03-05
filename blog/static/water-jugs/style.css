@@ -1,0 +1,124 @@
+body, input {
+  font-family: 'Lato', sans-serif;
+}
+
+button {
+  background-color: #E0E0E0;
+  border: none;
+  width: 21px;
+  height: 21px;
+}
+
+input {
+  width: 20px;
+  text-align: center;
+}
+
+.jug-set {
+  display: inline-block;
+  margin: 0 20px 10px 20px;
+}
+
+.jug {
+  display: inline-block;
+  position: relative;
+  width: 20px;
+  background-color: #F8F8F8;
+  border: 2px solid #D0D0D0;
+  border-top: 0;
+  border-radius: 0 0 16px 16px;
+  margin-left: 4px;
+  margin-bottom: 4px;
+}
+
+.jug:first-child {
+  margin-left: 0;
+}
+
+.water {
+  display: inline-block;
+  position: absolute;
+  width: 20px;
+  bottom: 0px;
+  background: repeating-linear-gradient(
+    135deg,
+    hsl(200, 70%, 60%),
+    hsl(200, 70%, 60%) 10px,
+    hsl(200, 70%, 65%) 10px,
+    hsl(200, 70%, 65%) 20px
+  ) top left fixed;
+  border-radius: 4px 4px 14px 14px;
+  animation: width 5s;
+  transition: height 200ms;
+}
+
+.jug-and-input {
+  display: inline-block;
+  margin-left: 8px;
+  margin-bottom: 16px;
+}
+
+.jug-and-label {
+  display: inline-block;
+  margin-left: 8px;
+  margin-bottom: 16px;
+}
+
+.jug-and-label .water {
+  border-radius: 2px 2px 4px 4px;
+}
+
+.jug-and-input:first-child {
+  margin-left: 0;
+}
+
+.jug-and-label span {
+  display: block;
+  text-align: center;
+}
+
+.jug-and-label .jug {
+  border-radius: 0 0 6px 6px;
+}
+
+.main-jug-set {
+  display: block;
+  position: relative;
+  height: 300px;
+  width: 412px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.main-jug-set .jug {
+  width: 128px;
+}
+
+.main-jug-set .water {
+  width: 128px;
+}
+
+.jug-sets {
+  display: block;
+  width: 960px;
+  margin: 64px auto 0 auto;
+}
+
+.jug-container {
+  display: inline-block;
+  position: absolute;
+  bottom: 0;
+}
+
+.counter-container {
+  text-align: center;
+  margin-top: 4px;
+}
+
+.counter {
+  display: inline;
+}
+
+.art-container {
+  max-width: 960px;
+}
