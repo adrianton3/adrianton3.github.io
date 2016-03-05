@@ -1,4 +1,7 @@
 [{
+  "name": "water-jugs",
+  "description": "Water jug puzzle solver"
+}, {
   "name": "hmm",
   "description": "Visualization of Hidden Markov Models"
 }, {
