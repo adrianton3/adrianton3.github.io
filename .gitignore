@@ -1,3 +1,7 @@
 .idea
 node_modules
+
+/index.html
+
 blog/art
+blog/index.html
