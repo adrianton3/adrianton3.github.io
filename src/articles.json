@@ -1,25 +1,33 @@
 [{
   "name": "water-jugs",
-  "description": "Water jug puzzle solver"
+  "description": "Water jug puzzle solver",
+  "published": "2016-03-05"
 }, {
   "name": "hmm",
-  "description": "Visualization of Hidden Markov Models"
+  "description": "Visualization of Hidden Markov Models",
+  "published": "2016-01-30"
 }, {
   "name": "jinter",
-  "description": "Writing a JavaScript interpreter"
+  "description": "Writing a JavaScript interpreter",
+  "published": "2016-01-06"
 }, {
   "name": "dsl-1",
-  "description": "Domain Specific Languages in CoffeeScript"
+  "description": "Domain Specific Languages in CoffeeScript",
+  "published": "2015-09-15"
 }, {
   "name": "enums",
-  "description": "Better enums"
+  "description": "Better enums",
+  "published": "2015-09-12"
 }, {
   "name": "dispatching-ducks",
-  "description": "Dispatching ducks"
+  "description": "Dispatching ducks",
+  "published": "2015-08-22"
 }, {
   "name": "functions-only",
-  "description": "You only need functions"
+  "description": "You only need functions",
+  "published": "2015-08-22"
 }, {
   "name": "math-lib",
-  "description": "Functional math library"
+  "description": "Functional math library",
+  "published": "2015-08-07"
 }]
