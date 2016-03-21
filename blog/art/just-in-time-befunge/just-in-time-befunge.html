@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+
+<html>
+<head>
+	<title>A just-in-time compiler for Befunge</title>
+	<meta http-equiv="content-type" content="text/html; charset=UTF-8">
+	<meta name="viewport" content="width=device-width, target-densitydpi=160dpi, initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
+	<link href='http://fonts.googleapis.com/css?family=Source+Sans+Pro' rel='stylesheet' type='text/css'>
+	<link href='http://fonts.googleapis.com/css?family=Inconsolata:400,700' rel='stylesheet' type='text/css'>
+	<link rel="stylesheet" media="all" href="../../static/docco-small-tab.css">
+	<link rel="stylesheet" media="all" href="../../static/highlight.css">
+	<link rel="stylesheet" media="all" href="../../static/markdown.css">
+	
+</head>
+<body>
+	<div class="art-container">
+		<div><a href="../../index.html">Back to index</a></div>
+		<!-- @@@title:A just-in-time compiler for Befunge@@@ -->
+<h1 id="a-just-in-time-compiler-for-befunge">A just-in-time compiler for Befunge</h1>
+<p>Ever since I encountered <a href="https://esolangs.org/wiki/Befunge">Befunge</a> I liked how different it is from other 
+programming languages - it&#39;s minimal, stack based, 2D and not exactly Turing complete. I&#39;ve made 
+<a href="http://jayisgames.com/review/robot-unlock.php">a game</a> inspired by Befunge (but that&#39;s ancient history by now) 
+and now I&#39;ve written a just-in-time compiler called Befunjit.</p>
+<p>Writing an interpreter for Befunge is fairly straight forward. However, interpreters are slow and the next best 
+thing in terms of speed would be a compiler. The problem is that Befunge was deliberately designed to 
+be very hard, if not impossible to compile. As far as I can tell, compiling a Befunge program fully ahead-of-time
+is indeed impossible because of the <code>p</code> instruction. That doesn&#39;t mean that the idea of a compiler should be 
+abandoned completely - we can still write a jit compiler.</p>
+<p>The Befunge runtime is composed of the program counter, the stack and stack pointer and the playfield. An 
+interpreter, for every step, reads an instruction at the program counter and then acts upon it. We can see some 
+inefficiencies right away, as a large percentage of the instructions encountered are whitespace, which is a no-op. 
+In fact, let&#39;s partition instructions into 2 sets depending on whether they involve the stack or not.
+The <code>^&lt;v&gt;</code> and <code>#</code> instructions for instance only affect the program counter; they don&#39;t compute anything.
+Their only purpose is to aid in layouting the program on the playfield.</p>
+<p>The <code>&quot;</code> &quot;instruction&quot; doesn&#39;t affect the stack in any way either and it doesn&#39;t even affect the program counter. 
+All it does is change the way the board is read as it&#39;s traversed by the PC. 
+A series of spaces in a straight line don&#39;t need to be interpreted one at a time; they can be trivially 
+compressed/encoded as a <code>fast-forward</code> instruction. Any twisted path formed of <code>^&lt;v&gt;</code>, <code>#</code> or whitespace can be 
+similarly compressed as a <code>teleport</code> instruction. In fact, any path which doesn&#39;t consist of instructions with 
+several possible outcomes (<code>_|?</code>) can be optimized and compiled. In Befunjit these are called &quot;static paths&quot; 
+and this is the principle that it is based upon.</p>
+<p>The execution of a static path can be thought of as a &quot;jump&quot;. After every such &quot;jump&quot; Befunjit checks its cache of 
+compiled static paths, starting from the cell indicated by the PC:</p>
+<ul>
+<li><p>If a precompiled path is found then it gets executed. The compiler ceases control to the compiled code (which
+too can be thought of as a context switch). Once the path is executed, control comes back to the compiler, the PC is
+updated to point to where the path ends and the process repeats - a new jump is ready to occur.</p>
+</li>
+<li><p>If, however, a precompiled path is not found then the &quot;static path compiler&quot; is called. This seeks out the
+longest static path, compiles it, stores it and executes it as in the previous case. Befunjit has 3 static path 
+compilers, depending on how many optimizations they perform.</p>
+</li>
+</ul>
+<p>As I mentioned earlier, the <code>p</code> instruction makes compilation challenging. When executed (from a compiled path), <code>p</code> 
+alters the contents of the playfield and invalidates any paths that pass through the affected cell. All these paths are 
+eventually recompiled if and when the PC gets to them. If the current executing path happens to be invalidated then it 
+continues executing only if the affected cell comes before the current <code>p</code> instruction in the path. Otherwise, the 
+compiled code ceases control back to the compiler immediately which in turn has to compile and execute the path starting
+from the current PC.</p>
+<p><a href="http://adrianton3.github.io/befunjit/demos/visualizer-lazy/visualizer.html">This visualizer</a> shows what static paths
+remain cached after the execution of a program (hover the small arrows).</p>
+<h2 id="an-eager-runtime">An eager runtime</h2>
+<p>The process described above works fine, but it is rather slow due to the high number of context switches. Any path is 
+in fact a new function call. There is a way to get rid of function calls, by compiling the whole program as a single 
+piece of code. This way the whole program is a single function that the JavaScript engine can chew on and optimize. </p>
+<p>We can think of Befunjit&#39;s execution process described in the previous section as being lazy in that it compiles and
+executes paths as needed. Compiling the whole program in a great big chunk would therefore be considered a more eager
+approach. Indeed, Befunjit implements 2 runtimes, both a lazy one and an eager one - each optimized for different 
+scenarios. </p>
+<p>The eager runtime is based on the same idea of splitting up the program into static paths as the lazy runtime. 
+The only difference is that the eager runtime collects all paths even if they might not be reached. In addition, 
+the static paths get stitched together using while-loops and break statements. The <code>p</code> instruction is handled 
+differently than in the case of the lazy runtime. Since the whole program is a single clump of code, any 
+modification to a static path would result in a full recompilation. An improvement is to make the eager runtime 
+check if any of the code paths affected by <code>p</code> are reachable from the current point. This ensures that <code>p</code> 
+instructions which do not affect the reachable paths do not trigger a recompilation. Still, this runtime should 
+not be the first choice if your program makes extensive use of the <code>p</code> instruction.</p>
+
+	</div>
+
+	<script defer>
+		(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+					(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+				m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+		})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+		ga('create', 'UA-45334894-6', 'auto');
+		ga('send', 'pageview');
+	</script>
+</body>
+</html>
