@@ -1,4 +1,8 @@
 [{
+  "name": "just-in-time-befunge",
+  "description": "A just-in-time compiler for Befunge",
+  "published": "2016-03-21"
+}, {
   "name": "water-jugs",
   "description": "Water jug puzzle solver",
   "published": "2016-03-05"
