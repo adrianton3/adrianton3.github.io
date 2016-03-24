@@ -89,7 +89,7 @@
   "section": "Misc",
   "entries": [{
     "name": "Articles & experiments",
-    "url": "http://adrianton3.github.io/blog",
+    "url": "blog",
     "start": "2015",
     "end": "current",
     "status": "active"
