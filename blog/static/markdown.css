@@ -1,3 +1,10 @@
+pre {
+    margin-bottom: 15px;
+    background-color: #f8fafc;
+    padding: 3px 6px;
+    border: 1px solid #e5e5ee;
+}
+
 code {
     color: #3d3d2a;
     font-weight: 700;
