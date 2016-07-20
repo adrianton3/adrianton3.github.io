@@ -123,7 +123,11 @@ module.exports = function (grunt) {
 		markdown: {
 			options: {
 				template: 'tools/template/markdown.html',
-				contextBinder: true
+				contextBinder: true,
+				gfm: true,
+				markdownOptions: {
+					highlight: 'manual'
+				}
 			},
 			all: {
 				files: generateMarkdownConfig()
