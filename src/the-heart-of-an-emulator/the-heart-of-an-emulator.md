@@ -9,22 +9,21 @@ the best results in terms of performance.
 Performance is vital, as this code is executed for every instruction. As a result, it severely 
 impacts the speed of the emulator more than anything else.
 
-The purpose of this project is to compare several different styles of writing the main loop for an emulator or 
+[This project](https://github.com/adrianton3/brainfuckbench) compares several different styles of writing the main loop for an emulator or 
 interpreter.
 We will not attempt to do a full-blown implementation of a console architecture. Instead, we will focus on 
 brainfuck - it is a small enough language to allow for multiple implementations without much effort.
 
 The same techniques of writing the main loop can be applied to other interpreters and emulators.
 
-All implementations consist of a compile method and an execute method.
+All implementations consist of a compile method and an execute method:
 
-The compile method is largely the same and not that interesting for the first 3 approaches only.
++ The compile method is largely the same and not that interesting for the first 3 approaches only.
 In the case of brainfuck, the compile method does very little work. It transforms chars (`+-[]><`) into
-objects with numeric opcodes and pre-calculates the jump offsets for the `[]` instructions.
+objects with numeric opcodes and pre-calculates the jump offsets for the `[]` instructions. The 4th approach 
+is doing all of the work in the compile method.
 
-The 4th approach is doing all of the work in the compile method.
-
-The execute method does exactly what its name says - it takes a compiled program and executes it. We're primarily 
++ The execute method does exactly what its name says - it takes a compiled program and executes it. We're primarily 
 interested in the speed of the execute method, but the speed of the compile method has also been tracked.
 
 
