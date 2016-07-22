@@ -131,7 +131,7 @@ but does away with the main loop altogether. In brainfuck's case `+-` trivially 
 and decrements of memory cells, `><` to increments/decrements of the memory pointer and `[]` are 
 rewritten as while loops and so on.
 
-By far the fastest to execute. This comes at no surprise since the dispatching mechanism is
+This method is by far the fastest to execute. This comes at no surprise since the dispatching mechanism is
 completely absent. All the CPU time is spent on executing instructions. What's more is that
 in the case of JS the transpiled code has the opportunity to be optimized by the runtime.
 
