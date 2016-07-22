@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+
+<html>
+<head>
+	<title>The heart of an emulator</title>
+	<meta http-equiv="content-type" content="text/html; charset=UTF-8">
+	<meta name="viewport" content="width=device-width, target-densitydpi=160dpi, initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
+	<link href='http://fonts.googleapis.com/css?family=Source+Sans+Pro' rel='stylesheet' type='text/css'>
+	<link href='http://fonts.googleapis.com/css?family=Inconsolata:400,700' rel='stylesheet' type='text/css'>
+	<link rel="stylesheet" media="all" href="../../static/docco-small-tab.css">
+	<link rel="stylesheet" media="all" href="../../static/highlight.css">
+	<link rel="stylesheet" media="all" href="../../static/markdown.css">
+	
+	<link rel="stylesheet" media="all" href="../../static/table.css">
+	
+</head>
+<body>
+	<div class="art-container">
+		<div><a href="../../index.html">Back to index</a></div>
+		<!-- @@@title:The heart of an emulator@@@ -->
+<!-- @@@extraCss:../../static/table.css@@@ -->
+<h1 id="the-heart-of-an-emulator">The heart of an emulator</h1>
+<p>Emulators and interpreters have at their core a mechanism for dispatching instructions to
+appropriate subroutines - the main loop.
+There are usually several ways of implementing this loop, but it&#39;s not always clear which implementation gives 
+the best results in terms of performance.
+Performance is vital, as this code is executed for every instruction. As a result, it severely 
+impacts the speed of the emulator more than anything else.</p>
+<p><a href="https://github.com/adrianton3/brainfuckbench">This project</a> compares several different styles of 
+writing the main loop for an emulator or interpreter.
+We will not attempt to do a full-blown implementation of a console architecture. Instead, we will focus on 
+brainfuck - it is a small enough language to allow for multiple implementations without much effort.</p>
+<p>The same techniques of writing the main loop can be applied to other interpreters and emulators.</p>
+<p>All implementations consist of a compile method and an execute method:</p>
+<ul>
+<li><p>The compile method is largely the same and not that interesting for the first 3 approaches only.
+In the case of brainfuck, the compile method does very little work. It transforms chars (<code>+-[]&gt;&lt;</code>) into
+objects with numeric opcodes and pre-calculates the jump offsets for the <code>[]</code> instructions. The 4th approach 
+is doing all of the work in the compile method.</p>
+</li>
+<li><p>The execute method does exactly what its name says - it takes a compiled program and executes it. We&#39;re primarily 
+interested in the speed of the execute method, but the speed of the compile method has also been tracked.</p>
+</li>
+</ul>
+<p>The different implementations thus far are:</p>
+<h2 id="switch-based">Switch based</h2>
+<p>This is the most common approach. The main loop looks something on the lines of:</p>
+<pre><code class="lang-javascript"><span class="hljs-keyword">while</span> (running) {
+    instruction = fetchInstruction()
+
+    <span class="hljs-keyword">switch</span> (instruction) {
+        <span class="hljs-keyword">case</span> <span class="hljs-number">0x00</span>: <span class="hljs-comment">// ...</span>
+        <span class="hljs-keyword">case</span> <span class="hljs-number">0x01</span>: <span class="hljs-comment">// ...</span>
+        <span class="hljs-keyword">case</span> <span class="hljs-number">0x02</span>: <span class="hljs-comment">// ...</span>
+        <span class="hljs-keyword">case</span> <span class="hljs-number">0x03</span>: <span class="hljs-comment">// ...</span>
+    }
+}
+</code></pre>
+<p>This is probably the most straightforward way of writing the main loop.</p>
+<p>The main disadvantage with this approach is that it&#39;s very non-modular and hard to maintain.
+The switch statement is not that big in the case of brainfuck but it becomes unwieldy for any
+interpreter/emulator with more instructions.</p>
+<h2 id="binary-search-based">Binary-search based</h2>
+<p>This is similar to the switch based approach except that the number of comparisons
+required until the correct case is found is logarithmic at worst. The
+code required by this pattern can reach unmanageable sizes:</p>
+<pre><code class="lang-javascript"><span class="hljs-keyword">while</span> (running) {
+    instruction = fetchInstruction()
+
+    <span class="hljs-keyword">if</span> (instruction &lt; <span class="hljs-number">0x02</span>) {
+        <span class="hljs-keyword">if</span> (instruction &lt; <span class="hljs-number">0x01</span>) {
+            <span class="hljs-comment">// 0x00 ...</span>
+        } <span class="hljs-keyword">else</span> {
+            <span class="hljs-comment">// 0x01 ...</span>
+        }
+    } <span class="hljs-keyword">else</span> {
+        <span class="hljs-keyword">if</span> (instruction &lt; <span class="hljs-number">0x03</span>) {
+            <span class="hljs-comment">// 0x02 ...</span>
+        } <span class="hljs-keyword">else</span> {
+            <span class="hljs-comment">// 0x03 ...</span>
+        }
+    }
+}
+</code></pre>
+<p>Looking at the benchmark, this seems to be the fastest approach on Chrome (apart from the transpiler approach).
+On Firefox, however, the switch based implementation is faster.</p>
+<p>Maintaining code in this style is nearly-impossible to do by hand. All of this structure
+should instead be generated automatically.</p>
+<h2 id="mapping-functions-based">Mapping/functions based</h2>
+<p>This is based on a mapping from instructions to functions. The gist of it is:</p>
+<pre><code class="lang-javascript">map = <span class="hljs-keyword">new</span> Map([
+    [<span class="hljs-number">0x00</span>, (state) =&gt; { <span class="hljs-comment">/* ... */</span> }],
+    [<span class="hljs-number">0x01</span>, (state) =&gt; { <span class="hljs-comment">/* ... */</span> }],
+    [<span class="hljs-number">0x02</span>, (state) =&gt; { <span class="hljs-comment">/* ... */</span> }],
+    [<span class="hljs-number">0x03</span>, (state) =&gt; { <span class="hljs-comment">/* ... */</span> }],
+])
+
+<span class="hljs-keyword">while</span> (running) {
+    <span class="hljs-keyword">const</span> instruction = fetchInstruction()
+    <span class="hljs-keyword">const</span> handler = map.get(instruction)
+    handler()
+}
+</code></pre>
+<p>This is the most modular of all alternatives.
+Unlike the previous 2 approaches, the mapping between opcodes and handler is dynamic. The
+map can be build modularly, for example if you separate pointer instructions in their own file in the case of 
+brainfuck.</p>
+<pre><code class="lang-javascript"><span class="hljs-comment">// pointer-ops.js</span>
+
+export <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">register</span> <span class="hljs-params">(map)</span> </span>{
+    map.set(<span class="hljs-string">'&gt;'</span>, (state) =&gt; { state.pointer++ })
+    map.set(<span class="hljs-string">'&lt;'</span>, (state) =&gt; { state.pointer-- })
+}
+</code></pre>
+<p>Perhaps unsurprisingly, this came out to be the slowest approach.</p>
+<h2 id="using-a-transpiler">Using a transpiler</h2>
+<p>Some languages/machines fare well to a static recompilation. This needs a more ample &quot;compilation&quot; phase, 
+but does away with the main loop altogether. In brainfuck&#39;s case <code>+-</code> trivially translate to increments
+and decrements of memory cells, <code>&gt;&lt;</code> to increments/decrements of the memory pointer and <code>[]</code> are 
+rewritten as while loops and so on.</p>
+<p>By far the fastest to execute. This comes at no surprise since the dispatching mechanism is
+completely absent. All the CPU time is spent on executing instructions. What&#39;s more is that
+in the case of JS the transpiled code has the opportunity to be optimized by the runtime.</p>
+<p>This approach works for brainfuck but is usually not an option for other instruction sets.
+Old consoles can alter their code as they run, so transpiling up ahead is not a solution anymore.
+The only solution in that case would be a JIT transpiler, but that is a topic for a different article.</p>
+<h2 id="results">Results</h2>
+<p>The benchmarks were run on the latest versions of Chrome and Firefox as of 2016-07-21 and you can see 
+them in the tables below. </p>
+<p>Chrome Version 53.0.2785.21 dev (64-bit)</p>
+<table>
+<thead>
+<tr>
+<th style="text-align:left">Implementation</th>
+<th style="text-align:right">Ops/sec</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left">switch</td>
+<td style="text-align:right">896,833</td>
+</tr>
+<tr>
+<td style="text-align:left">binary-search</td>
+<td style="text-align:right">940,957</td>
+</tr>
+<tr>
+<td style="text-align:left">functions</td>
+<td style="text-align:right">247,434</td>
+</tr>
+<tr>
+<td style="text-align:left">transpiler</td>
+<td style="text-align:right">3,263,853</td>
+</tr>
+</tbody>
+</table>
+<p>Firefox Version 50.0a1 (64-bit)</p>
+<table>
+<thead>
+<tr>
+<th style="text-align:left">Implementation</th>
+<th style="text-align:right">Ops/sec</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left">switch</td>
+<td style="text-align:right">731,813</td>
+</tr>
+<tr>
+<td style="text-align:left">binary-search</td>
+<td style="text-align:right">665,093</td>
+</tr>
+<tr>
+<td style="text-align:left">functions</td>
+<td style="text-align:right">206,046</td>
+</tr>
+<tr>
+<td style="text-align:left">transpiler</td>
+<td style="text-align:right">1,323,494</td>
+</tr>
+</tbody>
+</table>
+<p>The difference in performance between browsers is irrelevant; what&#39;s important for this article is the 
+relative speed of the implementations on the same browser. The clear winner is the transpiler based approach, 
+while the slowest approach in both browsers is the function based one.</p>
+
+	</div>
+
+	<script defer>
+		(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+					(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+				m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+		})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+		ga('create', 'UA-45334894-6', 'auto');
+		ga('send', 'pageview');
+	</script>
+</body>
+</html>
