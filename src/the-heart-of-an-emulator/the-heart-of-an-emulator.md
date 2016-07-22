@@ -1,4 +1,5 @@
 <!-- @@@title:The heart of an emulator@@@ -->
+<!-- @@@extraCss:../../static/table.css@@@ -->
 
 # The heart of an emulator
 
@@ -9,8 +10,8 @@ the best results in terms of performance.
 Performance is vital, as this code is executed for every instruction. As a result, it severely 
 impacts the speed of the emulator more than anything else.
 
-[This project](https://github.com/adrianton3/brainfuckbench) compares several different styles of writing the main loop for an emulator or 
-interpreter.
+[This project](https://github.com/adrianton3/brainfuckbench) compares several different styles of 
+writing the main loop for an emulator or interpreter.
 We will not attempt to do a full-blown implementation of a console architecture. Instead, we will focus on 
 brainfuck - it is a small enough language to allow for multiple implementations without much effort.
 
@@ -53,9 +54,6 @@ The main disadvantage with this approach is that it's very non-modular and hard 
 The switch statement is not that big in the case of brainfuck but it becomes unwieldy for any
 interpreter/emulator with more instructions.
 
-A good C++ compiler, supposedly, turns this switch into a jump table - however, JS does not do this.
-In JS, a `switch` statement has the same performance as a chain of `if ... else` statements.
-
 
 ## Binary-search based
 
@@ -83,7 +81,9 @@ while (running) {
 }
 ```
 
-From the benchmark, this seems to be the fastest approach.
+Looking at the benchmark, this seems to be the fastest approach on Chrome (apart from the transpiler approach).
+On Firefox, however, the switch based implementation is faster.
+ 
 Maintaining code in this style is nearly-impossible to do by hand. All of this structure
 should instead be generated automatically.
 
@@ -138,3 +138,31 @@ in the case of JS the transpiled code has the opportunity to be optimized by the
 This approach works for brainfuck but is usually not an option for other instruction sets.
 Old consoles can alter their code as they run, so transpiling up ahead is not a solution anymore.
 The only solution in that case would be a JIT transpiler, but that is a topic for a different article.
+
+
+## Results
+
+The benchmarks were run on the latest versions of Chrome and Firefox as of 2016-07-21 and you can see 
+them in the tables below. 
+
+Chrome Version 53.0.2785.21 dev (64-bit)
+
+| Implementation | Ops/sec   |
+|:-------------- | ---------:|
+| switch         |   896,833 |
+| binary-search  |   940,957 |
+| functions      |   247,434 |
+| transpiler     | 3,263,853 |
+
+Firefox Version 50.0a1 (64-bit)
+
+| Implementation | Ops/sec   |
+|:-------------- | ---------:|
+| switch         |   731,813 |
+| binary-search  |   665,093 |
+| functions      |   206,046 |
+| transpiler     | 1,323,494 |
+
+The difference in performance between browsers is irrelevant; what's important for this article is the 
+relative speed of the implementations on the same browser. The clear winner is the transpiler based approach, 
+while the slowest approach in both browsers is the function based one.
