@@ -1,4 +1,8 @@
 [{
+  "name": "the-heart-of-an-emulator",
+  "description": "The heart of an emulator",
+  "published": "2016-07-22"
+}, {
   "name": "just-in-time-befunge",
   "description": "A just-in-time compiler for Befunge",
   "published": "2016-03-21"
