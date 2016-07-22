@@ -118,7 +118,7 @@ export <span class="hljs-function"><span class="hljs-keyword">function</span> <s
 but does away with the main loop altogether. In brainfuck&#39;s case <code>+-</code> trivially translate to increments
 and decrements of memory cells, <code>&gt;&lt;</code> to increments/decrements of the memory pointer and <code>[]</code> are 
 rewritten as while loops and so on.</p>
-<p>By far the fastest to execute. This comes at no surprise since the dispatching mechanism is
+<p>This method is by far the fastest to execute. This comes at no surprise since the dispatching mechanism is
 completely absent. All the CPU time is spent on executing instructions. What&#39;s more is that
 in the case of JS the transpiled code has the opportunity to be optimized by the runtime.</p>
 <p>This approach works for brainfuck but is usually not an option for other instruction sets.
