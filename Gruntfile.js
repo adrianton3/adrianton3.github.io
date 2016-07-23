@@ -1,30 +1,27 @@
+const _ = require('underscore')
+const { getDirs, fileExists, readFile, getDates } = require('./tools/utils')
+
 module.exports = function (grunt) {
 	'use strict';
 
-	var fs = require('fs');
-
-	var _ = require('underscore');
-
 	require('./tools/grunt-tasks/handlebars')(grunt);
+
+	function addDates() {
+		const articles = require('./src/articles.json')
+
+		return articles.map((article) => {
+			const foundExtension = ['md', 'coffee', 'js'].find((extension) =>
+				fileExists(`src/${article.name}/${article.name}.${extension}`)
+			)
+
+			const dates = getDates(`src/${article.name}/${article.name}.${foundExtension}`)
+
+			return Object.assign({}, article, dates)
+		})
+	}
 
 	var OUT_DIR = 'blog';
 	var TEMPLATE_DIR = 'tools/template';
-
-	function getDirs(basePath) {
-		return fs.readdirSync(basePath).filter(function (file) {
-			var completeFile = basePath + '/' + file;
-			return fs.statSync(completeFile).isDirectory();
-		});
-	}
-
-	function fileExists(path) {
-		try {
-			fs.accessSync(path, fs.F_OK);
-			return true;
-		} catch (e) {
-			return false;
-		}
-	}
 
 	function isDir(basePath, extension) {
 		return function (dir) {
@@ -64,10 +61,6 @@ module.exports = function (grunt) {
 				dest: 'blog/art/' + dir + '/' + dir + '.html'
 			};
 		});
-	}
-
-	function readFile(path) {
-		return fs.readFileSync(path, 'utf8');
 	}
 
 	var headerTemplate = _.template(readFile(TEMPLATE_DIR + '/docco/header.html'));
@@ -141,7 +134,7 @@ module.exports = function (grunt) {
 			},
 			articles: {
 				templatePath: 'tools/template/articles.hbs',
-				dataPath: 'src/articles.json',
+				data: addDates(),
 				outPath: 'blog/index.html'
 			}
 		}
