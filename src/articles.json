@@ -1,41 +1,31 @@
 [{
   "name": "the-heart-of-an-emulator",
-  "description": "The heart of an emulator",
-  "published": "2016-07-22"
+  "description": "The heart of an emulator"
 }, {
   "name": "just-in-time-befunge",
-  "description": "A just-in-time compiler for Befunge",
-  "published": "2016-03-21"
+  "description": "A just-in-time compiler for Befunge"
 }, {
   "name": "water-jugs",
-  "description": "Water jug puzzle solver",
-  "published": "2016-03-05"
+  "description": "Water jug puzzle solver"
 }, {
   "name": "hmm",
-  "description": "Visualization of Hidden Markov Models",
-  "published": "2016-01-30"
+  "description": "Visualization of Hidden Markov Models"
 }, {
   "name": "jinter",
-  "description": "Writing a JavaScript interpreter",
-  "published": "2016-01-06"
+  "description": "Writing a JavaScript interpreter"
 }, {
   "name": "dsl-1",
-  "description": "Domain Specific Languages in CoffeeScript",
-  "published": "2015-09-15"
+  "description": "Domain Specific Languages in CoffeeScript"
 }, {
   "name": "enums",
-  "description": "Better enums",
-  "published": "2015-09-12"
+  "description": "Better enums"
 }, {
   "name": "dispatching-ducks",
-  "description": "Dispatching ducks",
-  "published": "2015-08-22"
+  "description": "Dispatching ducks"
 }, {
   "name": "functions-only",
-  "description": "You only need functions",
-  "published": "2015-08-22"
+  "description": "You only need functions"
 }, {
   "name": "math-lib",
-  "description": "Functional math library",
-  "published": "2015-08-07"
+  "description": "Functional math library"
 }]
