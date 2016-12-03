@@ -44,7 +44,8 @@ module.exports = function (grunt) {
 				src: ['src/' + dir + '/*.' + extension],
 				options: {
 					output: OUT_DIR + '/art/' + dir,
-					template: TEMPLATE_DIR + '/docco/docco.html'
+					template: TEMPLATE_DIR + '/docco/docco.html',
+					css: 'dummy'
 				}
 			};
 
