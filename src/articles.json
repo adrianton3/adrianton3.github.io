@@ -1,4 +1,7 @@
 [{
+  "name": "exit-javascript-enter-clojurescript",
+  "description": "Exit JavaScript, enter ClojureScript"
+}, {
   "name": "the-heart-of-an-emulator",
   "description": "The heart of an emulator"
 }, {
