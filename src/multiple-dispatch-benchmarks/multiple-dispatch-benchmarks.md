@@ -1,4 +1,5 @@
 <!-- @@@title:Multiple-dispatch implementations & benchmarks@@@ -->
+<!-- @@@extraCss:../../static/table.css@@@ -->
 
 # Multiple-dispatch implementations & benchmarks
 
