@@ -216,3 +216,115 @@ the light follow the cursor.
 Light calculations are performed entirely on the rendering thread, which means
 there is no delay, unlike in the interaction with the structure itself.
 This makes the entire experiment feel responsive.
+
+
+## Afterthoughts
+
+### The Google closure compiler
+
+Several months after releasing, I realized that there are many 
+micro-optimizations and inlining that can be done on the code, all of which can
+be done automatically. I was hoping the Google closure compiler could do that, 
+so I don't have to do it manually. If I just fed the initial code, I didn't get
+any meaningful speedup, as the compiler couldn't infer types. What's more, from
+early stages I had to make sure that certain properties that are used outside 
+of the optimised code were not mangled. I therefore had to rewrite every 
+`joint.position` as `joint['position']`, for example. 
+
+I proceeded to add types annotations in the entire code. I also tried to put 
+everything in the same scope. Another thing I tried was to make the code more
+class-based, thinking that the compiler might like it more.
+After all these changes, and some manual inlining in critical parts, the most I 
+could squeeze was a 20% speed-up.
+
+Take the following snippet, for example:
+
+```js
+/** @typedef {{ x: number, y: number }} */
+var V2
+
+/** @type {{ make: function(number, number): V2, add: function(V2, V2): V2 }} */
+const Vec2 = (() => {
+	function /** V2 */ make (/** number */x, /** number */y) {
+		return { x, y }
+	}
+
+	function /** V2 */ add (/** V2 */a, /** V2 */b) {
+		a.x += b.x
+		a.y += b.y
+		return a
+	}
+
+	return { make, add }
+})();
+
+
+(() => {
+	const { make, add } = Vec2
+
+	const v = add(make(11, 22), make(33, 44))
+	console.log(v)
+})()
+```
+
+The only thing the closure compiler manages to do is minify it, like this:
+ 
+```js
+'use strict';var c = {a:function(a, b) {
+  return {x:a, y:b};
+}, add:function(a, b) {
+  a.x += b.x;
+  a.y += b.y;
+  return a;
+}}, d = c.a, e = c.add, f = e(d(11, 22), d(33, 44));
+console.log(f);
+```
+
+However, the code can entirely be resolved at compile time - the whole program 
+can be reduced to `console.log({ x: 44, y: 66 })`.
+What's more is that I had to fully type the whole thing. I have to
+write types twice if I plan to namespace my functions like that.
+
+The most annoying thing is that the most optimised version of the code on 
+Chrome manages to be 84% slower on Firefox. Optimisations usually result in 
+speed-ups in both Chrome and Firefox, but I managed to somehow hit Firefox's
+heuristics in a bad way. I chose to stop the optimisation process here, 
+because it started feeling like a shamanic process.
+
+
+### Try a different data structure
+
+There is an attractive alternative to the grid of buckets data structure that 
+I could use for the simulation. 
+
+We could keep the joints sorted horizontally in an array. 
+Sorting can take up to *n log n* - but maybe we can pull it off in linear 
+time as the array is always in a mostly sorted state. 
+
+If we want to find out what nodes overlap a given node we have to check only 
+the nodes that are positioned at most one diameter away. This should be a 
+cheap operation given that the nodes are sorted. 
+
+How many nodes can we possibly inspect for overlap?
+The worst case scenario happens at the end of the simulation when the space 
+is almost full. At this point there are roughly *sqrt n* points that need to
+be verified for each overlapping test. This raises the running time 
+to *n sqrt n*. The approach might still be interesting if the constant factors
+in the grid of buckets are too high.
+
+
+### Other ideas
+
+Using a real physics engine might be faster, because they're using more 
+specialized data structures. On the other hand, it might be slower because 
+they're trying to be physically accurate. 
+  
+Another option would be to render the joints using *GL_POINTS*. All the 
+information necessary to render a joint (position, radius, tint) can fit in
+a single 4-component attribute.
+
+Yet another option would be to break up the simulation on multiple threads.
+They would, however, be hard to synchronise - if any one of the threads is late,
+then the whole frame is incomplete. The more threads we use, the higher the 
+probability that at least one of them will be late. Moreover, frame buffers 
+would also be very hard to maintain. 
