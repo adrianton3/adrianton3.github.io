@@ -120,7 +120,8 @@ module.exports = function (grunt) {
 				contextBinder: true,
 				gfm: true,
 				markdownOptions: {
-					highlight: 'manual'
+					highlight: 'manual',
+					smartypants: false,
 				}
 			},
 			all: {
