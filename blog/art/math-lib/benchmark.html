@@ -57,7 +57,7 @@
             </div>
             
             <div class="content"><div class='highlight'><pre>(<span class="hljs-function"><span class="hljs-keyword">function</span> (<span class="hljs-params"></span>) </span>{
-<span class="hljs-pi">	'use strict'</span>;
+<span class="hljs-meta">	'use strict'</span>;
 
 	<span class="hljs-keyword">var</span> suite = <span class="hljs-keyword">new</span> Benchmark.Suite;
 
@@ -153,7 +153,7 @@
 		<span class="hljs-built_in">console</span>.log(externalArray);
 	});
 
-	suite.run({ <span class="hljs-keyword">async</span>: <span class="hljs-literal">true</span> });
+	suite.run({ <span class="hljs-attr">async</span>: <span class="hljs-literal">true</span> });
 })();</pre></div></div>
             
         </li>
@@ -167,7 +167,9 @@
 			  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
 	  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
 
-	  ga('create', 'UA-45334894-6', 'auto');
+	  ga('create', 'UA-45334894-6', {
+		  'storage': 'none',
+	  });
 	  ga('send', 'pageview');
   </script>
 </body>

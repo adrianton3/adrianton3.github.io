@@ -104,7 +104,7 @@ This small snippet only covers vector types.</p>
             </div>
             
             <div class="content"><div class='highlight'><pre><span class="hljs-keyword">var</span> demo = <span class="hljs-function"><span class="hljs-keyword">function</span> (<span class="hljs-params">implementation</span>) </span>{
-<span class="hljs-pi">	'use strict'</span>;
+<span class="hljs-meta">	'use strict'</span>;
 
 	<span class="hljs-keyword">var</span> { make, getX, getY, getZ, add, scale, length } = implementation;</pre></div></div>
             
@@ -227,7 +227,7 @@ or, in expanded form <code>doubleSum = (v1 add v2) scale 2</code></p>
             </div>
             
             <div class="content"><div class='highlight'><pre><span class="hljs-built_in">window</span>.Vec3Closure = (<span class="hljs-function"><span class="hljs-keyword">function</span> (<span class="hljs-params"></span>) </span>{
-<span class="hljs-pi">	'use strict'</span>;</pre></div></div>
+<span class="hljs-meta">	'use strict'</span>;</pre></div></div>
             
         </li>
         
@@ -402,7 +402,9 @@ For now let’s feed the demo with our current implementation.</p>
 			  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
 	  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
 
-	  ga('create', 'UA-45334894-6', 'auto');
+	  ga('create', 'UA-45334894-6', {
+		  'storage': 'none',
+	  });
 	  ga('send', 'pageview');
   </script>
 </body>

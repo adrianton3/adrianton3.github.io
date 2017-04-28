@@ -24,19 +24,19 @@
 different implementations of multiple-dispatch in JavaScript. As they are all 
 seemingly identical from the outside, we want to know which one is fastest, 
 so we ran some benchmarks. The example chosen to illustrate the implementations 
-is what I’m going to refer to as the <em>Box-Sphere problem</em>:</p>
+is what I&#39;m going to refer to as the <em>Box-Sphere problem</em>:</p>
 <p>There are 2 constructors, <em>Box</em> and <em>Sphere</em>. There is an <em>intersects</em> 
 multimethod which takes 2 arguments of the aforementioned types. This method 
 should be present on both boxes and spheres and should return whether the 2 
-objects intersect or not. Based on the type of the arguments we’d like to 
+objects intersect or not. Based on the type of the arguments we&#39;d like to 
 dispatch to the appropriate <em>intersects</em> method as there are different 
 intersection tests to be performed depending on the object types.</p>
 <h2 id="the-implementations-">The implementations:</h2>
 <h3 id="native-dispatch-based">Native-dispatch based</h3>
-<p>This approach uses multiple single-dispatch calls. All the <em>intersects…</em> 
+<p>This approach uses multiple single-dispatch calls. All the <em>intersects...</em> 
 methods are automatically generated and added to the prototypes of the 
 constructors. Only the <em>intersects</em> method is to be used by the API consumer.
-The intermediate <em>intersects…</em> methods are an implementation artifact.</p>
+The intermediate <em>intersects...</em> methods are an implementation artifact.</p>
 <pre><code class="lang-js"><span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">Box</span> <span class="hljs-params">()</span> </span>{}
 
 Box.prototype.intersects = <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-params">(that)</span> </span>{
@@ -162,12 +162,12 @@ of 2017-03-26 and you can see them in the tables below:</p>
 </tr>
 </tbody>
 </table>
-<p>Don’t mind the difference in speed between browsers - that’s not what we’re
+<p>Don&#39;t mind the difference in speed between browsers - that&#39;s not what we&#39;re
 interested in measuring. Instead notice the relative speed of the 
 implementations on the same browser.</p>
-<p>The implementations rank the same in all browsers. It’s very interesting 
+<p>The implementations rank the same in all browsers. It&#39;s very interesting 
 to note that the native dispatch based implementation is the slowest. 
-Apparently it’s less expensive to lookup in a <em>Map</em> than to do a dynamic
+Apparently it&#39;s less expensive to lookup in a <em>Map</em> than to do a dynamic
 dispatch.</p>
 
 	</div>
@@ -178,7 +178,9 @@ dispatch.</p>
 				m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
 		})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
 
-		ga('create', 'UA-45334894-6', 'auto');
+		ga('create', 'UA-45334894-6', {
+			'storage': 'none',
+		});
 		ga('send', 'pageview');
 	</script>
 </body>

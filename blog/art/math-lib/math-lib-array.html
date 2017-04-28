@@ -57,7 +57,7 @@
             </div>
             
             <div class="content"><div class='highlight'><pre><span class="hljs-built_in">window</span>.Vec3Array = (<span class="hljs-function"><span class="hljs-keyword">function</span> (<span class="hljs-params"></span>) </span>{
-<span class="hljs-pi">	'use strict'</span>;
+<span class="hljs-meta">	'use strict'</span>;
 
 	<span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">Vec3</span>(<span class="hljs-params">x, y, z</span>) </span>{
 		<span class="hljs-keyword">this</span>.data = <span class="hljs-keyword">new</span> <span class="hljs-built_in">Float32Array</span>(<span class="hljs-number">3</span>);
@@ -129,7 +129,9 @@
 			  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
 	  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
 
-	  ga('create', 'UA-45334894-6', 'auto');
+	  ga('create', 'UA-45334894-6', {
+		  'storage': 'none',
+	  });
 	  ga('send', 'pageview');
   </script>
 </body>

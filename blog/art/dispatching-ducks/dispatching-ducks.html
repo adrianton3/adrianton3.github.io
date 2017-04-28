@@ -70,7 +70,7 @@
             </div>
             
             <div class="content"><div class='highlight'><pre><span class="hljs-keyword">var</span> demo = <span class="hljs-function"><span class="hljs-keyword">function</span> (<span class="hljs-params"></span>) </span>{
-<span class="hljs-pi">	'use strict'</span>;</pre></div></div>
+<span class="hljs-meta">	'use strict'</span>;</pre></div></div>
             
         </li>
         
@@ -89,8 +89,8 @@ Remember they’re just data - they hold no type/prototype/constructor informati
 
             </div>
             
-            <div class="content"><div class='highlight'><pre>	<span class="hljs-keyword">var</span> vec2 = { x: <span class="hljs-number">3</span>, y: <span class="hljs-number">4</span> };
-	<span class="hljs-keyword">var</span> vec3 = { x: <span class="hljs-number">2</span>, y: <span class="hljs-number">3</span>, z: <span class="hljs-number">6</span> };</pre></div></div>
+            <div class="content"><div class='highlight'><pre>	<span class="hljs-keyword">var</span> vec2 = { <span class="hljs-attr">x</span>: <span class="hljs-number">3</span>, <span class="hljs-attr">y</span>: <span class="hljs-number">4</span> };
+	<span class="hljs-keyword">var</span> vec3 = { <span class="hljs-attr">x</span>: <span class="hljs-number">2</span>, <span class="hljs-attr">y</span>: <span class="hljs-number">3</span>, <span class="hljs-attr">z</span>: <span class="hljs-number">6</span> };</pre></div></div>
             
         </li>
         
@@ -149,7 +149,7 @@ that’s what we’d expect to do with something that has an <code>x</code> and 
             </div>
             
             <div class="content"><div class='highlight'><pre><span class="hljs-keyword">var</span> setup = <span class="hljs-function"><span class="hljs-keyword">function</span> (<span class="hljs-params"></span>) </span>{
-<span class="hljs-pi">	'use strict'</span>;</pre></div></div>
+<span class="hljs-meta">	'use strict'</span>;</pre></div></div>
             
         </li>
         
@@ -170,15 +170,15 @@ we define that everything with an <code>x</code> and a <code>y</code> should hav
             
             <div class="content"><div class='highlight'><pre>	register(<span class="hljs-string">'add'</span>, [<span class="hljs-string">'x'</span>, <span class="hljs-string">'y'</span>], <span class="hljs-function"><span class="hljs-keyword">function</span> (<span class="hljs-params">that</span>) </span>{
 		<span class="hljs-keyword">return</span> {
-			x: <span class="hljs-keyword">this</span>.x + that.x,
-			y: <span class="hljs-keyword">this</span>.y + that.y
+			<span class="hljs-attr">x</span>: <span class="hljs-keyword">this</span>.x + that.x,
+			<span class="hljs-attr">y</span>: <span class="hljs-keyword">this</span>.y + that.y
 		};
 	});
 
 	register(<span class="hljs-string">'scale'</span>, [<span class="hljs-string">'x'</span>, <span class="hljs-string">'y'</span>], <span class="hljs-function"><span class="hljs-keyword">function</span> (<span class="hljs-params">scale</span>) </span>{
 		<span class="hljs-keyword">return</span> {
-			x: <span class="hljs-keyword">this</span>.x * scale,
-			y: <span class="hljs-keyword">this</span>.y * scale
+			<span class="hljs-attr">x</span>: <span class="hljs-keyword">this</span>.x * scale,
+			<span class="hljs-attr">y</span>: <span class="hljs-keyword">this</span>.y * scale
 		};
 	});
 
@@ -262,7 +262,7 @@ instead the <code>add</code> and <code>scale</code> methods defined for { x, y }
             </div>
             
             <div class="content"><div class='highlight'><pre><span class="hljs-keyword">var</span> duck = <span class="hljs-function"><span class="hljs-keyword">function</span> (<span class="hljs-params">window</span>) </span>{
-<span class="hljs-pi">	'use strict'</span>;</pre></div></div>
+<span class="hljs-meta">	'use strict'</span>;</pre></div></div>
             
         </li>
         
@@ -305,8 +305,8 @@ each with its own member requirements.</p>
 
 	<span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">register</span>(<span class="hljs-params">name, members, method</span>) </span>{
 		<span class="hljs-keyword">var</span> entry = {
-			members: members,
-			method: method
+			<span class="hljs-attr">members</span>: members,
+			<span class="hljs-attr">method</span>: method
 		};
 
 		<span class="hljs-keyword">if</span> (mapping.has(name)) {
@@ -401,7 +401,9 @@ demo();</pre></div></div>
 			  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
 	  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
 
-	  ga('create', 'UA-45334894-6', 'auto');
+	  ga('create', 'UA-45334894-6', {
+		  'storage': 'none',
+	  });
 	  ga('send', 'pageview');
   </script>
 </body>

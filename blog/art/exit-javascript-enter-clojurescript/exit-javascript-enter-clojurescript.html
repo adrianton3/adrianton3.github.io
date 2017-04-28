@@ -17,19 +17,19 @@
 		<div><a href="../../index.html">Back to index</a></div>
 		<!-- @@@title:Exit JavaScript, enter ClojureScript@@@ -->
 <h1 id="exit-javascript-enter-clojurescript">Exit JavaScript, enter ClojureScript</h1>
-<p>I’ve been programming in JavaScript/CoffeeScript for more than 6 years, and have 
-recently transitioned to ClojureScript (CLJS). In this article I’ll share a few 
-pieces of “wisdom” I’ve gathered after writing 3 small-ish projects in CLJS. This 
-should help you if you’re just getting started with CLJS or thinking of switching.
+<p>I&#39;ve been programming in JavaScript/CoffeeScript for more than 6 years, and have 
+recently transitioned to ClojureScript (CLJS). In this article I&#39;ll share a few 
+pieces of &quot;wisdom&quot; I&#39;ve gathered after writing 3 small-ish projects in CLJS. This 
+should help you if you&#39;re just getting started with CLJS or thinking of switching.
 The article covers tips about the initial setup, the basics, and some things that 
 CLJS does differently/better than JS.</p>
 <p>To make the most of this, you should have at least some minimal exposure to 
-Lisp/Scheme - enough to get over the <em>parentheses are on the ‘wrong’ side</em> deal.</p>
+Lisp/Scheme - enough to get over the <em>parentheses are on the &#39;wrong&#39; side</em> deal.</p>
 <h2 id="project-setup">Project setup</h2>
-<p>Like in modern JS development, you’ll first need a build tool. For starters, I
-recommend <em>leiningen</em> - it’s a solid build tool, easy to set up and use. You can 
+<p>Like in modern JS development, you&#39;ll first need a build tool. For starters, I
+recommend <em>leiningen</em> - it&#39;s a solid build tool, easy to set up and use. You can 
 get <em>leiningen</em> from <a href="http://leiningen.org/">this link</a>.</p>
-<p>You’ll notice there are a bunch of <em>leiningen</em> new project templates to choose 
+<p>You&#39;ll notice there are a bunch of <em>leiningen</em> new project templates to choose 
 from. You can find a list <a href="https://clojars.org/search?q=lein-template">here</a>.
 The minimal setup is provided by the <em>mies</em> template.</p>
 <pre><code>lein <span class="hljs-keyword">new</span> mies &lt;<span class="hljs-keyword">project</span>-name&gt;
@@ -38,7 +38,7 @@ There are 3 main scripts you will interact with:</p>
 <ul>
 <li><p><code>build</code> simply compiles the project. The output will be available in <code>/out</code></p>
 </li>
-<li><p><code>watch</code> compiles the whole project when it’s launched and this takes a 
+<li><p><code>watch</code> compiles the whole project when it&#39;s launched and this takes a 
 couple of seconds; subsequent compilations take milliseconds. </p>
 </li>
 <li><p><code>release</code> compiles and optimizes the output for use in production.
@@ -65,7 +65,7 @@ advanced tools, like <a href="https://github.com/bhauman/lein-figwheel/wiki/Quic
 <p>Operators are not special syntactic constructs, but just plain identifiers.
 That is, <code>+</code> resolves to a function - we can pass it around and treat it like any 
 other function. If you want the sum of an array in JS you have to either use 
-<em>lodash</em>‘s <code>_.sum</code> or a native <em>reduce</em>:</p>
+<em>lodash</em>&#39;s <code>_.sum</code> or a native <em>reduce</em>:</p>
 <p><code>[11 22 33].reduce((sum, number) =&gt; sum + number, 0)</code></p>
 <p>In CLJS, the same thing is almost half as short to write:</p>
 <p><code>(reduce + 0 [11 22 33])</code></p>
@@ -85,21 +85,21 @@ expression of body evaluates to. <code>(defn ...)</code> is just a shorthand for
 <p>Functions with variable number of arguments are done like this:</p>
 <p><code>(fn [one two &amp; rest] body)</code></p>
 <p>And finally, calling functions is done like so <code>(my-fun a b c)</code>.</p>
-<p>One thing that doesn’t appear in many starter tutorials is the shorthand for 
+<p>One thing that doesn&#39;t appear in many starter tutorials is the shorthand for 
 function expressions:</p>
 <p><code>#(* (+ %1 %2) %3)</code></p>
-<p>One limitation with the <code>#()</code> shorthand is that it doesn’t work<br>for nested functions. The syntax could allow us to declare nested functions 
+<p>One limitation with the <code>#()</code> shorthand is that it doesn&#39;t work<br>for nested functions. The syntax could allow us to declare nested functions 
 in shorthand, but referencing parameters would be painful and confusing.</p>
-<p>Another limitation with this shorthand is that we can’t have primitives
+<p>Another limitation with this shorthand is that we can&#39;t have primitives
 as the body. <code>#(123)</code> is not valid. <code>#(123)</code> would expand to <code>(fn [] (123))</code>
-which would fail because 123 is not callable. For the same reason we can’t
+which would fail because 123 is not callable. For the same reason we can&#39;t
 have a function <code>#([1 2 3])</code>.</p>
 <p>If you need a function to simply return a value you can use the 
 function <code>constant</code> instead:</p>
 <p><code>(constant 123)</code> - a function that always returns <em>123</em>.</p>
 <h2 id="collections">Collections</h2>
-<p>Collections are an important part of the language; unless you’re computing pi’s 
-digits, sooner or later you’ll make use of collections. CLJS comes out of the box 
+<p>Collections are an important part of the language; unless you&#39;re computing pi&#39;s 
+digits, sooner or later you&#39;ll make use of collections. CLJS comes out of the box 
 with these data structures:</p>
 <ul>
 <li><p>linked lists <code>&#39;(1 2 3)</code></p>
@@ -118,27 +118,27 @@ than JS. Although ES6 has tons of new syntax, unfortunately none of that is for
 the new set and map.</p>
 <h3 id="immutable-by-default">Immutable by default</h3>
 <p>When you perform an operation on a collection you might also want to 
-keep a snapshot of the previous version. JS doesn’t have persistent collections, 
-so this is when cloning comes in handy. The only problem is that JS doesn’t come
+keep a snapshot of the previous version. JS doesn&#39;t have persistent collections, 
+so this is when cloning comes in handy. The only problem is that JS doesn&#39;t come
 with any <em>deep-clone</em> method out of the box, and you have to either roll your own, 
 or resort to one of the many, slightly different <em>deep-clone</em> methods provided by 
 third-party libraries. </p>
-<p>What’s more, JS doesn’t even have a uniform way to <em>shallow-clone</em> its built-in 
-collections. You can clone arrays with <code>.slice</code>, but it’s not exactly a dedicated 
+<p>What&#39;s more, JS doesn&#39;t even have a uniform way to <em>shallow-clone</em> its built-in 
+collections. You can clone arrays with <code>.slice</code>, but it&#39;s not exactly a dedicated 
 clone method. In ES2015+ you can use the newer <code>[...original]</code>.</p>
-<p>What about cloning objects? There’s the awkward <code>Object.assign({}, original)</code> or 
+<p>What about cloning objects? There&#39;s the awkward <code>Object.assign({}, original)</code> or 
 the newer <code>{ ...original }</code></p>
-<p>Unfortunately, the all-new Map and Set don’t come with any clone method.
+<p>Unfortunately, the all-new Map and Set don&#39;t come with any clone method.
 The best you can do is <code>new Map(original.entries())</code> and
 <code>new Set(original.values())</code>. Notice the entries/values asymmetry.
 The ES2015+ alternatives are shorter and symmetrical <code>new Map([...original])</code>
 and <code>new Set([...original])</code>.</p>
 <p>None of this is an issue in CLJS, since its collections are immutable by default.
-This means you never need to <em>deep-clone</em> anything anymore. There’s also no reason
+This means you never need to <em>deep-clone</em> anything anymore. There&#39;s also no reason
 to use <em>Immutable JS</em> and the likes - the functionality is there out of the box!</p>
 <p>A side win of having immutable collections is that comparing
 for equality can be fast and trivial; for example <code>[1 2 #{:a :b :c}]</code> is equal 
-to <code>[1 2 #{:a :b :c}]</code>. You don’t have to use slow third party deep-equals 
+to <code>[1 2 #{:a :b :c}]</code>. You don&#39;t have to use slow third party deep-equals 
 methods.</p>
 <p>This also means that collections can be used as keys for maps and sets.
 In contrast, JS uses the strict equality operator (<code>===</code>) in this situation, 
@@ -163,16 +163,16 @@ by value. The equivalent in CLJS would be:</p>
 appropriate for performance or convenience reasons. The methods which mutate
 collections are easy to spot as their name ends in <code>!</code>: <code>conj!</code>, <code>assoc!</code>, etc. </p>
 <h3 id="rich-and-uniform-collection-api">Rich and uniform collection api</h3>
-<p>Since you have to work with collections a lot, it’s important that the api for 
+<p>Since you have to work with collections a lot, it&#39;s important that the api for 
 basic interactions is as uniform and predictable as possible. This is fortunately 
-true of CLJS, but you can’t say the same about JS. Here are some examples.</p>
+true of CLJS, but you can&#39;t say the same about JS. Here are some examples.</p>
 <p>ES6 brought along proper maps and sets - no longer did we have to abuse JS 
-objects and, well, some things weren’t even possible before: keys would always
-be coerced to strings. Unfortunately map and set don’t have a very rich or 
+objects and, well, some things weren&#39;t even possible before: keys would always
+be coerced to strings. Unfortunately map and set don&#39;t have a very rich or 
 consistent api.</p>
 <p>The <code>count</code> function in CLJS returns the number of elements of any collection.
 If you want to do the same thing in JS, you have to use <code>length</code> for arrays 
-and <code>size()</code> for maps/sets. What’s more, <code>length</code> is a property, while <code>size</code> 
+and <code>size()</code> for maps/sets. What&#39;s more, <code>length</code> is a property, while <code>size</code> 
 is a function.</p>
 <p>Adding data to collections is also straight-forward operation in CLJS, where
 you can use <code>conj</code>.</p>
@@ -201,19 +201,19 @@ is expected to return a boolean. Compare this with JS and its <code>includes</co
 (which is named like that only for <a href="https://esdiscuss.org/topic/having-a-non-enumerable-array-prototype-contains-may-not-be-web-compatible">historical reasons</a>),
 <code>has</code> for maps/sets and <code>hasOwnProperty</code> for objects.</p>
 <p>All the aforementioned collections support map/filter/reduce/some/every and so on
-in CLJS. In JS map/set don’t implement any more than forEach.
+in CLJS. In JS map/set don&#39;t implement any more than forEach.
 In fact, CLJS comes out of the box with a collection api full of the goodies
-you’ve come to use and love from the likes of <em>underscore</em>/<em>lodash</em>.</p>
+you&#39;ve come to use and love from the likes of <em>underscore</em>/<em>lodash</em>.</p>
 <p>One interesting omission from the collections api is <code>zip</code>.
 There is no need for zip because map in CLJS can take multiple collections.
 Map will not provide the index to the mapping function as it does in JS.
-But it’s easy to supply it yourself by using <code>range</code>:</p>
+But it&#39;s easy to supply it yourself by using <code>range</code>:</p>
 <p><code>(map vec collection (range))</code></p>
 <p>where <code>vec</code> is the constructor for vectors.</p>
 <h2 id="outro">Outro</h2>
 <p>This article initially intended to give a brief orientation guide for JS developers 
 who want to try out CLJS. However, it quickly turned into a longer and more detailed 
-comparison between the languages, and that’s why I decided to cover only some points 
+comparison between the languages, and that&#39;s why I decided to cover only some points 
 here, and leave the rest for another article. CLJS is a very rich and interesting
 language and some of things that I want to mention in the coming article are dealing 
 with mutable state, JS interoperability and macros.</p>
@@ -226,7 +226,9 @@ with mutable state, JS interoperability and macros.</p>
 				m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
 		})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
 
-		ga('create', 'UA-45334894-6', 'auto');
+		ga('create', 'UA-45334894-6', {
+			'storage': 'none',
+		});
 		ga('send', 'pageview');
 	</script>
 </body>

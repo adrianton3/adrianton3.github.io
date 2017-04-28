@@ -42,7 +42,7 @@
             
             <div class="content"><div class='highlight'><pre>
 (<span class="hljs-function"><span class="hljs-keyword">function</span> (<span class="hljs-params"></span>) </span>{
-<span class="hljs-pi">	'use strict'</span>;</pre></div></div>
+<span class="hljs-meta">	'use strict'</span>;</pre></div></div>
             
         </li>
         
@@ -124,10 +124,10 @@ can be in. This is very hard to dig up unless it is documented somewhere.</p>
 
 	(<span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">enumExample2</span>(<span class="hljs-params"></span>) </span>{ <span class="hljs-comment">// ---------------------------------------------</span>
 		<span class="hljs-keyword">var</span> BANANA_STATE = {
-			GREEN: <span class="hljs-string">'green'</span>,
-			YELLOW: <span class="hljs-string">'yellow'</span>,
-			SPOTTY: <span class="hljs-string">'spotty'</span>,
-			BROWN: <span class="hljs-string">'brown'</span>
+			<span class="hljs-attr">GREEN</span>: <span class="hljs-string">'green'</span>,
+			<span class="hljs-attr">YELLOW</span>: <span class="hljs-string">'yellow'</span>,
+			<span class="hljs-attr">SPOTTY</span>: <span class="hljs-string">'spotty'</span>,
+			<span class="hljs-attr">BROWN</span>: <span class="hljs-string">'brown'</span>
 		};</pre></div></div>
             
         </li>
@@ -371,7 +371,7 @@ is a function and it can do the same check as the in the case of <code>enumExamp
 			});
 
 			<span class="hljs-keyword">return</span> <span class="hljs-keyword">new</span> <span class="hljs-built_in">Proxy</span>(map, {
-				get: <span class="hljs-function"><span class="hljs-keyword">function</span> (<span class="hljs-params">target, property</span>) </span>{
+				<span class="hljs-attr">get</span>: <span class="hljs-function"><span class="hljs-keyword">function</span> (<span class="hljs-params">target, property</span>) </span>{
 					<span class="hljs-keyword">if</span> (!map[property]) {
 						<span class="hljs-keyword">throw</span> <span class="hljs-keyword">new</span> <span class="hljs-built_in">Error</span>(property + <span class="hljs-string">' not a valid enum value'</span>);
 					}
@@ -394,7 +394,9 @@ is a function and it can do the same check as the in the case of <code>enumExamp
 			  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
 	  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
 
-	  ga('create', 'UA-45334894-6', 'auto');
+	  ga('create', 'UA-45334894-6', {
+		  'storage': 'none',
+	  });
 	  ga('send', 'pageview');
   </script>
 </body>

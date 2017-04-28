@@ -57,7 +57,7 @@ We’ll only make use of functions, conditionals and the <code>===</code> operat
             </div>
             
             <div class="content"><div class='highlight'><pre>(<span class="hljs-function"><span class="hljs-keyword">function</span> (<span class="hljs-params"></span>) </span>{
-<span class="hljs-pi">	'use strict'</span>;</pre></div></div>
+<span class="hljs-meta">	'use strict'</span>;</pre></div></div>
             
         </li>
         
@@ -520,7 +520,9 @@ The current representation was chosen purely out of simplicity.</p>
 			  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
 	  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
 
-	  ga('create', 'UA-45334894-6', 'auto');
+	  ga('create', 'UA-45334894-6', {
+		  'storage': 'none',
+	  });
 	  ga('send', 'pageview');
   </script>
 </body>
