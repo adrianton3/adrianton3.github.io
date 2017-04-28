@@ -2,7 +2,7 @@
 
 # Differential growth
 
-A while ago I've made a real time simulation of differential growth, 
+A while ago I made a real time simulation of differential growth, 
 and I thought I'd write a bit about its inner workings and what it took 
 to make it.
 
@@ -75,6 +75,7 @@ by placing itself halfway between them. In order to know where to move it's
 necessary to lookup the neighbours' positions again.
 
 Coincidentally, the last two rules move the joint in the same direction.
+The drawing below illustrate rule 2 and 3, respectively.
 
 <p style="text-align: center">
 ![rule-2](../../static/differential-growth/rule2.png)
@@ -82,8 +83,8 @@ Coincidentally, the last two rules move the joint in the same direction.
 </p>
 
 Getting back to the first rule about overlapping nodes, we need to figure out 
-what data structure to store the points in.
-It's clear that an array that we iterate for each point is not going to cut it -
+what data structure to store the nodes in.
+It's clear that an array that we iterate for each node is not going to cut it -
 it is however the simplest to implement.
 The best suited structure I can think of is a grid of buckets. Our use case 
 favours this even more since the nodes are all of the same size.
@@ -107,9 +108,9 @@ confirm this - the time increases linearly with the number of nodes.
 ![linear time](../../static/differential-growth/linear-buckets.png)
 </p>
 
-Although I've optimized the simulation, the experiment is still rather slow.
-After doing some profiling, I noticed that the bottleneck seems to be drawing on 
-the canvas.
+Although I had optimized the simulation, the experiment was still rather slow.
+After doing some profiling, I noticed that the bottleneck seemed to be drawing 
+on the canvas.
 
 
 ## Two threads
@@ -132,13 +133,13 @@ At the same time, I managed to completely separate simulation code from
 rendering code and I started running benchmarks and doing profiling of the 
 simulation by itself. I didn't expect *forEach*, *native Sets* and even 
 *for ... of* to show up in the profiles, but they sure did. In the end 
-I used plain old *for* loops and arrays. I'm not a fan of micro-optimization, 
+I used plain old *for* loops and arrays. I'm not a fan of micro-optimizations, 
 but they payed off in this case.
 
 
 ## Better renderer
 
-The canvas renderer proves to be too slow - the alternative is a WebGL-based 
+The canvas renderer proved to be too slow - the alternative is a WebGL-based 
 one. There are several mature WebGL renderers out there, and the one I'm most 
 familiar with [GooJS](https://github.com/GooTechnologies/goojs). 
 I've worked on it for more than two years and I know it inside out. 
@@ -172,13 +173,13 @@ I'd also like the structure to have some life in it - the original one
 cycles colors as if it has some kind of vascular system. I'd like to replicate
 that by slightly tinting the otherwise color-less gradients I've been using.
 
-For rendering the joints I am using pixi's 
+For rendering the joints I used pixi's 
 [particle container](http://pixijs.download/release/docs/PIXI.particles.ParticleContainer.html), 
 which is advertised as *a really fast version of the Container built solely
 for speed*. However, it doesn't support tinting which I need in order to 
 give the structure its gradient.
-What it does have instead is per particle alpha value. I can hack the shader
-and use this alpha attribute to interpolate between the two colors of my experiment.
+What it does have instead is per particle alpha value. I hacked the shader
+and used this alpha attribute to interpolate between the two colors of my experiment.
 I have hardcoded the colors into the pixi shader but that seems the only way.
 It would have been nice if pixi allowed some ways of extending their particle
 shader.
@@ -199,9 +200,9 @@ the bug isn't preserved as a commit - all I have is this image.
 
 ## More graphics
 
-I started to fiddle with the graphics - I chose to try out a less flat look. 
-One of my gripes with the experiment is that when two unrelated joints are 
-too close, they tend to look as if they're merging. 
+Next, I started to fiddle with the graphics - I chose to try out a less flat 
+look. One of my gripes with the experiment at this stage was that when two 
+unrelated joints are too close, they tend to look as if they're merging. 
 To make the gap between joints more visible, I added ambient occlusion 
 as a filter. In the same filter I also added basic lighting. The normals
 to the surface can be calculated the same way AO was calculated - by 
@@ -217,6 +218,9 @@ Light calculations are performed entirely on the rendering thread, which means
 there is no delay, unlike in the interaction with the structure itself.
 This makes the entire experiment feel responsive.
 
+The experiment looked all right at this point, it even runs ok on my 4-year-old 
+laptop with integrated graphics, so I decided to wrap it up and submit it to
+Chrome Experiments. 
 
 ## Afterthoughts
 
@@ -294,10 +298,9 @@ because it started feeling like a shamanic process.
 
 ### Try a different data structure
 
-There is an attractive alternative to the grid of buckets data structure that 
-I could use for the simulation. 
+There was an alternative data structure that I could have used for the 
+simulation, namely a plain array, where the joints are sorted on the x-axis.  
 
-We could keep the joints sorted horizontally in an array. 
 Sorting can take up to *n log n* - but maybe we can pull it off in linear 
 time as the array is always in a mostly sorted state. 
 
@@ -307,7 +310,7 @@ cheap operation given that the nodes are sorted.
 
 How many nodes can we possibly inspect for overlap?
 The worst case scenario happens at the end of the simulation when the space 
-is almost full. At this point there are roughly *sqrt n* points that need to
+is almost full. At this point there are roughly *sqrt n* nodes that need to
 be verified for each overlapping test. This raises the running time 
 to *n sqrt n*. The approach might still be interesting if the constant factors
 in the grid of buckets are too high.
@@ -315,16 +318,16 @@ in the grid of buckets are too high.
 
 ### Other ideas
 
-Using a real physics engine might be faster, because they're using more 
-specialized data structures. On the other hand, it might be slower because 
-they're trying to be physically accurate. 
+Using a real physics engine might be faster, because they're using more
+specialized data structures. On the other hand, it might be slower because
+they're trying to be physically accurate.
   
-Another option would be to render the joints using *GL_POINTS*. All the 
+Another option would be to render the joints using *GL_POINTS*. All the
 information necessary to render a joint (position, radius, tint) can fit in
 a single 4-component attribute.
 
 Yet another option would be to break up the simulation on multiple threads.
 They would, however, be hard to synchronise - if any one of the threads is late,
-then the whole frame is incomplete. The more threads we use, the higher the 
-probability that at least one of them will be late. Moreover, frame buffers 
-would also be very hard to maintain. 
+then the whole frame is incomplete. The more threads we use, the higher the
+probability that at least one of them will be late. Moreover, frame buffers
+would also be very hard to maintain.
