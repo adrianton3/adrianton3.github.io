@@ -1,4 +1,7 @@
 [{
+  "name": "differential-growth",
+  "description": "Real-time differential growth in JavaScript"
+}, {
   "name": "multiple-dispatch-benchmarks",
   "description": "Multiple-dispatch implementations & benchmarks"
 }, {
