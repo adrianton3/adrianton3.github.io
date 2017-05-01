@@ -1,6 +1,6 @@
-<!-- @@@title:Differential growth@@@ -->
+<!-- @@@title:Real-time differential growth in JavaScript@@@ -->
 
-# Differential growth
+# Real-time differential growth in JavaScript
 
 A while ago I made a real time simulation of differential growth, 
 and I thought I'd write a bit about its inner workings and what it took 
@@ -11,7 +11,8 @@ to make it.
 </p>
 
 The source code is on [github](https://github.com/adrianton3/differential-growth),
-and you can see the experiment in action [here](https://adrianton3.github.io/differential-growth/). 
+and you can see the experiment in action [here](https://adrianton3.github.io/differential-growth/).
+It's written in JavaScript, and uses WebGL and WebWorkers. 
 
 I got the idea for the experiment when I saw this [video](https://www.youtube.com/watch?v=9HI8FerKr6Q).
 The structures in the video all look very interesting and organic. 
