@@ -1,0 +1,303 @@
+<!DOCTYPE html>
+
+<html>
+<head>
+	<title>Real-time differential growth in JavaScript</title>
+	<meta http-equiv="content-type" content="text/html; charset=UTF-8">
+	<meta name="viewport" content="width=device-width, target-densitydpi=160dpi, initial-scale=1.0, maximum-scale=3.0">
+	<link href='http://fonts.googleapis.com/css?family=Source+Sans+Pro' rel='stylesheet' type='text/css'>
+	<link href='http://fonts.googleapis.com/css?family=Inconsolata:400,700' rel='stylesheet' type='text/css'>
+	<link rel="stylesheet" media="all" href="../../static/docco-small-tab.css">
+	<link rel="stylesheet" media="all" href="../../static/highlight.css">
+	<link rel="stylesheet" media="all" href="../../static/markdown.css">
+	
+</head>
+<body>
+	<div class="art-container">
+		<div><a href="../../index.html">Back to index</a></div>
+		<!-- @@@title:Real-time differential growth in JavaScript@@@ -->
+<h1 id="real-time-differential-growth-in-javascript">Real-time differential growth in JavaScript</h1>
+<p>A while ago I made a real time simulation of differential growth, 
+and I thought I&#39;d write a bit about its inner workings and what it took 
+to make it.</p>
+<p style="text-align: center">
+<img src="../../static/differential-growth/final.png" alt="differential growth">
+</p>
+
+<p>The source code is on <a href="https://github.com/adrianton3/differential-growth">github</a>,
+and you can see the experiment in action <a href="https://adrianton3.github.io/differential-growth/">here</a>.
+It&#39;s written in JavaScript, and uses WebGL and WebWorkers. </p>
+<p>I got the idea for the experiment when I saw this <a href="https://www.youtube.com/watch?v=9HI8FerKr6Q">video</a>.
+The structures in the video all look very interesting and organic. 
+I decided to pick one and try to replicate it in real-time. In addition, the
+experiment would be available online, and would have some kind of interaction.  </p>
+<p>The simplest structures must be variant #2 <em>line expansion</em> at 0:28 and 
+variant #6 &quot;directed line expansion&quot;.
+Next in terms of complexity seems to be variant #3 <em>planar expansion</em>
+at 0:49. The rest seem to work with volumes, which makes both rendering and 
+simulating quite hard and computationally intensive.</p>
+<p>I thought I&#39;d give directed line expansion (#6) a try.</p>
+<p>The people behind the video have a <a href="http://n-e-r-v-o-u-s.com/blog/?p=6721">website</a>,
+with a lot of pictures and other materials which make everything clear. 
+The magic blows away when you realize that the simulation is based on a 
+finite number of nodes. This means that what you&#39;re seeing isn&#39;t a 
+simulation of a continuous body, but rather an agglomeration of many small,
+discrete nodes.</p>
+<p style="text-align: center">
+<img src="../../static/differential-growth/wireframe.png" alt="wireframe structure">
+</p>
+
+<p>This image is zoomed 4 times. The individual nodes wouldn&#39;t be noticeable
+at regular size even with this debug view turned on.</p>
+<p>These nodes are called joints in the sourcecode, but here I&#39;ll use nodes and 
+joints interchangeably, depending on the context.</p>
+<p>Towards the end of the simulation the resulting structure looks very intricate 
+and complex, but this emerges from a series of very simple rules. Here are the 
+rules that describe the behaviour of the simulation:</p>
+<ul>
+<li>nodes don&#39;t pass through each other</li>
+<li>nodes are attracted by their neighbours - they like to hold hands; every node
+except for the ones at both ends have 2 neighbours.</li>
+<li>nodes don&#39;t like it if their neighbours get too close to each other - nodes 
+try to get in line as much as possible.</li>
+</ul>
+<h2 id="first-try">First try</h2>
+<p>Let&#39;s go though the behavior one more time to see how we go about implementing 
+each rule, and how demanding they are computation wise.</p>
+<p>For the first rule, to keep joints from stepping on each other we&#39;ll make any 
+overlapping joints move away from each other. This means that for every node 
+we&#39;d have to check which other nodes it overlaps with. Doing this naively is 
+not an option if we want to have more than 100 nodes at a steady 60 fps. 
+This rule deserves a longer discussion and I&#39;ll come back to it later.</p>
+<p>To make sure joints stay close to their neighbours and don&#39;t wander off,
+each one tries to get close to its neighbours. 
+The joint will move towards its neighbours by looking at their positions. 
+As joints can have at most two neighbours, only two lookups are necessary.</p>
+<p>For the final rule, the joint will try to align itself with its neighbours 
+by placing itself halfway between them. In order to know where to move it&#39;s 
+necessary to lookup the neighbours&#39; positions again.</p>
+<p>Coincidentally, the last two rules move the joint in the same direction.
+The drawing below illustrate rule 2 and 3, respectively.</p>
+<p style="text-align: center">
+<img src="../../static/differential-growth/rule2.png" alt="rule-2">
+<img src="../../static/differential-growth/rule3.png" alt="rule-3">
+</p>
+
+<p>Getting back to the first rule about overlapping nodes, we need to figure out 
+what data structure to store the nodes in.
+It&#39;s clear that an array that we iterate for each node is not going to cut it -
+it is however the simplest to implement.
+The best suited structure I can think of is a grid of buckets. Our use case 
+favours this even more since the nodes are all of the same size.</p>
+<p>If the buckets have the same width and height as the nodes&#39; diameter, then 
+building the grid should take linear time. Checking if a node overlaps 
+another should take constant time as any node can occupy at most 4 buckets.
+Overall, applying the overlapping rule to all nodes takes linear time.</p>
+<p style="text-align: center">
+<img src="../../static/differential-growth/grid-o-buckets.png" alt="grid-o-buckets">
+</p>
+
+<p>Take, for example, the blue node in the figure above. To find out which nodes 
+overlap it, we only need to check the buckets that the node covers.</p>
+<p>The solution thus far seems more than adequate. I&#39;ve run some benchmarks that
+confirm this - the time increases linearly with the number of nodes. </p>
+<p style="text-align: center">
+<img src="../../static/differential-growth/linear-buckets.png" alt="linear time">
+</p>
+
+<p>Although I had optimized the simulation, the experiment was still rather slow.
+After doing some profiling, I noticed that the bottleneck seemed to be drawing 
+on the canvas.</p>
+<h2 id="two-threads">Two threads</h2>
+<p>One easy way to make the experiment faster is to use multiple threads. There are 
+two processes which can run in parallel - the simulation and the rendering.
+Moreover, the rendering has hard deadlines, while the simulation 
+doesn&#39;t - it only has to have a certain throughput. Now the simulation thread 
+can produce frames in advance and store them in a buffer for the rendering 
+thread to consume.</p>
+<p>Garbage collection spikes will happen sooner or later, but now that we have the 
+buffer, they shouldn&#39;t incur any delays, unless we have many consecutive spikes. </p>
+<p>Because of the buffer, any interaction with the experiment will be delayed by as
+many frames as can fit in the buffer. This is why it&#39;s best to limit the buffer,
+so that the delay isn&#39;t too high.</p>
+<p>At the same time, I managed to completely separate simulation code from 
+rendering code and I started running benchmarks and doing profiling of the 
+simulation by itself. I didn&#39;t expect <em>forEach</em>, <em>native Sets</em> and even 
+<em>for ... of</em> to show up in the profiles, but they sure did. In the end 
+I used plain old <em>for</em> loops and arrays. I&#39;m not a fan of micro-optimizations, 
+but they payed off in this case.</p>
+<h2 id="better-renderer">Better renderer</h2>
+<p>The canvas renderer proved to be too slow - the alternative is a WebGL-based 
+one. There are several mature WebGL renderers out there, and the one I&#39;m most 
+familiar with <a href="https://github.com/GooTechnologies/goojs">GooJS</a>. 
+I&#39;ve worked on it for more than two years and I know it inside out. 
+However, goo is a big-ish 3d entity-component game engine 
+while what I need is just something to render sprites and apply some 
+post processing.</p>
+<p>I ultimately went with <a href="http://www.pixijs.com/">PixiJS</a> as it&#39;s a small 
+2d renderer that supports sprite batching out of the box. Why are sprites 
+important? Because I&#39;m going to draw one for each node and with a bit of 
+post-processing it should look similar to what it used to under the old 
+renderer.</p>
+<p>The sprites are radial gradients over the alpha channel. When they overlap
+they add up to form a fuzzy shoelace of sorts. We can feed this fuzzy image
+to a step filter and obtain something akin to the image below.</p>
+<p style="text-align: center">
+<img src="../../static/differential-growth/2-f44ddbf.png" alt="rough lumpy">
+</p>
+
+<p>This looks kind of rough and lumpy - you can tell it&#39;s made up of blobs
+especially when you see it in motion. By adding extra &quot;dummy&quot; sprites
+between joints we obtain a more continuous aspect.</p>
+<p style="text-align: center">
+<img src="../../static/differential-growth/4-2a89afc.png" alt="smooth continuous">
+</p>
+
+<p>I&#39;d also like the structure to have some life in it - the original one
+cycles colors as if it has some kind of vascular system. I&#39;d like to replicate
+that by slightly tinting the otherwise color-less gradients I&#39;ve been using.</p>
+<p>For rendering the joints I used pixi&#39;s 
+<a href="http://pixijs.download/release/docs/PIXI.particles.ParticleContainer.html">particle container</a>, 
+which is advertised as <em>a really fast version of the Container built solely
+for speed</em>. However, it doesn&#39;t support tinting which I need in order to 
+give the structure its gradient.
+What it does have instead is per particle alpha value. I hacked the shader
+and used this alpha attribute to interpolate between the two colors of my experiment.
+I have hardcoded the colors into the pixi shader but that seems the only way.
+It would have been nice if pixi allowed some ways of extending their particle
+shader.</p>
+<p>The end result with flat coloring looks like this.</p>
+<p style="text-align: center">
+<img src="../../static/differential-growth/5-c6d59ee.png" alt="flat-colored">
+</p>
+
+<p>While implementing this I made a really pretty bug. Unfortunately,
+the bug isn&#39;t preserved as a commit - all I have is this image.</p>
+<p style="text-align: center">
+<img src="../../static/differential-growth/pretty-bug.png" alt="bug picture">
+</p>
+
+
+<h2 id="more-graphics">More graphics</h2>
+<p>Next, I started to fiddle with the graphics - I chose to try out a less flat 
+look. One of my gripes with the experiment at this stage was that when two 
+unrelated joints are too close, they tend to look as if they&#39;re merging. 
+To make the gap between joints more visible, I added ambient occlusion 
+as a filter. In the same filter I also added basic lighting. The normals
+to the surface can be calculated the same way AO was calculated - by 
+looking up the value of adjacent texels in the initial render.</p>
+<p style="text-align: center">
+<img src="../../static/differential-growth/7-9af02e7.png" alt="AO and basic lighting">
+</p>
+
+<p>Now that we have lighting, an easy way to get more interactivity is to make
+the light follow the cursor. 
+Light calculations are performed entirely on the rendering thread, which means
+there is no delay, unlike in the interaction with the structure itself.
+This makes the entire experiment feel responsive.</p>
+<p>The experiment looked all right at this point, it even runs ok on my 4-year-old 
+laptop with integrated graphics, so I decided to wrap it up and submit it to
+Chrome Experiments. </p>
+<h2 id="afterthoughts">Afterthoughts</h2>
+<h3 id="the-google-closure-compiler">The Google closure compiler</h3>
+<p>Several months after releasing, I realized that there are many 
+micro-optimizations and inlining that can be done on the code, all of which can
+be done automatically. I was hoping the Google closure compiler could do that, 
+so I don&#39;t have to do it manually. If I just fed the initial code, I didn&#39;t get
+any meaningful speedup, as the compiler couldn&#39;t infer types. What&#39;s more, from
+early stages I had to make sure that certain properties that are used outside 
+of the optimised code were not mangled. I therefore had to rewrite every 
+<code>joint.position</code> as <code>joint[&#39;position&#39;]</code>, for example. </p>
+<p>I proceeded to add types annotations in the entire code. I also tried to put 
+everything in the same scope. Another thing I tried was to make the code more
+class-based, thinking that the compiler might like it more.
+After all these changes, and some manual inlining in critical parts, the most I 
+could squeeze was a 20% speed-up.</p>
+<p>Take the following snippet, for example:</p>
+<pre><code class="lang-js"><span class="hljs-comment">/** @typedef {{ x: number, y: number }} */</span>
+<span class="hljs-keyword">var</span> V2
+
+<span class="hljs-comment">/** @type {{ make: function(number, number): V2, add: function(V2, V2): V2 }} */</span>
+<span class="hljs-keyword">const</span> Vec2 = (() =&gt; {
+    <span class="hljs-function"><span class="hljs-keyword">function</span> /** <span class="hljs-title">V2</span> */ <span class="hljs-title">make</span> <span class="hljs-params">(<span class="hljs-comment">/** number */</span>x, <span class="hljs-comment">/** number */</span>y)</span> </span>{
+        <span class="hljs-keyword">return</span> { x, y }
+    }
+
+    <span class="hljs-function"><span class="hljs-keyword">function</span> /** <span class="hljs-title">V2</span> */ <span class="hljs-title">add</span> <span class="hljs-params">(<span class="hljs-comment">/** V2 */</span>a, <span class="hljs-comment">/** V2 */</span>b)</span> </span>{
+        a.x += b.x
+        a.y += b.y
+        <span class="hljs-keyword">return</span> a
+    }
+
+    <span class="hljs-keyword">return</span> { make, add }
+})();
+
+
+(() =&gt; {
+    <span class="hljs-keyword">const</span> { make, add } = Vec2
+
+    <span class="hljs-keyword">const</span> v = add(make(<span class="hljs-number">11</span>, <span class="hljs-number">22</span>), make(<span class="hljs-number">33</span>, <span class="hljs-number">44</span>))
+    <span class="hljs-built_in">console</span>.log(v)
+})()
+</code></pre>
+<p>The only thing the closure compiler manages to do is minify it, like this:</p>
+<pre><code class="lang-js"><span class="hljs-pi">'use strict'</span>;<span class="hljs-keyword">var</span> c = {a:<span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">(a, b)</span> </span>{
+  <span class="hljs-keyword">return</span> {x:a, y:b};
+}, add:<span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">(a, b)</span> </span>{
+  a.x += b.x;
+  a.y += b.y;
+  <span class="hljs-keyword">return</span> a;
+}}, d = c.a, e = c.add, f = e(d(<span class="hljs-number">11</span>, <span class="hljs-number">22</span>), d(<span class="hljs-number">33</span>, <span class="hljs-number">44</span>));
+<span class="hljs-built_in">console</span>.log(f);
+</code></pre>
+<p>However, the code can entirely be resolved at compile time - the whole program 
+can be reduced to <code>console.log({ x: 44, y: 66 })</code>.
+What&#39;s more is that I had to fully type the whole thing. I have to
+write types twice if I plan to namespace my functions like that.</p>
+<p>The most annoying thing is that the most optimised version of the code on 
+Chrome manages to be 84% slower on Firefox. Optimisations usually result in 
+speed-ups in both Chrome and Firefox, but I managed to somehow hit Firefox&#39;s
+heuristics in a bad way. I chose to stop the optimisation process here, 
+because it started feeling like a shamanic process.</p>
+<h3 id="try-a-different-data-structure">Try a different data structure</h3>
+<p>There was an alternative data structure that I could have used for the 
+simulation, namely a plain array, where the joints are sorted on the x-axis.  </p>
+<p>Sorting can take up to <em>n log n</em> - but maybe we can pull it off in linear 
+time as the array is always in a mostly sorted state. </p>
+<p>If we want to find out what nodes overlap a given node we have to check only 
+the nodes that are positioned at most one diameter away. This should be a 
+cheap operation given that the nodes are sorted. </p>
+<p>How many nodes can we possibly inspect for overlap?
+The worst case scenario happens at the end of the simulation when the space 
+is almost full. At this point there are roughly <em>sqrt n</em> nodes that need to
+be verified for each overlapping test. This raises the running time 
+to <em>n sqrt n</em>. The approach might still be interesting if the constant factors
+in the grid of buckets are too high.</p>
+<h3 id="other-ideas">Other ideas</h3>
+<p>Using a real physics engine might be faster, because they&#39;re using more
+specialized data structures. On the other hand, it might be slower because
+they&#39;re trying to be physically accurate.</p>
+<p>Another option would be to render the joints using <em>GL_POINTS</em>. All the
+information necessary to render a joint (position, radius, tint) can fit in
+a single 4-component attribute.</p>
+<p>Yet another option would be to break up the simulation on multiple threads.
+They would, however, be hard to synchronise - if any one of the threads is late,
+then the whole frame is incomplete. The more threads we use, the higher the
+probability that at least one of them will be late. Moreover, frame buffers
+would also be very hard to maintain.</p>
+
+	</div>
+
+	<script defer>
+		(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+					(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+				m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+		})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+		ga('create', 'UA-45334894-6', {
+			'storage': 'none',
+		});
+		ga('send', 'pageview');
+	</script>
+</body>
+</html>
