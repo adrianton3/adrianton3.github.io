@@ -1,22 +1,28 @@
 [{
   "section": "Projects",
   "entries": [{
-    "name": "JavaScript interpreter",
+    "name": "Real-time differential growth",
+    "url": "https://github.com/adrianton3/differential-growth",
+    "start": "2016",
+    "end": "2017",
+    "status": "active"
+  }, {
+    "name": "JavaScript interpreter in CoffeeScript",
     "url": "https://github.com/adrianton3/jinter",
     "start": "2015",
-    "end": "current",
+    "end": "2016",
     "status": "active"
   }, {
     "name": "Befunge-93 just-in-time compiler",
     "url": "https://github.com/adrianton3/befunjit",
     "start": "2014",
-    "end": "current",
+    "end": "2017",
     "status": "active"
   }, {
     "name": "Chip8 emulator and assembler",
     "url": "https://github.com/adrianton3/chip8",
     "start": "2015",
-    "end": "current",
+    "end": "2016",
     "status": "active"
   }, {
     "name": "ClojureScript string/numbers puzzle game",
