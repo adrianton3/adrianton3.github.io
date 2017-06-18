@@ -1,4 +1,6 @@
 const _ = require('underscore')
+const { minify } = require('html-minifier')
+
 const { getDirs, fileExists, readFile, getDates } = require('./tools/utils')
 
 module.exports = function (grunt) {
@@ -90,6 +92,16 @@ module.exports = function (grunt) {
 		return footerTemplate({});
 	}
 
+	const minifyHtml = (blob) =>
+		minify(blob, {
+			minifyCSS: true,
+			collapseBooleanAttributes: true,
+			collapseWhitespace: true,
+			conservativeCollapse: true,
+			sortAttributes: true,
+			sortClassName: true,
+		})
+
 	const commonCssBlob = readFile('./style.css')
 
 	grunt.initConfig({
@@ -137,7 +149,8 @@ module.exports = function (grunt) {
 					css: commonCssBlob,
 					projects: require('./src/projects.json'),
 				},
-				outPath: './index.html'
+				outPath: './index.html',
+				postProcess: minifyHtml,
 			},
 			articles: {
 				templatePath: 'tools/template/articles.hbs',
@@ -145,7 +158,8 @@ module.exports = function (grunt) {
 					css: commonCssBlob,
 					articles: addDates(),
 				},
-				outPath: 'blog/index.html'
+				outPath: 'blog/index.html',
+				postProcess: minifyHtml,
 			}
 		}
 	});

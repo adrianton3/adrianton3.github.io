@@ -10,6 +10,7 @@ module.exports = function (grunt) {
 			data,
 			outPath,
 			templatePath,
+			postProcess,
 		} = this.data
 
 		const templateSrc = readFile(templatePath)
@@ -18,6 +19,9 @@ module.exports = function (grunt) {
 
 		const result = template(data)
 
-		writeFile(outPath, result)
-	});
-};
+		writeFile(
+			outPath,
+			postProcess ? postProcess(result): result,
+		)
+	})
+}
