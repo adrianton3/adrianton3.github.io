@@ -25,6 +25,10 @@ function readFile(path) {
 	return fs.readFileSync(path, 'utf8');
 }
 
+function writeFile(path, data) {
+	fs.writeFileSync(path, data);
+}
+
 function extractDate(string) {
 	return string.match(/[-\d]+/)[0]
 }
@@ -43,6 +47,7 @@ Object.assign(module.exports, {
 	getDirs,
 	fileExists,
 	readFile,
+	writeFile,
 	getDates
 })
 

@@ -90,6 +90,8 @@ module.exports = function (grunt) {
 		return footerTemplate({});
 	}
 
+	const commonCssBlob = readFile('./style.css')
+
 	grunt.initConfig({
 		docco: generateDoccoConfig(),
 		wrap: {
@@ -131,12 +133,18 @@ module.exports = function (grunt) {
 		'handlebars': {
 			projects: {
 				templatePath: 'tools/template/projects.hbs',
-				dataPath: 'src/projects.json',
+				data: {
+					css: commonCssBlob,
+					projects: require('./src/projects.json'),
+				},
 				outPath: './index.html'
 			},
 			articles: {
 				templatePath: 'tools/template/articles.hbs',
-				data: addDates(),
+				data: {
+					css: commonCssBlob,
+					articles: addDates(),
+				},
 				outPath: 'blog/index.html'
 			}
 		}
