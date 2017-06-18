@@ -2,8 +2,8 @@
 html { height: 100%; }
 
 body {
-    font-family: 'Source Sans Pro', sans-serif;
-    font-size: 16px;
+    font-family: 'Source Sans Pro', 'Helvetica Neue', sans-serif;
+    font-size: 20px;
     color: #252519;
     margin: 0; padding: 0;
     height:100%;
@@ -40,7 +40,7 @@ hr {
 }
 
 pre, tt, code {
-    font-size: 14px; line-height: 18px;
+    font-size: 18px;
     font-family: 'Consolas', 'Inconsolanta', monospace;
     margin: 0; padding: 0;
 }
@@ -175,10 +175,7 @@ ul.sections > li > div {
     }
     body {
         background-color: #F8FAFC;
-        font-size: 15px;
-    }
-    pre, tt, code {
-        line-height: 18px;
+        font-size: 19px;
     }
 
     #jump_to {
