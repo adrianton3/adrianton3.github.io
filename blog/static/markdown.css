@@ -1,3 +1,8 @@
+body {
+    font-family: 'Source Sans Pro', 'Helvetica Neue', sans-serif;
+    font-size: 18px;
+}
+
 pre {
     margin-bottom: 15px;
     background-color: #f8fafc;
@@ -12,8 +17,8 @@ code {
 
 .art-container {
     background-color: #ffffff;
-    max-width: 600px;
-    min-width: 400px;
+    max-width: 700px;
+    min-width: 500px;
     margin: auto;
     border-right: 1px solid #e5e5ee;
     border-left: 1px solid #e5e5ee;
