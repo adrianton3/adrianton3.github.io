@@ -2,7 +2,7 @@
 
 const Handlebars = require('handlebars')
 
-const { readFile, writeFile } = require('../utils')
+const { readFile, writeFile } = require('../../utils')
 
 module.exports = function (grunt) {
 	grunt.registerMultiTask('handlebars', 'Runs handlebars', function () {
