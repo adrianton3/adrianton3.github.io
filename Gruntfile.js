@@ -43,10 +43,10 @@ module.exports = function (grunt) {
 			const extension = csDirs.has(dir) ? 'coffee' : 'js'
 
 			config[dir] = {
-				src: ['src/' + dir + '/*.' + extension],
+				src: [`src/${dir}/*.${extension}`],
 				options: {
-					output: outDir + '/art/' + dir,
-					template: templateDir + '/docco/docco.html',
+					output: `${outDir}/art/${dir}`,
+					template: `${templateDir}/docco/docco.html`,
 					css: 'dummy',
 				},
 			}
@@ -59,13 +59,13 @@ module.exports = function (grunt) {
 		const dirs = getDirs('src').filter(isDir('src', '.md'))
 
 		return dirs.map((dir) => ({
-			src: 'src/' + dir + '/' + dir + '.md',
-			dest: 'blog/art/' + dir + '/' + dir + '.html',
+			src: `src/${dir}/${dir}.md`,
+			dest: `blog/art/${dir}/${dir}.html`,
 		}))
 	}
 
-	const headerTemplate = _.template(readFile(templateDir + '/docco/header.html'))
-	const footerTemplate = _.template(readFile(templateDir + '/docco/footer.html'))
+	const headerTemplate = _.template(readFile(`${templateDir}/docco/header.html`))
+	const footerTemplate = _.template(readFile(`${templateDir}/docco/footer.html`))
 
 	function getTitle (string) {
 		// scraping my own html; there has to be a better way of integrating docco
@@ -78,7 +78,7 @@ module.exports = function (grunt) {
 		const fileContentTitle = getTitle(readFile(path))
 
 		const match = path.match(/([-\w]+)\/([-\w]+)\.html$/)
-		const fileNameTitle = match[1] + '-' + match[2]
+		const fileNameTitle = `${match[1]}-${match[2]}`
 
 		return headerTemplate({
 			title: fileContentTitle || fileNameTitle,

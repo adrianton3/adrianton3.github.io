@@ -1,32 +1,32 @@
 'use strict'
 
 
-const fs = require('fs');
-const { execSync } = require('child_process');
+const fs = require('fs')
+const { execSync } = require('child_process')
 
 
 function getDirs(basePath) {
 	return fs.readdirSync(basePath).filter(function (file) {
-		var completeFile = basePath + '/' + file;
-		return fs.statSync(completeFile).isDirectory();
-	});
+		const completeFile = `${basePath}/${file}`
+		return fs.statSync(completeFile).isDirectory()
+	})
 }
 
 function fileExists(path) {
 	try {
-		fs.accessSync(path, fs.F_OK);
-		return true;
+		fs.accessSync(path, fs.F_OK)
+		return true
 	} catch (e) {
-		return false;
+		return false
 	}
 }
 
 function readFile(path) {
-	return fs.readFileSync(path, 'utf8');
+	return fs.readFileSync(path, 'utf8')
 }
 
 function writeFile(path, data) {
-	fs.writeFileSync(path, data);
+	fs.writeFileSync(path, data)
 }
 
 function extractDate(string) {
