@@ -2,10 +2,14 @@
   "name": "gh-pages",
   "description": "",
   "version": "0.0.1",
+  "scripts": {
+    "eslint": "eslint ./Gruntfile.js ./tools || true",
+    "eslint-fix": "eslint ./Gruntfile.js ./tools --fix || true"
+  },
   "devDependencies": {
+    "eslint": "^4.0.0",
     "grunt": "^1.0.1",
     "grunt-docco": "^0.5.0",
-    "grunt-eslint": "^20.0.0",
     "grunt-markdown": "^0.7.0",
     "grunt-shell": "^2.1.0",
     "grunt-wrap": "^0.3.0",

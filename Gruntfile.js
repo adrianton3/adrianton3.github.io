@@ -115,12 +115,6 @@ module.exports = function (grunt) {
 				},
 			},
 		},
-		eslint: {
-			options: {
-				configFile: '.eslintrc',
-			},
-			target: ['Gruntfile.js', 'tools/grunt-tasks'],
-		},
 		shell: {
 			clean: {
 				command: `rm -rf ${outDir}/art`,
@@ -163,7 +157,6 @@ module.exports = function (grunt) {
 	})
 
 	grunt.loadNpmTasks('grunt-docco')
-	grunt.loadNpmTasks('grunt-eslint')
 	grunt.loadNpmTasks('grunt-wrap')
 	grunt.loadNpmTasks('grunt-shell')
 	grunt.loadNpmTasks('grunt-markdown')
