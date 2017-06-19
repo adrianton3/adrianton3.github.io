@@ -1,19 +1,31 @@
 {
-  "globals": {
-  },
-  "rules": {
-    "quotes": [2, "single", "avoid-escape"],
-    "no-underscore-dangle": 0,
-    "no-shadow": 0,
-    "no-loop-func": 0,
-    "eol-last": 0,
-    "no-use-before-define": [2, "nofunc"],
-    "new-cap": 0,
-    "no-constant-condition": 0
+  "extends": [
+    "eslint:recommended"
+  ],
+  "parserOptions": {
+    "ecmaVersion": 8
   },
   "env": {
     "browser": true,
     "node": true,
     "es6": true
+  },
+  "rules": {
+    "quotes": [
+      "error",
+      "single",
+      "avoid-escape"
+    ],
+    "no-console": "off",
+    "no-underscore-dangle": "off",
+    "no-shadow": "off",
+    "no-loop-func": "off",
+    "eol-last": "off",
+    "no-use-before-define": [
+      "error",
+      "nofunc"
+    ],
+    "new-cap": "off",
+    "no-constant-condition": "off"
   }
 }

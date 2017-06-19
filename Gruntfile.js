@@ -119,7 +119,7 @@ module.exports = function (grunt) {
 			options: {
 				configFile: '.eslintrc',
 			},
-			target: ['Gruntfile.js', 'src/**/*.js', 'test/spec/**/*.js'],
+			target: ['Gruntfile.js', 'tools/grunt-tasks'],
 		},
 		shell: {
 			clean: {
