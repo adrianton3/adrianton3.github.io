@@ -11,6 +11,9 @@
     "es6": true
   },
   "rules": {
+    "arrow-body-style": ["error", "as-needed"],
+    "arrow-parens": ["error", "always"],
+    "arrow-spacing": ["error", { "before": true, "after": true }],
     "quotes": [
       "error",
       "single",
@@ -26,6 +29,12 @@
       "nofunc"
     ],
     "new-cap": "off",
-    "no-constant-condition": "off"
+    "no-constant-condition": "off",
+    "no-var": "error",
+    "object-shorthand": "error",
+    "prefer-const": "error",
+    "prefer-template": "error",
+    "semi": ["error", "never"],
+    "template-curly-spacing": ["error", "never"]
   }
 }
