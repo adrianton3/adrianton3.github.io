@@ -4,7 +4,7 @@ body {
 }
 
 h4 {
-    color: #AAA;
+    color: hsl(0, 0%, 46%);
     font-weight: normal;
     margin-top: 40px;
 }
@@ -34,13 +34,13 @@ time {
 }
 
 .active {
-    color: #46c200;
+    color: hsl(98, 100%, 26%);
 }
 
 .paused {
-    color: #d0ac00;
+    color: hsl(50, 100%, 27%);
 }
 
 .probably-abandoned {
-    color: #e64b3f;
+    color: hsl(4, 65%, 52%);
 }
