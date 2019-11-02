@@ -16,7 +16,7 @@
     "name": "Befunge-93 just-in-time compiler",
     "url": "https://github.com/adrianton3/befunjit",
     "start": "2014",
-    "end": "2017",
+    "end": "2019",
     "status": "active"
   }, {
     "name": "Chip8 emulator and assembler",
@@ -28,6 +28,7 @@
     "name": "ClojureScript string/numbers puzzle game",
     "url": "https://github.com/adrianton3/staplo",
     "start": "2015",
+    "end": "2017",
     "status": "paused"
   }, {
     "name": "Particle Swarm Optimization library with lots of examples",
@@ -51,7 +52,7 @@
     "name": "Rule-based game engine - Minecraft meets PuzzleScript",
     "url": "https://github.com/adrianton3/furnace-engine",
     "start": "2013",
-    "end": "2015",
+    "end": "2019",
     "status": "paused"
   }, {
     "name": "S-expression parser and macro processor",
