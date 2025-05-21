@@ -1,29 +1,40 @@
 [{
   "section": "Projects",
   "entries": [{
+    "name": "Robot Unlock - an open-ended puzzle game available on Steam",
+    "url": "https://store.steampowered.com/app/3318050/Robot_Unlock",
+    "start": "2024",
+    "end": "2025",
+    "status": "active"
+  }, {
+    "name": "Toy compiler for a procedural language targeting x86-64 assembly",
+    "url": "https://github.com/adrianton3/x86",
+    "start": "2024",
+    "status": "paused"
+  }, {
     "name": "Real-time differential growth",
     "url": "https://github.com/adrianton3/differential-growth",
     "start": "2016",
     "end": "2017",
-    "status": "active"
+    "status": "paused"
   }, {
     "name": "JavaScript interpreter in CoffeeScript",
     "url": "https://github.com/adrianton3/jinter",
     "start": "2015",
     "end": "2016",
-    "status": "active"
+    "status": "paused"
   }, {
     "name": "Befunge-93 just-in-time compiler",
     "url": "https://github.com/adrianton3/befunjit",
     "start": "2014",
     "end": "2019",
-    "status": "active"
+    "status": "paused"
   }, {
     "name": "Chip8 emulator and assembler",
     "url": "https://github.com/adrianton3/chip8",
     "start": "2015",
     "end": "2016",
-    "status": "active"
+    "status": "paused"
   }, {
     "name": "ClojureScript string/numbers puzzle game",
     "url": "https://github.com/adrianton3/staplo",
