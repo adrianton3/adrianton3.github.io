@@ -7,9 +7,19 @@
     "end": "2025",
     "status": "active"
   }, {
+    "name": "Befunge-93 JIT compiler (in C++; targets x86-64)",
+    "url": "https://github.com/adrianton3/befunjit-86",
+    "start": "2025",
+    "status": "active"
+  }, {
     "name": "Toy compiler for a procedural language targeting x86-64 assembly",
     "url": "https://github.com/adrianton3/x86",
     "start": "2024",
+    "status": "paused"
+  }, {
+    "name": "Git client from scratch",
+    "url": "https://github.com/adrianton3/git-under",
+    "start": "2017",
     "status": "paused"
   }, {
     "name": "Real-time differential growth",
@@ -18,13 +28,13 @@
     "end": "2017",
     "status": "paused"
   }, {
-    "name": "JavaScript interpreter in CoffeeScript",
+    "name": "JavaScript interpreter",
     "url": "https://github.com/adrianton3/jinter",
     "start": "2015",
     "end": "2016",
     "status": "paused"
   }, {
-    "name": "Befunge-93 just-in-time compiler",
+    "name": "Befunge-93 JIT compiler (in CS; targets JS)",
     "url": "https://github.com/adrianton3/befunjit",
     "start": "2014",
     "end": "2019",
@@ -42,7 +52,7 @@
     "end": "2017",
     "status": "paused"
   }, {
-    "name": "Particle Swarm Optimization library with lots of examples",
+    "name": "Particle Swarm Optimization library",
     "url": "https://github.com/adrianton3/pso.js",
     "start": "2013",
     "end": "2015",
